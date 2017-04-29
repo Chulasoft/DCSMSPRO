@@ -139,7 +139,7 @@
                             <h3>Status</h3>
                             <hr>
                             <p>
-                                Overall Status : 
+                                Overall Status :  On progress
                             </p>
                         </div>
                     </div>
