@@ -67,6 +67,14 @@
         <servlet-name>DefineSpecification</servlet-name>
         <servlet-class>DSST.Servlet.DefineSpecification</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProjectMenu</servlet-name>
+        <servlet-class>DSST.Servlet.ProjectMenu</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateProject</servlet-name>
+        <servlet-class>DSST.Servlet.CreateProject</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TestServ</servlet-name>
         <url-pattern>/TestServ</url-pattern>
@@ -98,6 +106,14 @@
     <servlet-mapping>
         <servlet-name>DefineSpecification</servlet-name>
         <url-pattern>/DefineSpecification</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectMenu</servlet-name>
+        <url-pattern>/ProjectMenu</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateProject</servlet-name>
+        <url-pattern>/CreateProject</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

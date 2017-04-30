@@ -282,6 +282,7 @@ public class Model {
                     am.add(m);
                 }
             }
+            con.close();
         } catch (SQLException ex) {
             System.out.println(ex);
         }

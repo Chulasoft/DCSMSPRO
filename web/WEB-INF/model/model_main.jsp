@@ -107,11 +107,11 @@
                         </ul>
                     </div>
                 </span>
-                     <%if(request.getAttribute("Model_id")!=null){%>   
+                     <%if(request.getAttribute("Model_name")!=null){%>   
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="top: 72px">
                     <div class="row">
                         <div class="form-group col-xs-4">
-                            <h3><%=request.getAttribute("Model_id")%></h3>
+                            <h3><%=request.getAttribute("Model_name")%></h3>
                         </div>
                         <div class="form-group col-xs-5">
                             <h3>Last update : <%=request.getAttribute("Model_last")%></h3>

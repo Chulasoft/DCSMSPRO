@@ -40,15 +40,14 @@ public class ModelMenu extends HttpServlet {
         Member user = (Member) ss.getAttribute("login");
         ArrayList<Model> am = null;
         try {
-            System.out.println("11111");
             am = m.getModels(user.getMem_id());
-            System.out.println("22222");
             request.setAttribute("am", am);
             if (am != null) {
+                int i = 1;
                 for (Model m_id : am) {
-                    int i = 1;
+                    
                     if (i == 1) {
-                        request.setAttribute("Model_id", m_id.getModel_id());
+                        request.setAttribute("Model_name", m_id.getModel_name());
                         request.setAttribute("Model_last", m_id.getModel_lastUpdate());
                         request.setAttribute("Model_status", m_id.getModel_status());
                     }

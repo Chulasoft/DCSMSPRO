@@ -15,7 +15,7 @@
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav">
                         <li><a href="ModelMenu">Model</a></li>
-                        <li><a href="#">Project</a></li>
+                        <li><a href="ProjectMenu">Project</a></li>
                         <li class="dropdown">
                             <a href="#" data-toggle="dropdown">More</a>
                             <ul class="dropdown-menu">
