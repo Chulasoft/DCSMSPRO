@@ -29,6 +29,63 @@ public class Model {
     private String model_status;
     private String model_lastUpdate;
 
+    ///////////////////////////////////////////////
+    private int cri_id;
+    private String cri_name;
+    private int sc_id;
+    private String sc_name;
+    private int quest_id;
+    private String quest_name;
+
+    public int getCri_id() {
+        return cri_id;
+    }
+
+    public void setCri_id(int cri_id) {
+        this.cri_id = cri_id;
+    }
+
+    public String getCri_name() {
+        return cri_name;
+    }
+
+    public void setCri_name(String cri_name) {
+        this.cri_name = cri_name;
+    }
+
+    public int getSc_id() {
+        return sc_id;
+    }
+
+    public void setSc_id(int sc_id) {
+        this.sc_id = sc_id;
+    }
+
+    public String getSc_name() {
+        return sc_name;
+    }
+
+    public void setSc_name(String sc_name) {
+        this.sc_name = sc_name;
+    }
+
+    public int getQuest_id() {
+        return quest_id;
+    }
+
+    public void setQuest_id(int quest_id) {
+        this.quest_id = quest_id;
+    }
+
+    public String getQuest_name() {
+        return quest_name;
+    }
+
+    public void setQuest_name(String quest_name) {
+        this.quest_name = quest_name;
+    }
+
+    ///////////////////////////////////
     public int getModel_id() {
         return model_id;
     }
@@ -242,9 +299,9 @@ public class Model {
         }
         return al_id;
     }
-    
-        public int setAns(String ans, String by,int su_id,int al_id) {
-            int done = 0;
+
+    public int setAns(String ans, String by, int su_id, int al_id) {
+        int done = 0;
         try {
             Connection con = ConnectionBuilder.getConnection();
             String sql = "INSERT INTO ALTERNATIVE_SPECIFICATION (SPECIFICATION_ANSWER, SPECIFICATION_BY, SU_ID, AL_ID) VALUES (?, ?, ?, ?)";
@@ -261,8 +318,9 @@ public class Model {
         } catch (Exception ex) {
             System.out.println(ex);
         }
-        return done ;
+        return done;
     }
+
     public ArrayList<Model> getModels(int mem_id) {
         ArrayList am = new ArrayList();
         try {
@@ -271,14 +329,46 @@ public class Model {
             PreparedStatement stm = con.prepareStatement(sql);
             stm.setInt(1, mem_id);
             ResultSet rs = stm.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 Model m = new Model();
                 m.setModel_id(rs.getInt(1));
                 m.setModel_name(rs.getString(2));
                 m.setModel_status(rs.getString(3));
                 m.setCreate_by_id(rs.getInt(4));
                 m.setModel_lastUpdate(rs.getString(5));
-                if(m != null){
+                if (m != null) {
+                    am.add(m);
+                }
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return am;
+    }
+
+    public ArrayList<Model> getAllQuest(int m_id) {
+        ArrayList am = new ArrayList();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "select c.mc_id, sc.sc_id, s.su_id, main_criteria_name,sc.sub_criteria_name,s.survey_question  from survey s \n"
+                    + "join sub_criteria sc\n"
+                    + "on s.sc_id = sc.sc_id \n"
+                    + "join criteria c\n"
+                    + "on sc.mc_id = c.mc_id\n"
+                    + "where m_id = ? ";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, m_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Model m = new Model();
+                m.setCri_id(rs.getInt(1));
+                m.setSc_id(rs.getInt(2));
+                m.setQuest_id(rs.getInt(3));
+                m.setCri_name(rs.getString(4));
+                m.setSc_name(rs.getString(5));
+                m.setQuest_name(rs.getString(6));
+                if (m != null) {
                     am.add(m);
                 }
             }

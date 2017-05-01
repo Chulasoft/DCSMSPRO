@@ -45,7 +45,6 @@ public class ModelMenu extends HttpServlet {
             if (am != null) {
                 int i = 1;
                 for (Model m_id : am) {
-                    
                     if (i == 1) {
                         request.setAttribute("Model_name", m_id.getModel_name());
                         request.setAttribute("Model_last", m_id.getModel_lastUpdate());
@@ -53,7 +52,7 @@ public class ModelMenu extends HttpServlet {
                     }
                     i++;
                 }
-            }System.out.println("3333");
+            }
         } catch (Exception e) {
             System.out.println(e);
         }

@@ -35,6 +35,13 @@
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>SessionFilter</filter-name>
+        <servlet-name>ProjectMenu</servlet-name>
+        <servlet-name>CreateProject</servlet-name>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
     <servlet>
         <servlet-name>TestServ</servlet-name>
         <servlet-class>Pack.TestServ</servlet-class>

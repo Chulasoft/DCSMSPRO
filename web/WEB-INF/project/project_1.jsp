@@ -4,6 +4,8 @@
     Author     : Jab
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="DSST.Model.Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -68,8 +70,40 @@
                 </span>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="top: 72px">
                     <div class="row">
-                        <h3>Define Goal</h3>
+                        <h3>Define Project</h3>
                         <hr>
+                        <div class="col-sm-offset-4 col-sm-4 ">
+                            <form action="CreateProject" method="POST">
+                                <input type="hidden" name="page" id="page" value="1"/>
+                                <div class="form-group">
+                                    <label for="model_name">Project Name : </label>
+                                    <input type="text" class="form-control" name="proName" required/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="goal">Model : </label><br>
+                                    <select style="width: 100%;padding: 10px;border-radius: 5px;" name="proModel">
+                                        <%
+                                            if (request.getAttribute("am") != null) {
+                                                ArrayList<Model> am = (ArrayList) request.getAttribute("am");
+                                                for (Model m : am) {
+                                        %>
+                                        <option value="<%=m.getModel_id()%>"><%=m.getModel_name()%></option>
+                                        <%
+                                                }
+                                            }
+                                        %>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="goal_des">Project Description : </label>
+                                    <textarea rows="5" class="form-control" name="proDes"></textarea>
+                                </div>
+                                <ul class="pager">
+                                    <li><a href="ModelMenu">Cancel</a></li>
+                                    <li><a href="#" onclick="document.forms[0].submit()">Next</a></li>
+                                </ul>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

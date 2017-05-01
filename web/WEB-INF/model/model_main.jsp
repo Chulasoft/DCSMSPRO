@@ -87,12 +87,12 @@
                                 </ul>
                             </div>
                         </h3>
-                        
+
                         <ul class="nav nav-sidebar">
-                            <%  
-                                if(request.getAttribute("am")!=null){
-                                ArrayList<Model> am = (ArrayList)request.getAttribute("am");
-                                for(Model m : am){
+                            <%
+                                if (request.getAttribute("am") != null) {
+                                    ArrayList<Model> am = (ArrayList) request.getAttribute("am");
+                                    for (Model m : am) {
                             %>
                             <li>
                                 <span>
@@ -101,13 +101,14 @@
                                     <a href="#" style="float: right;margin-right: 6px;"><span class="glyphicon glyphicon-wrench"></span></a>
                                 </span>
                             </li>
-                            <% }
-}
+                            <%
+                                    }
+                                }
                             %>
                         </ul>
                     </div>
                 </span>
-                     <%if(request.getAttribute("Model_name")!=null){%>   
+                <%if (request.getAttribute("Model_name") != null) {%>   
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="top: 72px">
                     <div class="row">
                         <div class="form-group col-xs-4">
@@ -125,7 +126,7 @@
                         <div id='chart_div'></div>
                     </div>
                 </div>
-                   <%}%>     
+                <%}%>     
             </div>
     </content>
 </body>

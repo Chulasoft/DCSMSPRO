@@ -5,8 +5,11 @@
  */
 package DSST.Servlet;
 
+import DSST.Model.Member;
+import DSST.Model.Model;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,8 +34,8 @@ public class ProjectMenu extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession ss = request.getSession();
         String viewAgent = "/WEB-INF/project/project_main.jsp";
+        HttpSession ss = request.getSession();
         getServletContext().getRequestDispatcher(response.encodeURL(viewAgent)).forward(request, response);
     }
 

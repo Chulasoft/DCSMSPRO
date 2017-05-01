@@ -7,8 +7,10 @@ package DSST.Servlet;
 
 import DSST.Model.Member;
 import DSST.Model.Model;
+import DSST.Model.Project;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,28 +39,46 @@ public class CreateProject extends HttpServlet {
         String page = request.getParameter("page");
         String msg = "";
         HttpSession ss = request.getSession();
-        
+
         Member mem = (Member) ss.getAttribute("login");
-//        if (page != null) {
-//            if (page.equals("1")) {
-//
-//                String modelName = request.getParameter("model_name");
-//                String goal = request.getParameter("goal");
-//                String goal_des = request.getParameter("goal_des");
-//                mo = Model.initialModel(modelName, goal, goal_des, mem.getMem_id());
-//                ss.setAttribute("mo", mo);
-//                viewAgent = "/WEB-INF/model/model_2.jsp";
-//            }
-//            else if (page.equals("2")) {
-//            
-//            } else if (page.equals("3")) {
-//          
-//            } else if (page.equals("4")) {
-//
-//            } else if (page.equals("5")) {
-//
-//            }
-//        }
+        Model m = new Model();
+        ArrayList<Model> am = null;
+        try {
+            am = m.getModels(mem.getMem_id());
+            request.setAttribute("am", am);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        Project pj = new Project();
+        int p_id = 0;
+        if (page != null) {
+            if (page.equals("1")) {
+                String proName = request.getParameter("proName");
+                String proDes = request.getParameter("proDes");
+                String m_id = request.getParameter("proModel");
+                p_id = pj.initialProject(proName, Integer.parseInt(m_id), proDes, mem.getMem_id());
+                ArrayList<Model> allQuest = new ArrayList();
+                allQuest = m.getAllQuest(Integer.parseInt(m_id));
+                request.setAttribute("allQuest", allQuest);
+                viewAgent = "/WEB-INF/project/project_2.jsp";
+            } else if (page.equals("2")) {
+                String ans[] = request.getParameterValues("ansQues");
+                for (int i = 0; i < ans.length; i++) {
+                    int colon = ans[i].indexOf(':');
+                    String ques_id = ans[i].substring(0, colon);
+                    String answer = ans[i].substring(colon + 1);
+                    pj.setAnswer(answer, p_id, Integer.parseInt(ques_id));
+                }
+                viewAgent = "/WEB-INF/project/project_3.jsp";
+            } else if (page.equals("3")) {
+                
+                    
+            } else if (page.equals("4")) {
+
+            } else if (page.equals("5")) {
+
+            }
+        }
         getServletContext().getRequestDispatcher(response.encodeURL(viewAgent)).forward(request, response);
     }
 
