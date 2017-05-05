@@ -80,6 +80,7 @@
                         <h3>Specification for ${whoName}</h3>
                         <hr>
                         <form method="POST" action="DefineSpecification">
+                            <input type="hidden" name="who" value="${who}">
                         <div class="col-sm-offset-2 col-sm-8 ">
                             <%
                                 String cri[] = (String[]) session.getAttribute("cri");
@@ -112,7 +113,7 @@
                                             <div style="float: right">
                                                 <ul class="pagination" id="<%=ques_id[k]%>">
                                                     <li><a onclick="setRes<%=ques_id[k]%>(1)"><span class="glyphicon glyphicon-ok" style="color: green"></span></a></li>
-                                                    <li><a onclick="setRes<%=ques_id[k]%>(2)"><span class="glyphicon glyphicon-remove" style="color: #ac2925"></span></a></li>
+                                                    <li><a onclick="setRes<%=ques_id[k]%>(0)"><span class="glyphicon glyphicon-remove" style="color: #ac2925"></span></a></li>
                                                     <input type="hidden" name="ans" value="" id="hidden<%=ques_id[k]%>" />
                                                 </ul>
                                             </div>

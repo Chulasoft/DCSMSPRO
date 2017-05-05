@@ -35,8 +35,8 @@ public class DefineSpecification extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String viewAgent = "";
         HttpSession ss = request.getSession();
-       
-        if (request.getParameter("ra_id") == null) {
+        
+        if (request.getParameter("ans")!=null) {
             String ans[] = request.getParameterValues("ans");
             Model mo = (Model)ss.getAttribute("mo");
             for(int i = 0; i <ans.length;i++){
@@ -44,7 +44,7 @@ public class DefineSpecification extends HttpServlet {
                 String ques_id = ans[i].substring(0, colon);
                 String answer = ans[i].substring(colon+1);
                 Member login = (Member)ss.getAttribute("login");
-                mo.setAns(answer,login.getName() , Integer.parseInt(ques_id) , Integer.parseInt(answer));
+                mo.setAns(answer, login.getName() , Integer.parseInt(ques_id) , Integer.parseInt(request.getParameter("who")));
             }
             viewAgent = "/WEB-INF/model/model_6.jsp";
         } else {

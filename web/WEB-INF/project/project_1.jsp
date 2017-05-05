@@ -81,7 +81,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="goal">Model : </label><br>
-                                    <select style="width: 100%;padding: 10px;border-radius: 5px;" name="proModel">
+                                    <select style="width: 100%;padding: 10px;border-radius: 5px;" name="proModel" required>
+                                        <option value="">--Select Model--</option>
                                         <%
                                             if (request.getAttribute("am") != null) {
                                                 ArrayList<Model> am = (ArrayList) request.getAttribute("am");

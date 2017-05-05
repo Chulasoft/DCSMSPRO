@@ -84,6 +84,7 @@
                                         <p style="text-align: right">CLICK</p>
                                     </div>
                                     <input type="hidden" name="ra_id" value="<%=ra_id[i]%>">
+                                    <input type="hidden" name="ra" value="<%=ra[i]%>">
                                 </a>
                             </form>
                             <%

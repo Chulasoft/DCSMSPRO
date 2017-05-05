@@ -76,62 +76,64 @@
             }
         </style>
         <script>
-            $('.add').click(function () {
-                $('.all').prop("checked", false);
-                var items = $("#list1 input:checked:not('.all')");
-                var n = items.length;
-                if (n > 0) {
+            $(document).ready(function () {
+                $('.add').click(function () {
+                    $('.all').prop("checked", false);
+                    var items = $("#list1 input:checked:not('.all')");
+                    var n = items.length;
+                    if (n > 0) {
+                        items.each(function (idx, item) {
+                            var choice = $(item);
+                            choice.prop("checked", false);
+                            choice.parent().appendTo("#list2");
+                        });
+                    } else {
+                        alert("Choose an item from list 1");
+                    }
+                });
+
+                $('.remove').click(function () {
+                    $('.all').prop("checked", false);
+                    var items = $("#list2 input:checked:not('.all')");
                     items.each(function (idx, item) {
                         var choice = $(item);
                         choice.prop("checked", false);
-                        choice.parent().appendTo("#list2");
+                        choice.parent().appendTo("#list1");
                     });
-                } else {
-                    alert("Choose an item from list 1");
-                }
-            });
-
-            $('.remove').click(function () {
-                $('.all').prop("checked", false);
-                var items = $("#list2 input:checked:not('.all')");
-                items.each(function (idx, item) {
-                    var choice = $(item);
-                    choice.prop("checked", false);
-                    choice.parent().appendTo("#list1");
                 });
-            });
 
-            /* toggle all checkboxes in group */
-            $('.all').click(function (e) {
-                e.stopPropagation();
-                var $this = $(this);
-                if ($this.is(":checked")) {
-                    $this.parents('.list-group').find("[type=checkbox]").prop("checked", true);
-                } else {
-                    $this.parents('.list-group').find("[type=checkbox]").prop("checked", false);
-                    $this.prop("checked", false);
-                }
-            });
+                /* toggle all checkboxes in group */
+                $('.all').click(function (e) {
+                    e.stopPropagation();
+                    var $this = $(this);
+                    if ($this.is(":checked")) {
+                        $this.parents('.list-group').find("[type=checkbox]").prop("checked", true);
+                    } else {
+                        $this.parents('.list-group').find("[type=checkbox]").prop("checked", false);
+                        $this.prop("checked", false);
+                    }
+                });
 
-            $('[type=checkbox]').click(function (e) {
-                e.stopPropagation();
-            });
+                $('[type=checkbox]').click(function (e) {
+                    e.stopPropagation();
+                });
 
-            /* toggle checkbox when list group item is clicked */
-            $('.list-group a').click(function (e) {
+                /* toggle checkbox when list group item is clicked */
+                $('.list-group a').click(function (e) {
 
-                e.stopPropagation();
+                    e.stopPropagation();
 
-                var $this = $(this).find("[type=checkbox]");
-                if ($this.is(":checked")) {
-                    $this.prop("checked", false);
-                } else {
-                    $this.prop("checked", true);
-                }
+                    var $this = $(this).find("[type=checkbox]");
+                    if ($this.is(":checked")) {
+                        $this.prop("checked", false);
+                    } else {
+                        $this.prop("checked", true);
+                    }
 
-                if ($this.hasClass("all")) {
-                    $this.trigger('click');
-                }
+                    if ($this.hasClass("all")) {
+                        $this.trigger('click');
+                    }
+                });
             });
         </script>
     </head>
@@ -147,29 +149,30 @@
                     <div class="row">
                         <h3>Add Competitor</h3>
                         <hr>
-                            <input type="hidden" name="page" value="3"/>
-                            <div class="col-md-12 text-center"><h3>Pick List Example</h3></div>
-                            <div class="col-sm-4 col-sm-offset-1">
-                                <div class="list-group" id="list1">
-                                    <a href="#" class="list-group-item active">List 1 <input title="toggle all" type="checkbox" class="all pull-right"></a>
-                                    <a href="#" class="list-group-item">Second item <input type="checkbox" class="pull-right"></a>
-                                    <a href="#" class="list-group-item">Third item <input type="checkbox" class="pull-right"></a>
-                                    <a href="#" class="list-group-item">More item <input type="checkbox" class="pull-right"></a>
-                                    <a href="#" class="list-group-item">Another <input type="checkbox" class="pull-right"></a>
-                                </div>
+                        <input type="hidden" name="page" value="3"/>
+                        <div class="col-md-12 text-center"><h3>Pick List</h3></div>
+                        <div class="col-sm-4 col-sm-offset-1">
+                            <div class="list-group" id="list1">
+                                <a href="#" class="list-group-item active">Related Alternative<input title="toggle all" type="checkbox" class="all pull-right"></a>
+                                <a href="#" class="list-group-item">jab<input type="hidden" name="choseAL"><input type="checkbox" class="pull-right"></a>
                             </div>
-                            <div class="col-md-2 v-center">
-                                <button title="Send to list 2" class="btn btn-default center-block add"><i class="glyphicon glyphicon-chevron-right"></i></button>
-                                <button title="Send to list 1" class="btn btn-default center-block remove"><i class="glyphicon glyphicon-chevron-left"></i></button>
-                            </div>
-                            <div class="col-sm-4">
+                        </div>
+                        <div class="col-md-2 v-center">
+                            <button title="Send to list 2" class="btn btn-default center-block add"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                            <button title="Send to list 1" class="btn btn-default center-block remove"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                        </div>
+                        <div class="col-sm-4">
+                            <form action="CreateProject" method="POST">
                                 <div class="list-group" id="list2">
-                                    <a href="#" class="list-group-item active">List 2 <input title="toggle all" type="checkbox" class="all pull-right"></a>
-                                    <a href="#" class="list-group-item">Alpha <input type="checkbox" class="pull-right"></a>
-                                    <a href="#" class="list-group-item">Charlie <input type="checkbox" class="pull-right"></a>
-                                    <a href="#" class="list-group-item">Bravo <input type="checkbox" class="pull-right"></a>
+                                    <a href="#" class="list-group-item active">Chosen Alternative<input title="toggle all" type="checkbox" class="all pull-right"></a>
                                 </div>
-                            </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-12" style="margin-top: 10px">
+                        <ul class="pager">
+                            <li><a href="#" onclick="document.forms[0].submit()" >Next</a></li>
+                        </ul>
+                    </div>
                     </div>
                 </div>
             </div>

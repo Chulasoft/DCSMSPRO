@@ -83,6 +83,7 @@
                         <hr>
                         <form method="POST" action="CreateProject">
                             <input type="hidden" name="page" value="2"/>
+                            <input type="hidden" name="p_id" value="<%=request.getAttribute("p_id")%>"/>
                             <div class="col-sm-offset-2 col-sm-8 ">
                                 <div class="panel-group">
                                     <%
@@ -94,12 +95,12 @@
                                         <div class="panel-body">
                                             <div style="float: left;"><%=allQuest.get(i).getQuest_name()%></div>
                                             <div style="float: right;">
-                                                <select style="width: 100%;padding: 10px;border-radius: 5px;" name="ansQues">
-                                                    <option value="0">--Choice--</option>
-                                                    <option value="<%=allQuest.get(i).getQuest_id()%>:1">Must Have</option>
+                                                <select style="width: 100%;padding: 10px;border-radius: 5px;" name="ansQues" required>
+                                                    <option value="">--Choice--</option>
+                                                    <option value="<%=allQuest.get(i).getQuest_id()%>:3">Must Have</option>
                                                     <option value="<%=allQuest.get(i).getQuest_id()%>:2">Should Have</option>
-                                                    <option value="<%=allQuest.get(i).getQuest_id()%>:3">Could Have</option>
-                                                    <option value="<%=allQuest.get(i).getQuest_id()%>:4">Don't Want</option>
+                                                    <option value="<%=allQuest.get(i).getQuest_id()%>:1">Could Have</option>
+                                                    <option value="<%=allQuest.get(i).getQuest_id()%>:0">Don't Want</option>
                                                 </select>
                                             </div>
                                         </div>
