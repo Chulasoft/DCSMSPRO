@@ -149,12 +149,22 @@
                     <div class="row">
                         <h3>Add Competitor</h3>
                         <hr>
-                        <input type="hidden" name="page" value="3"/>
+                        
                         <div class="col-md-12 text-center"><h3>Pick List</h3></div>
                         <div class="col-sm-4 col-sm-offset-1">
                             <div class="list-group" id="list1">
                                 <a href="#" class="list-group-item active">Related Alternative<input title="toggle all" type="checkbox" class="all pull-right"></a>
-                                <a href="#" class="list-group-item">jab<input type="hidden" name="choseAL"><input type="checkbox" class="pull-right"></a>
+                                <%
+                                    ArrayList<String> al_name_want = (ArrayList)request.getAttribute("al_name_want");
+                                    ArrayList<Integer> array_al_id = (ArrayList)request.getAttribute("array_al_id");
+                                    int i = 0;
+                                    for(String a :al_name_want){
+                                %>
+                                <a href="#" class="list-group-item"><%=a%><input type="hidden" name="choseAL" value="<%=array_al_id.get(i)%>"><input type="checkbox" class="pull-right"></a>
+                                <%
+                                    i++;
+                                    }
+                                %>
                             </div>
                         </div>
                         <div class="col-md-2 v-center">
@@ -163,6 +173,7 @@
                         </div>
                         <div class="col-sm-4">
                             <form action="CreateProject" method="POST">
+                                <input type="hidden" name="page" value="3"/>
                                 <div class="list-group" id="list2">
                                     <a href="#" class="list-group-item active">Chosen Alternative<input title="toggle all" type="checkbox" class="all pull-right"></a>
                                 </div>

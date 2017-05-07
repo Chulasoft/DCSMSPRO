@@ -106,5 +106,22 @@ public class Project {
         }
         return am;
     }
+        public String getALNameByID(int m_id) {
+            String names = "";
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT ALTERNATIVE_NAME FROM APP.ALTERNATIVE where al_id = ?";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, m_id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                names = rs.getString("ALTERNATIVE_NAME");
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return names;
+    }
 
 }

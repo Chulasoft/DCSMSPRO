@@ -8,7 +8,10 @@ package DSST.Servlet;
 import DSST.Model.Member;
 import DSST.Model.Model;
 import DSST.Model.Project;
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
@@ -50,7 +53,7 @@ public class CreateProject extends HttpServlet {
             System.out.println(e);
         }
         Project pj = new Project();
-        
+
         if (page != null) {
             if (page.equals("1")) {
                 String proName = request.getParameter("proName");
@@ -67,44 +70,120 @@ public class CreateProject extends HttpServlet {
             } else if (page.equals("2")) {
                 String ans[] = request.getParameterValues("ansQues");
                 int p_id = Integer.parseInt(request.getParameter("p_id"));
-                String m_id2 = ss.getAttribute("m_id")+"";
+                String m_id2 = ss.getAttribute("m_id") + "";
                 int m_id = Integer.parseInt(m_id2);
                 for (int i = 0; i < ans.length; i++) {
                     int colon = ans[i].indexOf(':');
                     String ques_id = ans[i].substring(0, colon);
                     String answer = ans[i].substring(colon + 1);
-                    pj.setAnswer(answer,p_id , Integer.parseInt(ques_id));
+                    pj.setAnswer(answer, p_id, Integer.parseInt(ques_id));
                 }
-                ArrayList<Integer> array_m_id = pj.getAL_ID(m_id);
-                for(int a_m_id :array_m_id){
+                ArrayList<Integer> array_al_id = pj.getAL_ID(m_id);
+                ArrayList<Integer> dontWant = new ArrayList<Integer>();
+                for (int a_m_id : array_al_id) {
                     ArrayList<Integer> array_ans = pj.getAnswerFrommAL_ID(a_m_id);
                     int i = 0;
-                    int ii= 0;
-                    for(int a_ans : array_ans){
+                    int ii = 0;
+                    for (int a_ans : array_ans) {
                         int x = a_ans;
                         int colon = ans[i].indexOf(':');
                         String answer = ans[i].substring(colon + 1);
                         int y = Integer.parseInt(answer);
-                        if(y==3 && x == 0){
+                        if (y == 3 && x == 0) {
                             ii++;
-                            System.out.println("ii X x Y = " + (x*y));
-                        }else{
-                            System.out.println("X x Y = " + (x*y));
+                            System.out.println("ii X x Y = " + (x * y));
+                        } else {
+                            System.out.println("X x Y = " + (x * y));
                         }
                         i++;
                     }
-                    if(ii > 0){
-                        array_m_id.remove(new Integer(a_m_id));
+                    if (ii > 0) {
+                        dontWant.add(new Integer(a_m_id));
                     }
                 }
-                for(int want :array_m_id){
-                    System.out.println("want : " + want);
+                for (int number : dontWant) {
+                    array_al_id.remove(new Integer(number));
                 }
+                ArrayList<String> al_name_want = new ArrayList();
+                for (int id : array_al_id) {
+                    al_name_want.add(pj.getALNameByID(id));
+                }
+                request.setAttribute("array_al_id", array_al_id);
+                request.setAttribute("al_name_want", al_name_want);
                 viewAgent = "/WEB-INF/project/project_3.jsp";
             } else if (page.equals("3")) {
-                
-                    
+                String chosenAL[] = request.getParameterValues("choseAL");
+                //--------------------
+                //put to db
+                //put to db
+                //put to db
+                //--------------------
+                String m_id = (String) ss.getAttribute("m_id");
+                ArrayList<Model> allCriteria = m.getModelsCriteriaByID(Integer.parseInt(m_id));
+                request.setAttribute("allCriteria", allCriteria);
+                viewAgent = "/WEB-INF/project/project_4.jsp";
             } else if (page.equals("4")) {
+                String listAnsCri[] = request.getParameterValues("ansCri");
+                String stSize = request.getParameter("size");
+                int size = Integer.parseInt(stSize);
+                PrintWriter pw = new PrintWriter(new File("script/VALINPUT.csv"));
+                StringBuilder sb = new StringBuilder();
+                int x = 0;
+                for (int i = 0; i < size; i++) {
+                    System.out.println(i);
+                    for (int y = i + 1; y < size; y++) {
+                        if (y != i + 1) {
+                            sb.append(",");
+                        } else {
+                            sb.append("1");
+                            sb.append(",");
+                        }
+                        sb.append(listAnsCri[x]);
+                        x++;
+                    }
+                    if (size - 1 == i) {
+                        sb.append("1");
+                    }
+                    sb.append("\n");
+                    if (i + 1 < size) {
+                        for (int z = -1; z < i; z++) {
+                            sb.append("0");
+                            sb.append(",");
+                        }
+                    }
+
+                }
+                pw.write(sb.toString());
+                pw.close();
+                System.out.println("done!");
+                Runtime rt = Runtime.getRuntime();
+                Process pr = rt.exec("octave-cli M_CheckCR.m", null, new File("C:\\Users\\Jab-PC\\GlassFish_Server\\glassfish\\domains\\domain1\\config\\script"));
+                BufferedReader stdInput = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+                BufferedReader stdError = new BufferedReader(new InputStreamReader(pr.getErrorStream()));
+                double cr = 0;
+// read the output from the command
+                System.out.println("Here is the standard output of the command:\n");
+                String s = null;
+                while ((s = stdInput.readLine()) != null) {
+                    System.out.println(s);
+                    cr = Double.parseDouble(s);
+                }
+
+// read any errors from the attempted command
+                System.out.println("Here is the standard error of the command (if any):\n");
+                while ((s = stdError.readLine()) != null) {
+                    System.out.println(s);
+                }
+                if (cr > 0.10) {
+                    String m_id = (String) ss.getAttribute("m_id");
+                    ArrayList<Model> allCriteria = m.getModelsCriteriaByID(Integer.parseInt(m_id));
+                    request.setAttribute("allCriteria", allCriteria);
+                    msg = "Subjective evaluation is not consistent!";
+                    viewAgent = "/WEB-INF/project/project_4.jsp";
+                } else {
+                    viewAgent = "/WEB-INF/project/project_5.jsp";
+                }
+                request.setAttribute("msg", msg);
 
             } else if (page.equals("5")) {
 

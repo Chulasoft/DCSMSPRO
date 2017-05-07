@@ -32,10 +32,19 @@ public class Model {
     ///////////////////////////////////////////////
     private int cri_id;
     private String cri_name;
+    private String cri_des;
     private int sc_id;
     private String sc_name;
     private int quest_id;
     private String quest_name;
+
+    public String getCri_des() {
+        return cri_des;
+    }
+
+    public void setCri_des(String cri_des) {
+        this.cri_des = cri_des;
+    }
 
     public int getCri_id() {
         return cri_id;
@@ -378,4 +387,29 @@ public class Model {
         }
         return am;
     }
+    
+        public ArrayList<Model> getModelsCriteriaByID(int mem_id) {
+        ArrayList<Model> allCriteria = new ArrayList();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT * FROM CRITERIA WHERE M_ID = ? ";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, mem_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Model m = new Model();
+                m.setCri_id(rs.getInt(1));
+                m.setCri_name(rs.getString(2));
+                m.setCri_des(rs.getString(3));
+                if (m != null) {
+                    allCriteria.add(m);
+                }
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return allCriteria;
+    }
+    
 }
