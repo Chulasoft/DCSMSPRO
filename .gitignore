@@ -16,3 +16,4 @@ nbproject/
 hs_err_pid*
 /build/
 /nbbuild.xml
+/dist/
