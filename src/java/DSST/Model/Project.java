@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 
 /**
@@ -124,4 +125,169 @@ public class Project {
         return names;
     }
 
+    public int setCriInten(String inten, int cri_a, int cri_b, int type,int p_id) {
+        int pci_id = 0;
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "INSERT INTO PROJECT_CRITERIA_INTENSITY (CRITERIA_A, CRITERIA_B, INTENSITY_NUMBER, CRITERIA_TYPE, P_ID) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            stm.setInt(1, cri_a);
+            stm.setInt(2, cri_b);
+            stm.setString(3, inten);
+            stm.setInt(4, type);
+            stm.setInt(5, p_id);
+            stm.executeUpdate();
+            ResultSet rs = stm.getGeneratedKeys();
+            while (rs.next()) {
+                pci_id = rs.getInt(1);
+            }
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return pci_id;
+    }
+        
+        public static double round(double value, int places) {
+        if (places < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
+        
+        
+    public int setCriDetail(double cr, int cri_id, String criName, int type,double local ,double global , int p_id) {
+        int pcd_id = 0;
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "INSERT INTO PROJECT_CRITERIA_DETAIL (CR,CRI_ID, CRITERIA_NAME, CRI_TYPE,LOCAL_WEIGHT,GLOBAL_WEIGHT, P_ID) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            stm.setDouble(1, cr);
+            stm.setInt(2, cri_id);
+            stm.setString(3, criName);
+            stm.setInt(4, type);
+            stm.setDouble(5, local);
+            stm.setDouble(6, global);
+            stm.setInt(7, p_id);
+            stm.executeUpdate();
+            ResultSet rs = stm.getGeneratedKeys();
+            while (rs.next()) {
+                pcd_id = rs.getInt(1);
+            }
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return pcd_id;
+    }
+    
+    public int setCriDetail(double cr, int cri_id, String criName, int type,double local , int p_id) {
+        int pcd_id = 0;
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "INSERT INTO PROJECT_CRITERIA_DETAIL (CR,CRI_ID, CRITERIA_NAME, CRI_TYPE,LOCAL_WEIGHT, GLOBAL_WEIGHT ,P_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            stm.setDouble(1, cr);
+            stm.setInt(2, cri_id);
+            stm.setString(3, criName);
+            stm.setInt(4, type);
+            stm.setDouble(5, local);
+            stm.setNull(6, Types.DOUBLE);
+            stm.setInt(7, p_id);
+            stm.executeUpdate();
+            ResultSet rs = stm.getGeneratedKeys();
+            while (rs.next()) {
+                pcd_id = rs.getInt(1);
+            }
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return pcd_id;
+    }
+    
+    private double CR;
+    private int CRI_ID;
+    private String CRITERIA_NAME;
+    private int CRI_TYPE;
+    private double LOCAL_WEIGHT;
+    private double GLOBAL_WEIGHT;
+
+    public double getCR() {
+        return CR;
+    }
+
+    public void setCR(double CR) {
+        this.CR = CR;
+    }
+
+    public int getCRI_ID() {
+        return CRI_ID;
+    }
+
+    public void setCRI_ID(int CRI_ID) {
+        this.CRI_ID = CRI_ID;
+    }
+
+    public String getCRITERIA_NAME() {
+        return CRITERIA_NAME;
+    }
+
+    public void setCRITERIA_NAME(String CRITERIA_NAME) {
+        this.CRITERIA_NAME = CRITERIA_NAME;
+    }
+
+    public int getCRI_TYPE() {
+        return CRI_TYPE;
+    }
+
+    public void setCRI_TYPE(int CRI_TYPE) {
+        this.CRI_TYPE = CRI_TYPE;
+    }
+
+    public double getLOCAL_WEIGHT() {
+        return LOCAL_WEIGHT;
+    }
+
+    public void setLOCAL_WEIGHT(double LOCAL_WEIGHT) {
+        this.LOCAL_WEIGHT = LOCAL_WEIGHT;
+    }
+
+    public double getGLOBAL_WEIGHT() {
+        return GLOBAL_WEIGHT;
+    }
+
+    public void setGLOBAL_WEIGHT(double GLOBAL_WEIGHT) {
+        this.GLOBAL_WEIGHT = GLOBAL_WEIGHT;
+    }
+    
+    
+    
+        public ArrayList<Project> getTable(int p_id) {
+        ArrayList<Project> listProject = new ArrayList();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT * FROM APP.PROJECT_CRITERIA_DETAIL where P_ID = ? order by CRI_ID,PCD_ID";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, p_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Project p = new Project();
+                p.setCR(rs.getDouble("CR"));
+                p.setCRI_ID(rs.getInt("CRI_ID"));
+                p.setCRITERIA_NAME(rs.getString("CRITERIA_NAME"));
+                p.setCRI_TYPE(rs.getInt("CRI_TYPE"));
+                p.setLOCAL_WEIGHT(rs.getDouble("LOCAL_WEIGHT"));
+                p.setGLOBAL_WEIGHT(rs.getDouble("GLOBAL_WEIGHT"));
+                listProject.add(p);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return listProject;
+    }
 }

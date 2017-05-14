@@ -83,7 +83,6 @@
                         <hr>
                         <form method="POST" action="CreateProject">
                             <input type="hidden" name="page" value="2"/>
-                            <input type="hidden" name="p_id" value="<%=request.getAttribute("p_id")%>"/>
                             <div class="col-sm-offset-2 col-sm-8 ">
                                 <div class="panel-group">
                                     <%

@@ -133,7 +133,7 @@
                                                     <li><a onclick="setnum<%=z%>('1/7')" href="#">7</a></li>
                                                     <li><a onclick="setnum<%=z%>('1/9')" href="#">9</a></li>
                                                     <input type="hidden" name="ansCri" id="<%=z%>" value=""/>
-
+                                                    <input type="hidden" name="criId" value="<%=a.getCri_id()%>:<%=b.getCri_id()%>"/>
                                                 </ul>
                                                 <div class="alert alert-info">
                                                     The <%=a.getCri_name()%> is <span id="text<%=z%>"></span> <%=b.getCri_name()%>

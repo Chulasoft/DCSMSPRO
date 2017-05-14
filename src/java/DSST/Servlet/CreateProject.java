@@ -8,8 +8,10 @@ package DSST.Servlet;
 import DSST.Model.Member;
 import DSST.Model.Model;
 import DSST.Model.Project;
+import static DSST.Model.Project.round;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -64,12 +66,12 @@ public class CreateProject extends HttpServlet {
                 ArrayList<Model> allQuest = new ArrayList();
                 allQuest = m.getAllQuest(Integer.parseInt(m_id));
                 request.setAttribute("allQuest", allQuest);
-                request.setAttribute("p_id", p_id);
+                ss.setAttribute("p_id", p_id);
                 ss.setAttribute("m_id", m_id);
                 viewAgent = "/WEB-INF/project/project_2.jsp";
             } else if (page.equals("2")) {
                 String ans[] = request.getParameterValues("ansQues");
-                int p_id = Integer.parseInt(request.getParameter("p_id"));
+                int p_id = Integer.parseInt(ss.getAttribute("p_id") + "");
                 String m_id2 = ss.getAttribute("m_id") + "";
                 int m_id = Integer.parseInt(m_id2);
                 for (int i = 0; i < ans.length; i++) {
@@ -124,6 +126,7 @@ public class CreateProject extends HttpServlet {
                 viewAgent = "/WEB-INF/project/project_4.jsp";
             } else if (page.equals("4")) {
                 String listAnsCri[] = request.getParameterValues("ansCri");
+                String listCriId[] = request.getParameterValues("criId");
                 String stSize = request.getParameter("size");
                 int size = Integer.parseInt(stSize);
                 PrintWriter pw = new PrintWriter(new File("script/VALINPUT.csv"));
@@ -139,6 +142,10 @@ public class CreateProject extends HttpServlet {
                             sb.append(",");
                         }
                         sb.append(listAnsCri[x]);
+                        int colon = listCriId[x].indexOf(':');
+                        String criA = listCriId[x].substring(0, colon);
+                        String criB = listCriId[x].substring(colon + 1);
+                        pj.setCriInten(listAnsCri[x], Integer.parseInt(criA), Integer.parseInt(criB), 1, Integer.parseInt(ss.getAttribute("p_id") + ""));
                         x++;
                     }
                     if (size - 1 == i) {
@@ -174,15 +181,32 @@ public class CreateProject extends HttpServlet {
                 while ((s = stdError.readLine()) != null) {
                     System.out.println(s);
                 }
+                String m_id = (String) ss.getAttribute("m_id");
+                ArrayList<Model> allCriteria = m.getModelsCriteriaByID(Integer.parseInt(m_id));
+                int p_id = Integer.parseInt(ss.getAttribute("p_id") + "");
                 if (cr > 0.10) {
-                    String m_id = (String) ss.getAttribute("m_id");
-                    ArrayList<Model> allCriteria = m.getModelsCriteriaByID(Integer.parseInt(m_id));
-                    request.setAttribute("allCriteria", allCriteria);
                     msg = "Subjective evaluation is not consistent!";
                     viewAgent = "/WEB-INF/project/project_4.jsp";
                 } else {
-                    viewAgent = "/WEB-INF/project/project_5.jsp";
+                    int loop_id = 0;
+                    pr = rt.exec("octave-cli M_FAHP.m", null, new File("C:\\Users\\Jab-PC\\GlassFish_Server\\glassfish\\domains\\domain1\\config\\script"));
+                    String splitBy = ",";
+                    BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Jab-PC\\GlassFish_Server\\glassfish\\domains\\domain1\\config\\script\\RESULT.csv"));
+                    String line = br.readLine();
+                    String linea[] = line.split(splitBy);
+                    loop_id = 0;
+                    ArrayList<Double> crWeight = new ArrayList();
+                    for (String cell : linea) {
+                        double a = Double.parseDouble(cell);
+                        pj.setCriDetail(cr, allCriteria.get(loop_id).getCri_id(),allCriteria.get(loop_id).getCri_name(), 1, a,0.0, p_id);
+                        crWeight.add(a);
+                        loop_id++;
+                    }
+                    br.close();
+                    ss.setAttribute("crWeight", crWeight);
+                    viewAgent = "/ComparisonSubcriteria";
                 }
+                request.setAttribute("allCriteria", allCriteria);
                 request.setAttribute("msg", msg);
 
             } else if (page.equals("5")) {

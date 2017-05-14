@@ -35,8 +35,26 @@ public class Model {
     private String cri_des;
     private int sc_id;
     private String sc_name;
+    private String sc_des;
     private int quest_id;
     private String quest_name;
+    private double weight;
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public String getSc_des() {
+        return sc_des;
+    }
+
+    public void setSc_des(String sc_des) {
+        this.sc_des = sc_des;
+    }
 
     public String getCri_des() {
         return cri_des;
@@ -387,8 +405,8 @@ public class Model {
         }
         return am;
     }
-    
-        public ArrayList<Model> getModelsCriteriaByID(int mem_id) {
+
+    public ArrayList<Model> getModelsCriteriaByID(int mem_id) {
         ArrayList<Model> allCriteria = new ArrayList();
         try {
             Connection con = ConnectionBuilder.getConnection();
@@ -411,5 +429,35 @@ public class Model {
         }
         return allCriteria;
     }
-    
+
+    public ArrayList<Model> getSubCriteriaByID(int cr_id) {
+        ArrayList<Model> allSubCriteria = new ArrayList();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT * FROM SUB_CRITERIA WHERE MC_ID = ? ";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, cr_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Model m = new Model();
+                m.setSc_id(rs.getInt(1));
+                m.setSc_name(rs.getString(2));
+                m.setSc_des(rs.getString(3));
+                m.setCri_id(rs.getInt(5));
+                if (m != null) {
+                    allSubCriteria.add(m);
+                }
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return allSubCriteria;
+    }
+
+    @Override
+    public String toString() {
+        return "Model{" + "model_id=" + model_id + ", model_name=" + model_name + ", model_goal=" + model_goal + ", create_by_id=" + create_by_id + ", model_status=" + model_status + ", model_lastUpdate=" + model_lastUpdate + ", cri_id=" + cri_id + ", cri_name=" + cri_name + ", cri_des=" + cri_des + ", sc_id=" + sc_id + ", sc_name=" + sc_name + ", sc_des=" + sc_des + ", quest_id=" + quest_id + ", quest_name=" + quest_name + '}';
+    }
+
 }

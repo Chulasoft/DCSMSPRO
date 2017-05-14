@@ -42,6 +42,13 @@
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>SessionFilter</filter-name>
+        <servlet-name>ComparisonSubcriteria</servlet-name>
+        <servlet-name>ShowResult</servlet-name>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
     <servlet>
         <servlet-name>TestServ</servlet-name>
         <servlet-class>Pack.TestServ</servlet-class>
@@ -82,6 +89,14 @@
         <servlet-name>CreateProject</servlet-name>
         <servlet-class>DSST.Servlet.CreateProject</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ComparisonSubcriteria</servlet-name>
+        <servlet-class>DSST.Servlet.ComparisonSubcriteria</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ShowResult</servlet-name>
+        <servlet-class>DSST.Servlet.ShowResult</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TestServ</servlet-name>
         <url-pattern>/TestServ</url-pattern>
@@ -121,6 +136,14 @@
     <servlet-mapping>
         <servlet-name>CreateProject</servlet-name>
         <url-pattern>/CreateProject</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ComparisonSubcriteria</servlet-name>
+        <url-pattern>/ComparisonSubcriteria</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowResult</servlet-name>
+        <url-pattern>/ShowResult</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
