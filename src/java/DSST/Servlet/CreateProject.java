@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -190,11 +193,15 @@ public class CreateProject extends HttpServlet {
                 } else {
                     int loop_id = 0;
                     pr = rt.exec("octave-cli M_FAHP.m", null, new File("C:\\Users\\Jab-PC\\GlassFish_Server\\glassfish\\domains\\domain1\\config\\script"));
+                    try {
+                        TimeUnit.SECONDS.sleep(1);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(CreateProject.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     String splitBy = ",";
                     BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Jab-PC\\GlassFish_Server\\glassfish\\domains\\domain1\\config\\script\\RESULT.csv"));
                     String line = br.readLine();
                     String linea[] = line.split(splitBy);
-                    loop_id = 0;
                     ArrayList<Double> crWeight = new ArrayList();
                     for (String cell : linea) {
                         double a = Double.parseDouble(cell);

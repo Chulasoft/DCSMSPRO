@@ -97,6 +97,14 @@
         <servlet-name>ShowResult</servlet-name>
         <servlet-class>DSST.Servlet.ShowResult</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ShowProductResult</servlet-name>
+        <servlet-class>DSST.Servlet.ShowProductResult</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Test</servlet-name>
+        <servlet-class>DSST.Servlet.Test</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TestServ</servlet-name>
         <url-pattern>/TestServ</url-pattern>
@@ -144,6 +152,14 @@
     <servlet-mapping>
         <servlet-name>ShowResult</servlet-name>
         <url-pattern>/ShowResult</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowProductResult</servlet-name>
+        <url-pattern>/ShowProductResult</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Test</servlet-name>
+        <url-pattern>/Test</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

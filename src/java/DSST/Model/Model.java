@@ -454,7 +454,50 @@ public class Model {
         }
         return allSubCriteria;
     }
+    
+        public ArrayList<Model> getQuestionByID(int sc_id) {
+        ArrayList am = new ArrayList();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT * FROM APP.SURVEY WHERE SC_ID = ? ORDER BY SU_ID";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, sc_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Model m = new Model();
+                m.setQuest_id(rs.getInt(1));
+                if (m != null) {
+                    am.add(m);
+                }
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return am;
+    }
+        
+    public int getSpecAnsByID(int su_id, int al_id) {
+        int ans = 0;
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT SPECIFICATION_ANSWER FROM APP.ALTERNATIVE_SPECIFICATION WHERE SU_ID = ? AND AL_ID = ?";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, su_id);
+            stm.setInt(2, al_id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                   ans = rs.getInt("SPECIFICATION_ANSWER");
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return ans;
+    }
 
+    
+    
     @Override
     public String toString() {
         return "Model{" + "model_id=" + model_id + ", model_name=" + model_name + ", model_goal=" + model_goal + ", create_by_id=" + create_by_id + ", model_status=" + model_status + ", model_lastUpdate=" + model_lastUpdate + ", cri_id=" + cri_id + ", cri_name=" + cri_name + ", cri_des=" + cri_des + ", sc_id=" + sc_id + ", sc_name=" + sc_name + ", sc_des=" + sc_des + ", quest_id=" + quest_id + ", quest_name=" + quest_name + '}';

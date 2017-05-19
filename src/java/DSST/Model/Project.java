@@ -89,7 +89,7 @@ public class Project {
         }
         return am;
     }
-    
+
     public ArrayList<Integer> getAL_ID(int m_id) {
         ArrayList am = new ArrayList();
         try {
@@ -107,8 +107,9 @@ public class Project {
         }
         return am;
     }
-        public String getALNameByID(int m_id) {
-            String names = "";
+
+    public String getALNameByID(int m_id) {
+        String names = "";
         try {
             Connection con = ConnectionBuilder.getConnection();
             String sql = "SELECT ALTERNATIVE_NAME FROM APP.ALTERNATIVE where al_id = ?";
@@ -125,7 +126,7 @@ public class Project {
         return names;
     }
 
-    public int setCriInten(String inten, int cri_a, int cri_b, int type,int p_id) {
+    public int setCriInten(String inten, int cri_a, int cri_b, int type, int p_id) {
         int pci_id = 0;
         try {
             Connection con = ConnectionBuilder.getConnection();
@@ -147,8 +148,8 @@ public class Project {
         }
         return pci_id;
     }
-        
-        public static double round(double value, int places) {
+
+    public static double round(double value, int places) {
         if (places < 0) {
             throw new IllegalArgumentException();
         }
@@ -158,9 +159,8 @@ public class Project {
         long tmp = Math.round(value);
         return (double) tmp / factor;
     }
-        
-        
-    public int setCriDetail(double cr, int cri_id, String criName, int type,double local ,double global , int p_id) {
+
+    public int setCriDetail(double cr, int cri_id, String criName, int type, double local, double global, int p_id) {
         int pcd_id = 0;
         try {
             Connection con = ConnectionBuilder.getConnection();
@@ -184,8 +184,8 @@ public class Project {
         }
         return pcd_id;
     }
-    
-    public int setCriDetail(double cr, int cri_id, String criName, int type,double local , int p_id) {
+
+    public int setCriDetail(double cr, int cri_id, String criName, int type, double local, int p_id) {
         int pcd_id = 0;
         try {
             Connection con = ConnectionBuilder.getConnection();
@@ -209,7 +209,7 @@ public class Project {
         }
         return pcd_id;
     }
-    
+
     private double CR;
     private int CRI_ID;
     private String CRITERIA_NAME;
@@ -264,10 +264,8 @@ public class Project {
     public void setGLOBAL_WEIGHT(double GLOBAL_WEIGHT) {
         this.GLOBAL_WEIGHT = GLOBAL_WEIGHT;
     }
-    
-    
-    
-        public ArrayList<Project> getTable(int p_id) {
+
+    public ArrayList<Project> getTable(int p_id) {
         ArrayList<Project> listProject = new ArrayList();
         try {
             Connection con = ConnectionBuilder.getConnection();
@@ -285,9 +283,131 @@ public class Project {
                 p.setGLOBAL_WEIGHT(rs.getDouble("GLOBAL_WEIGHT"));
                 listProject.add(p);
             }
+            con.close();
         } catch (Exception ex) {
             System.out.println(ex);
         }
         return listProject;
     }
+
+    public int getCusAnsByID(int su_id, int p_id) {
+        int ans = 0;
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT CUSTOMER_ANSWER FROM APP.PROJECT_REQUIREMENT WHERE SU_ID = ? AND P_ID = ?";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, su_id);
+            stm.setInt(2, p_id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                ans = rs.getInt("CUSTOMER_ANSWER");
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return ans;
+    }
+
+    public int setALDetailTable(int p_id, int sc_id, int al_id, String al_name, double weight) {
+        int pcd_id = 0;
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "INSERT INTO PROJECT_ALTERNATIVE_TABLEDETAIL (P_ID,SC_ID,AL_ID, AL_NAME, WEIGHT ) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            stm.setInt(1, p_id);
+            stm.setInt(2, sc_id);
+            stm.setInt(3, al_id);
+            stm.setString(4, al_name);
+            stm.setDouble(5, weight);
+            stm.executeUpdate();
+            ResultSet rs = stm.getGeneratedKeys();
+            while (rs.next()) {
+                pcd_id = rs.getInt(1);
+            }
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return pcd_id;
+    }
+
+    public static String getProductNameByID(int al_id) {
+        String name = "";
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT ALTERNATIVE_NAME FROM APP.ALTERNATIVE WHERE AL_ID = ? ";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, al_id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                name = rs.getString("ALTERNATIVE_NAME");
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return name;
+    }
+
+    private int sc_id;
+    private int al_id;
+    private String al_name;
+    private double weight;
+
+    public int getSc_id() {
+        return sc_id;
+    }
+
+    public void setSc_id(int sc_id) {
+        this.sc_id = sc_id;
+    }
+
+    public int getAl_id() {
+        return al_id;
+    }
+
+    public void setAl_id(int al_id) {
+        this.al_id = al_id;
+    }
+
+    public String getAl_name() {
+        return al_name;
+    }
+
+    public void setAl_name(String al_name) {
+        this.al_name = al_name;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+    
+    public ArrayList<Project> getProductTable(int p_id) {
+        ArrayList<Project> listProduct = new ArrayList();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT * FROM APP.PROJECT_ALTERNATIVE_TABLEDETAIL where P_ID = ? order by SC_ID,AL_ID";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, p_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Project p = new Project();
+                p.setSc_id(rs.getInt("SC_ID"));
+                p.setAl_id(rs.getInt("AL_ID"));
+                p.setAl_name(rs.getString("AL_NAME"));
+                p.setWeight(rs.getDouble("WEIGHT"));
+                listProduct.add(p);
+            }
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return listProduct;
+    }
+
 }
