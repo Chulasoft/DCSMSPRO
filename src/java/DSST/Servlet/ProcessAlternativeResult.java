@@ -21,12 +21,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Jab-PC
  */
-public class ShowProductResult extends HttpServlet {
+public class ProcessAlternativeResult extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +41,11 @@ public class ShowProductResult extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        int p_id = 250; // เอา pid จาก session
+        HttpSession ss = request.getSession();
+        int p_id = Integer.parseInt(ss.getAttribute("p_id") + ""); // เอา pid จาก session
         Model m = new Model();
         Project pj = new Project();
-        int examArrayALter[] = {46,47,48}; //เอา จาก chosenAlterna
+        String examArrayALter[] = (String[])ss.getAttribute("chosenAL"); //เอา จาก chosenAlterna
 
         ArrayList<Model> listCri = m.getModelsCriteriaByID(37);
         for (Model cr : listCri) {
@@ -55,7 +57,7 @@ public class ShowProductResult extends HttpServlet {
                     int scProductScore = 0;
                     for (Model ques : listQuestion) {
                         int ansCus = pj.getCusAnsByID(ques.getQuest_id(), p_id);
-                        int ansP = ques.getSpecAnsByID(ques.getQuest_id(), examArrayALter[i]);
+                        int ansP = ques.getSpecAnsByID(ques.getQuest_id(), Integer.parseInt(examArrayALter[i]));
                         scProductScore = (ansCus * ansP) + scProductScore;
                     }
                     productScoreDouble[i] = scProductScore;
@@ -70,21 +72,39 @@ public class ShowProductResult extends HttpServlet {
                     if (max == 0) {
                         productScoreDouble[i] = 0;
                     } else {
-                        productScoreDouble[i] = (double)(productScoreDouble[i]/max);
+                        productScoreDouble[i] = (double) (productScoreDouble[i] / max);
                     }
                 }
-                ArrayList<Double> csvListScore = new ArrayList();
+                ArrayList<String> csvListScore = new ArrayList();
                 for (int i = 0; i < productScoreDouble.length; i++) {
                     for (int y = i + 1; y < productScoreDouble.length; y++) {
                         double scoreA = productScoreDouble[i];
                         double scoreB = productScoreDouble[y];
-                        csvListScore.add(scoreA - scoreB);
-                        System.out.println("A-B : "+(scoreA - scoreB));
+                        if (scoreA - scoreB == 0) {
+                            csvListScore.add("1");
+                        } else if (0.0 < (scoreA - scoreB) && (scoreA - scoreB) < 0.31) {
+                            csvListScore.add("3");
+                        } else if (0.31 <= (scoreA - scoreB) && (scoreA - scoreB) < 0.51) {
+                            csvListScore.add("5");
+                        } else if (0.51 <= (scoreA - scoreB) && (scoreA - scoreB) < 0.71) {
+                            csvListScore.add("7");
+                        } else if (0.71 <= (scoreA - scoreB) && (scoreA - scoreB) <= 1) {
+                            csvListScore.add("9");
+                        } else if (-0.00 > (scoreA - scoreB) && (scoreA - scoreB) > -0.31) {
+                            csvListScore.add("1/3");
+                        } else if (-0.31 >= (scoreA - scoreB) && (scoreA - scoreB) > -0.51) {
+                            csvListScore.add("1/5");
+                        } else if (-0.51 >= (scoreA - scoreB) && (scoreA - scoreB) > -0.71) {
+                            csvListScore.add("1/7");
+                        } else if (-0.71 >= (scoreA - scoreB) && (scoreA - scoreB) >= -1.0) {
+                            csvListScore.add("1/9");
+                        }
+
                     }
                 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-                PrintWriter pw = new PrintWriter(new File("C:\\Users\\Jab-PC\\GlassFish_Server\\glassfish\\domains\\domain1\\config\\script\\VALINPUTs.csv"));
+                PrintWriter pw = new PrintWriter(new File("C:\\Users\\Jab-PC\\GlassFish_Server\\glassfish\\domains\\domain1\\config\\script\\VALINPUT.csv"));
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < examArrayALter.length; i++) {
                     for (int y = i + 1; y < examArrayALter.length; y++) {
@@ -113,6 +133,21 @@ public class ShowProductResult extends HttpServlet {
                 System.out.println("done!");
                 Runtime rt = Runtime.getRuntime();
                 Process pr = rt.exec("octave-cli M_FAHP.m", null, new File("C:\\Users\\Jab-PC\\GlassFish_Server\\glassfish\\domains\\domain1\\config\\script"));
+                
+                BufferedReader stdInput = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+                BufferedReader stdError = new BufferedReader(new InputStreamReader(pr.getErrorStream()));
+// read the output from the command
+                System.out.println("Here is the standard output of the command:\n");
+                String s = null;
+                while ((s = stdInput.readLine()) != null) {
+                    System.out.println(s);
+                }
+
+// read any errors from the attempted command
+                System.out.println("Here is the standard error of the command (if any):\n");
+                while ((s = stdError.readLine()) != null) {
+                    System.out.println(s);
+                }
                 String splitBy = ",";
                 BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Jab-PC\\GlassFish_Server\\glassfish\\domains\\domain1\\config\\script\\RESULT.csv"));
                 String line = br.readLine();
@@ -120,14 +155,14 @@ public class ShowProductResult extends HttpServlet {
                 int loop_num = 0;
                 for (String cell : linea) {
                     double a = Double.parseDouble(cell);
-                    pj.setALDetailTable(p_id, sc.getSc_id(), examArrayALter[loop_num] , pj.getALNameByID(examArrayALter[loop_num]), a);
+                    pj.setALDetailTable(p_id, sc.getSc_id(), Integer.parseInt(examArrayALter[loop_num]), pj.getALNameByID(Integer.parseInt(examArrayALter[loop_num])), a);
                     loop_num++;
                 }
                 br.close();
             }
         }
-        
-        getServletContext().getRequestDispatcher(response.encodeURL("/newjsp.jsp")).forward(request, response);
+        ss.removeAttribute("chosenAL");
+        response.sendRedirect("ShowResult");
 
     }
 

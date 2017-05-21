@@ -39,19 +39,32 @@ public class ModelMenu extends HttpServlet {
         Model m = new Model();
         Member user = (Member) ss.getAttribute("login");
         ArrayList<Model> am = null;
+        String m_id = request.getParameter("m_id");
         try {
             am = m.getModels(user.getMem_id());
             request.setAttribute("am", am);
-            if (am != null) {
-                int i = 1;
-                for (Model m_id : am) {
-                    if (i == 1) {
-                        request.setAttribute("Model_name", m_id.getModel_name());
-                        request.setAttribute("Model_last", m_id.getModel_lastUpdate());
-                        request.setAttribute("Model_status", m_id.getModel_status());
-                    }
-                    i++;
+            if(m_id!=null){
+                m = m.getModelByID(Integer.parseInt(m_id));
+                ArrayList<Model> listCri = new ArrayList();
+                ArrayList<Model> listSub = new ArrayList();
+                listCri = m.getModelsCriteriaByID(Integer.parseInt(m_id));
+                for(Model mCri : listCri){
+                    listSub = mCri.getSubCriteriaByID(mCri.getCri_id());
+                    request.setAttribute("listSub"+mCri.getCri_id(), listSub);
                 }
+                request.setAttribute("listCri", listCri);
+                request.setAttribute("m", m);
+            }else if (am != null) {
+                m = m.getModelByID(am.get(0).getModel_id());
+                ArrayList<Model> listCri = new ArrayList();
+                ArrayList<Model> listSub = new ArrayList();
+                listCri = m.getModelsCriteriaByID(am.get(0).getModel_id());
+                for(Model mCri : listCri){
+                    listSub = mCri.getSubCriteriaByID(mCri.getCri_id());
+                    request.setAttribute("listSub"+mCri.getCri_id(), listSub);
+                }
+                request.setAttribute("listCri", listCri);
+                request.setAttribute("m", m);
             }
         } catch (Exception e) {
             System.out.println(e);

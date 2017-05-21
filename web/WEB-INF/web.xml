@@ -98,12 +98,16 @@
         <servlet-class>DSST.Servlet.ShowResult</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ShowProductResult</servlet-name>
-        <servlet-class>DSST.Servlet.ShowProductResult</servlet-class>
+        <servlet-name>ProcessAlternativeResult</servlet-name>
+        <servlet-class>DSST.Servlet.ProcessAlternativeResult</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Test</servlet-name>
         <servlet-class>DSST.Servlet.Test</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteModel</servlet-name>
+        <servlet-class>DSST.Servlet.DeleteModel</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>TestServ</servlet-name>
@@ -154,12 +158,16 @@
         <url-pattern>/ShowResult</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ShowProductResult</servlet-name>
-        <url-pattern>/ShowProductResult</url-pattern>
+        <servlet-name>ProcessAlternativeResult</servlet-name>
+        <url-pattern>/ProcessAlternativeResult</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Test</servlet-name>
         <url-pattern>/Test</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteModel</servlet-name>
+        <url-pattern>/DeleteModel</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

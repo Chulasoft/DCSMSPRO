@@ -117,11 +117,9 @@ public class CreateProject extends HttpServlet {
                 request.setAttribute("al_name_want", al_name_want);
                 viewAgent = "/WEB-INF/project/project_3.jsp";
             } else if (page.equals("3")) {
-                String chosenAL[] = request.getParameterValues("choseAL");
+                String chosenAL[] = request.getParameterValues("chosenAL");
                 //--------------------
-                //put to db
-                //put to db
-                //put to db
+                ss.setAttribute("chosenAL", chosenAL);
                 //--------------------
                 String m_id = (String) ss.getAttribute("m_id");
                 ArrayList<Model> allCriteria = m.getModelsCriteriaByID(Integer.parseInt(m_id));
@@ -216,9 +214,7 @@ public class CreateProject extends HttpServlet {
                 request.setAttribute("allCriteria", allCriteria);
                 request.setAttribute("msg", msg);
 
-            } else if (page.equals("5")) {
-
-            }
+            } 
         }
         getServletContext().getRequestDispatcher(response.encodeURL(viewAgent)).forward(request, response);
     }

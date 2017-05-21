@@ -3,37 +3,37 @@
     <ul class="nav nav-sidebar">
         <li>
             <span>
-                <a href="#">Step 1 : <br> Define Goal</a>
+                <a href="#">Step 1 : Define Goal</a>
                 <a href="#" style="float: right;color: green" hidden><span class="glyphicon glyphicon-ok"></span></a>
             </span>
         </li>
         <li>
             <span>
-                <a href="#">Step 2 : <br>Define Criteria</a>
+                <a href="#">Step 2 : Define Criteria</a>
                 <a href="#" style="float: right;color: green" hidden><span class="glyphicon glyphicon-ok"></span></a>
             </span>
         </li>
         <li>
             <span>
-                <a href="#">Step 3 : <br>Define Sub-Criteria</a>
+                <a href="#">Step 3 : Define Sub-Criteria</a>
                 <a href="#" style="float: right;color: green" hidden><span class="glyphicon glyphicon-ok"></span></a>
             </span>
         </li>
         <li>
             <span>
-                <a href="#">Step 4 : <br>Define Survey</a>
+                <a href="#">Step 4 : Define Survey</a>
                 <a href="#" style="float: right;color: green" hidden><span class="glyphicon glyphicon-ok"></span></a>
             </span>
         </li>
         <li>
             <span>
-                <a href="#">Step 5 : <br>Define Related Alternative</a>
+                <a href="#">Step 5 : Define Related Alternative</a>
                 <a href="#" style="float: right;color: green" hidden><span class="glyphicon glyphicon-ok"></span></a>
             </span>
         </li>
         <li>
             <span>
-                <a href="#">Step 6 : <br>Summary</a>
+                <a href="#">Step 6 : Summary</a>
                 <a href="#" style="float: right;color: green" hidden><span class="glyphicon glyphicon-ok"></span></a>
             </span>
         </li>

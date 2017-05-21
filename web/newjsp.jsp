@@ -13,6 +13,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <script src="./js/jquery-3.2.0.min.js"></script>        
+        <script src="./bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="./bootstrap-3.3.7-dist/css/bootstrap.min.css" >
     </head>
     <body>
         <table>
@@ -40,6 +43,7 @@
                     ArrayList<Project> table = (ArrayList) request.getAttribute("table");
                     Model m = new Model();
                     int after = 0;
+                    int proNum = 0;
                     ArrayList<Model> mcri = new ArrayList();
                     int count = 0;
                     for (Project cri : table) {
@@ -59,31 +63,65 @@
                         }
                     %>
                     <td><%=cri.getCRITERIA_NAME()%></td>
-                    <td><%=cri.getGLOBAL_WEIGHT()%></td>
-                     <%
-                        while (count< list.size()) {
-                            
-                            if (oldSc_id != list.get(count).getSc_id()) {
-                            oldSc_id = list.get(count).getSc_id();
-                            break ;
-                        }
-                            System.out.print(count +" : ");
-                            System.out.println(list.get(count).getSc_id());
-                            
-                    %>
-                    <td><%=list.get(count).getWeight()%></td>
+                    <td name="glow"><%=Project.round(cri.getGLOBAL_WEIGHT(), 4)%></td>
                     <%
-                        count++;
+                        proNum = 0;
+                        while (count < list.size()) {
+
+                            if (oldSc_id != list.get(count).getSc_id()) {
+                                oldSc_id = list.get(count).getSc_id();
+                                break;
+                            }
+                    %>
+                    <td name="pro<%=proNum%>"><%=Project.round(list.get(count).getWeight(), 4)%></td>
+                    <%
+                            count++;
+                            proNum++;
                         }
                     %>
                 </tr>
                 </tr>
-                <%
-                        }
-                        after = cri.getCRI_ID();
+            <input type="hidden" id="length" value="<%=proNum%>">
+            <%
                     }
+                    after = cri.getCRI_ID();
+                }
+            %>
+            <tr>
+                <td colspan="3">Alternative Priority</td>
+                <%
+                    for(int j = 0 ;j < proNum; j++){
                 %>
+                <td id="pro<%=j%>"></td>
+                <%
+                }
+                %>
+            </tr>
             </tbody>
         </table>
+        <script>
+            $(document).ready(function () {
+                var allPriorityProduct = [];
+                var global = [];
+                $('td[name^="glow"]').each(function () {
+                    global.push($(this).text());
+                });
+                var length = $("#length").val();
+                for (var i = 0; i < length; i++) {
+                    var product = [];
+                    $('td[name^="pro' + i + '"]').each(function () {
+                        product.push($(this).text());
+                    });
+                    var priority = 0;
+                    for (var j = 0; j < product.length ; j++) {
+                        priority = (product[j]*global[j])+priority;
+                    }
+                    allPriorityProduct.push(priority);
+                }
+                for (var i = 0; i < length; i++) {
+                    $("#pro"+i).text(Math.round(allPriorityProduct[i]*10000)/10000);
+                }
+            });
+        </script>
     </body>
 </html>

@@ -374,6 +374,29 @@ public class Model {
         return am;
     }
 
+    public Model getModelByID(int m_id) {
+        Model m = new Model();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT M_ID,MODEL_NAME,MODEL_STATUS,MODEL_CREATE_BY,MODEL_LAST_UPDATE,GOAL_NAME FROM MODEL WHERE M_ID = ? ";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, m_id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                m.setModel_id(rs.getInt(1));
+                m.setModel_name(rs.getString(2));
+                m.setModel_status(rs.getString(3));
+                m.setCreate_by_id(rs.getInt(4));
+                m.setModel_lastUpdate(rs.getString(5));
+                m.setModel_goal(rs.getString(6));
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return m;
+    }
+
     public ArrayList<Model> getAllQuest(int m_id) {
         ArrayList am = new ArrayList();
         try {
@@ -454,8 +477,8 @@ public class Model {
         }
         return allSubCriteria;
     }
-    
-        public ArrayList<Model> getQuestionByID(int sc_id) {
+
+    public ArrayList<Model> getQuestionByID(int sc_id) {
         ArrayList am = new ArrayList();
         try {
             Connection con = ConnectionBuilder.getConnection();
@@ -476,7 +499,7 @@ public class Model {
         }
         return am;
     }
-        
+
     public int getSpecAnsByID(int su_id, int al_id) {
         int ans = 0;
         try {
@@ -487,7 +510,7 @@ public class Model {
             stm.setInt(2, al_id);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
-                   ans = rs.getInt("SPECIFICATION_ANSWER");
+                ans = rs.getInt("SPECIFICATION_ANSWER");
             }
             con.close();
         } catch (SQLException ex) {
@@ -496,8 +519,88 @@ public class Model {
         return ans;
     }
 
-    
-    
+    public String delByModelId(int m_id) {
+        ArrayList<Integer> listSu_id = new ArrayList();
+        ArrayList<Integer> listSc_id = new ArrayList();
+        ArrayList<Integer> listP_id = new ArrayList();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "select s.su_id  from survey s \n"
+                    + "join sub_criteria sc\n"
+                    + "on s.sc_id = sc.sc_id \n"
+                    + "join criteria c\n"
+                    + "on sc.mc_id = c.mc_id\n"
+                    + "where m_id = ? ";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, m_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                listSu_id.add(rs.getInt(1));
+            }
+            sql = "select mc_id  from criteria \n"
+                    + "where m_id = ? ";
+            stm = con.prepareStatement(sql);
+            stm.setInt(1, m_id);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                listSc_id.add(rs.getInt(1));
+            }
+            for (int i : listSu_id) {
+                Statement stmt = con.createStatement();
+                sql = "DELETE FROM PROJECT_REQUIREMENT WHERE SU_ID = " + i;
+                stmt.executeUpdate(sql);
+                stmt = con.createStatement();
+                sql = "DELETE FROM ALTERNATIVE_SPECIFICATION WHERE SU_ID = " + i;
+                stmt.executeUpdate(sql);
+                stmt = con.createStatement();
+                sql = "DELETE FROM SURVEY WHERE SU_ID = " + i;
+                stmt.executeUpdate(sql);
+            }
+            for (int i : listSc_id) {
+                Statement stmt = con.createStatement();
+                sql = "DELETE FROM SUB_CRITERIA WHERE MC_ID = " + i;
+                stmt.executeUpdate(sql);
+                stmt = con.createStatement();
+                sql = "DELETE FROM CRITERIA WHERE MC_ID = " + i;
+                stmt.executeUpdate(sql);
+            }
+            Statement stmt = con.createStatement();
+            sql = "DELETE FROM ALTERNATIVE WHERE M_ID = " + m_id;
+            stmt.executeUpdate(sql);
+            
+            sql = "select P_ID  from PROJECT where m_id = ? ";
+            stm = con.prepareStatement(sql);
+            stm.setInt(1, m_id);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                listP_id.add(rs.getInt(1));
+            }
+            
+            for (int i : listP_id) {
+            stmt = con.createStatement();
+            sql = "DELETE FROM PROJECT_CRITERIA_DETAIL WHERE P_ID = " + i;
+            stmt.executeUpdate(sql);
+            stmt = con.createStatement();
+            sql = "DELETE FROM PROJECT_ALTERNATIVE_TABLEDETAIL WHERE P_ID = " + i;
+            stmt.executeUpdate(sql);
+            stmt = con.createStatement();
+            sql = "DELETE FROM PROJECT_CRITERIA_INTENSITY WHERE P_ID = " + i;
+            stmt.executeUpdate(sql);
+            stmt = con.createStatement();
+            sql = "DELETE FROM PROJECT WHERE P_ID = " + i;
+            stmt.executeUpdate(sql);
+            }
+
+            stmt = con.createStatement();
+            sql = "DELETE FROM MODEL WHERE M_ID = " + m_id;
+            stmt.executeUpdate(sql);
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return "success";
+    }
+
     @Override
     public String toString() {
         return "Model{" + "model_id=" + model_id + ", model_name=" + model_name + ", model_goal=" + model_goal + ", create_by_id=" + create_by_id + ", model_status=" + model_status + ", model_lastUpdate=" + model_lastUpdate + ", cri_id=" + cri_id + ", cri_name=" + cri_name + ", cri_des=" + cri_des + ", sc_id=" + sc_id + ", sc_name=" + sc_name + ", sc_des=" + sc_des + ", quest_id=" + quest_id + ", quest_name=" + quest_name + '}';

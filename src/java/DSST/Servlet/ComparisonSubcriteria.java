@@ -155,7 +155,7 @@ public class ComparisonSubcriteria extends HttpServlet {
         } else {
             ss.removeAttribute("allCri");
             ss.removeAttribute("crWeight");  
-            viewAgent = "/ShowResult";
+            viewAgent = "/ProcessAlternativeResult";
         }
 
         getServletContext().getRequestDispatcher(response.encodeURL(viewAgent)).forward(request, response);

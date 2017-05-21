@@ -160,7 +160,7 @@
                                     int i = 0;
                                     for(String a :al_name_want){
                                 %>
-                                <a href="#" class="list-group-item"><%=a%><input type="hidden" name="choseAL" value="<%=array_al_id.get(i)%>"><input type="checkbox" class="pull-right"></a>
+                                <a href="#" class="list-group-item"><%=a%><input type="hidden" name="chosenAL" value="<%=array_al_id.get(i)%>"><input type="checkbox" class="pull-right"></a>
                                 <%
                                     i++;
                                     }

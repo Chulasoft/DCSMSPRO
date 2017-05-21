@@ -5,6 +5,7 @@
  */
 package DSST.Servlet;
 
+import DSST.Model.Model;
 import DSST.Model.Project;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,13 +33,14 @@ public class Test extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        Project pj = new Project();
-        ArrayList<Project> list = pj.getProductTable(250);
-        request.setAttribute("list", list);
-        ArrayList<Project> table = pj.getTable(250);
-        request.setAttribute("table", table);
-        getServletContext().getRequestDispatcher(response.encodeURL("/newjsp.jsp")).forward(request, response);
-        
+//        Project pj = new Project();
+//        ArrayList<Project> list = pj.getProductTable(250);
+//        request.setAttribute("list", list);
+//        ArrayList<Project> table = pj.getTable(250);
+//        request.setAttribute("table", table);
+//        getServletContext().getRequestDispatcher(response.encodeURL("/newjsp.jsp")).forward(request, response);
+        Model m = new Model();
+        m.delByModelId(36);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
