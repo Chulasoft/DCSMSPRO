@@ -4,6 +4,8 @@
     Author     : 006131
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="DSST.Model.Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -65,24 +67,24 @@
                         var d_criter = $("#c2").val();
                         $("#cr").append("<div class='alert alert-danger'> <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
                                 "<h3>" + t_criter + "</h3>" + d_criter +
-                                "<input type='hidden' name='cri' value=" + t_criter + "><input type='hidden' name='criDes' value=" + d_criter + "></div>");
+                                "<input type='hidden' name='Ncri' value=" + t_criter + "><input type='hidden' name='NcriDes' value=" + d_criter + "></div>");
                         $("#c1").val("");
                         $("#c2").val("");
                         $('#myModal').modal('toggle');
                     } else {
-                        if($("#c1").val() == ""){
+                        if ($("#c1").val() == "") {
                             alert("กรุณากรอกข้อมูลให้ครบ");
                             $("#c1").focus();
-                        }else{
+                        } else {
                             alert("กรุณากรอกข้อมูลให้ครบ");
                             $("#c2").focus();
                         }
                     }
                 });
                 $("#sub").click(function () {
-                    if($("input[name='cri']").length < 2){
+                    if ($("input[name='cri']").length < 2) {
                         alert("ต้องมีอย่างน้อย 2 criteria");
-                    }else{
+                    } else {
                         document.forms[0].submit();
                     }
                 });
@@ -95,7 +97,7 @@
         <div class="container-fluid">
             <div class="row">
                 <span class="hidden-mob">
-                    <jsp:include page="sidenav_create_model.jsp" flush="false"/>
+                    <jsp:include page="sidenav_edit_model.jsp" flush="false"/>
                 </span>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="top: 72px">
                     <div class="row">
@@ -105,7 +107,24 @@
                             <div class="col-sm-offset-2 col-sm-8 ">
                                 <input type="hidden" name="page" id="page" value="2"/>
 
-                                <span id="cr"></span>
+                                <span id="cr">
+                                    <%
+                                        if (request.getAttribute("criDB") != null) {
+                                            ArrayList<Model> criDB = (ArrayList)request.getAttribute("criDB");
+                                            for (Model mdb : criDB){
+                                    %>
+                                    <div class="alert alert-danger">
+                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                                        <h3><%=mdb.getCri_name()%></h3><%=mdb.getCri_des()%>
+                                        <input type="hidden" name="criId" value="<%=mdb.getCri_id()%>">
+                                        <input type="hidden" name="cri" value="<%=mdb.getCri_name()%>">
+                                        <input type="hidden" name="criDes" value="<%=mdb.getCri_des()%>">
+                                    </div>
+                                    <%
+                                            }
+                                        }
+                                    %>
+                                </span>
 
                                 <!-- Trigger the modal with a button -->
                                 <a href="#" data-toggle="modal" data-target="#myModal" style="font-size: 30px"><div class="glyphicon glyphicon-plus-sign"></div></a>
@@ -133,12 +152,9 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <ul class="pager">
-                                    <li><a href="#">Previous</a></li>
-                                    <li><a href="#" id="sub">Next</a></li>
-                                </ul>
+                                <div style="text-align: center">
+                                    <button type="submit" class="btn btn-default" style="float: right"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
+                                </div>
                             </div>
                         </form>
                     </div>

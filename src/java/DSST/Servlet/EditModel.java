@@ -8,8 +8,10 @@ package DSST.Servlet;
 import DSST.Model.Model;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet; 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -38,21 +40,62 @@ public class EditModel extends HttpServlet {
         if (page != null) {
             if (page.equals("1")) {
                 Model em = new Model();
-                if(request.getParameter("model_name")!=null){
-                em.setModel_id(Integer.parseInt(ss.getAttribute("model_id") + ""));
-                em.setModel_name(request.getParameter("model_name"));
-                em.setModel_goal(request.getParameter("goal"));
-                em.setModel_goal_des(request.getParameter("goal_des"));
-                em.updateModel(em);
+                if (request.getParameter("model_name") != null) {
+                    em.setModel_id(Integer.parseInt(ss.getAttribute("model_id") + ""));
+                    em.setModel_name(request.getParameter("model_name"));
+                    em.setModel_goal(request.getParameter("goal"));
+                    em.setModel_goal_des(request.getParameter("goal_des"));
+                    em.updateModel(em);
                 }
                 em = em.getModelByID(Integer.parseInt(ss.getAttribute("model_id") + ""));
                 request.setAttribute("m", em);
                 viewAgent = "/WEB-INF/edit_model/eModel_1.jsp";
             } else if (page.equals("2")) {
+                Model m = new Model();
+                ArrayList<Model> criDB = m.getModelsCriteriaByID(Integer.parseInt(ss.getAttribute("model_id") + ""));
                 
+                if(request.getParameter("criId")!=null){
+                    String criId[] = request.getParameterValues("criId");
+                    String cri[] = request.getParameterValues("cri");
+                    String criDes[] = request.getParameterValues("criDes");
+                    
+                    ArrayList<String> arrayListCriId = new ArrayList<String>(Arrays.asList(criId));
+                    ArrayList<String> arrayListCriIdDel = new ArrayList();
+                    for(int i =0 ; i< criDB.size() ;i++){
+                        if( !arrayListCriId.contains(criDB.get(i).getCri_id()+"")){
+                            //del in db
+                            arrayListCriIdDel.add(criDB.get(i).getCri_id()+"");
+                        }
+                    }
+                    for(int i =0 ; i< criId.length ;i++){
+                        // update to db criId[i] cri[i] criDes[i]
+                    }
+                }
+                if(request.getParameter("Ncri")!=null){
+                    String Ncri[] = request.getParameterValues("Ncri");
+                    String NcriDes[] = request.getParameterValues("NcriDes");
+                    for(int i =0 ; i< Ncri.length ;i++){
+                        m.setCriteria(Integer.parseInt(ss.getAttribute("model_id") + ""), Ncri[i], NcriDes[i]);
+                    }
+                }
+                
+                request.setAttribute("criDB", criDB);
+                viewAgent = "/WEB-INF/edit_model/eModel_2.jsp";
             } else if (page.equals("3")) {
+
                 
-            } 
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            }
         } else {
             String model_id = request.getParameter("modelId");
             Model m = new Model();

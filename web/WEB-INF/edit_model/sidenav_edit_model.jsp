@@ -3,13 +3,13 @@
     <ul class="nav nav-sidebar">
         <li>
             <span>
-                <a href="#">Step 1 : Define Goal</a>
+                <a href="EditModel?page=1">Define Goal</a>
                 <a href="#" style="float: right;color: green" hidden><span class="glyphicon glyphicon-ok"></span></a>
             </span>
         </li>
         <li>
             <span>
-                <a href="#">Step 2 : Define Criteria</a>
+                <a href="EditModel?page=2">Define Criteria</a>
                 <a href="#" style="float: right;color: green" hidden><span class="glyphicon glyphicon-ok"></span></a>
             </span>
         </li>
