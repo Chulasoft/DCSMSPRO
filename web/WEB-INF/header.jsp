@@ -28,7 +28,7 @@
                         <li class="dropdown">
                             <a href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%=login.getName()%></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Setting</a></li>
+                                <li><a href="SettingPath">Setting</a></li>
                                 <li><a href="Logout">Logout</a></li>
                             </ul>
                         </li>

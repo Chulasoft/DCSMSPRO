@@ -147,7 +147,7 @@
                                 <span>
                                     <a href="ModelMenu?m_id=<%=m.getModel_id()%>"><%=m.getModel_name()%></a>
                                     <a href="#" style="float: right;" data-toggle="modal" data-target="#myModal" onclick="who(<%=m.getModel_id()%>)"><span class="glyphicon glyphicon-remove"></span></a>
-                                    <a href="#" style="float: right;margin-right: 6px;"><span class="glyphicon glyphicon-wrench"></span></a>
+                                    <a href="#" style="float: right;margin-right: 6px;" onclick="who2(<%=m.getModel_id()%>)"><span class="glyphicon glyphicon-wrench"></span></a>
                                 </span>
                             </li>
                             <%
@@ -214,9 +214,16 @@
 
                 </div>
             </div>
+                            <form action="EditModel" method="post">
+                                <input type="hidden" name="modelId" id="modelId2" value="">
+                            </form>
             <script>
-                function who(num){
+                function who(num) {
                     $("#modelId").val(num);
+                }
+                function who2(num){
+                    $("#modelId2").val(num);
+                    document.forms[1].submit();
                 }
             </script>
     </content>

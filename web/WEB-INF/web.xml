@@ -109,6 +109,14 @@
         <servlet-name>DeleteModel</servlet-name>
         <servlet-class>DSST.Servlet.DeleteModel</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditModel</servlet-name>
+        <servlet-class>DSST.Servlet.EditModel</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SettingPath</servlet-name>
+        <servlet-class>DSST.Servlet.SettingPath</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TestServ</servlet-name>
         <url-pattern>/TestServ</url-pattern>
@@ -168,6 +176,14 @@
     <servlet-mapping>
         <servlet-name>DeleteModel</servlet-name>
         <url-pattern>/DeleteModel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditModel</servlet-name>
+        <url-pattern>/EditModel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SettingPath</servlet-name>
+        <url-pattern>/SettingPath</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

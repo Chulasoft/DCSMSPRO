@@ -47,7 +47,7 @@ public class ProcessAlternativeResult extends HttpServlet {
         Project pj = new Project();
         String examArrayALter[] = (String[])ss.getAttribute("chosenAL"); //เอา จาก chosenAlterna
 
-        ArrayList<Model> listCri = m.getModelsCriteriaByID(37);
+        ArrayList<Model> listCri = m.getModelsCriteriaByID(Integer.parseInt(ss.getAttribute("m_id") + ""));
         for (Model cr : listCri) {
             ArrayList<Model> listSubCri = cr.getSubCriteriaByID(cr.getCri_id());
             for (Model sc : listSubCri) {

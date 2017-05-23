@@ -25,9 +25,18 @@ public class Model {
     private int model_id;
     private String model_name;
     private String model_goal;
+    private String model_goal_des;
     private int create_by_id;
     private String model_status;
     private String model_lastUpdate;
+
+    public String getModel_goal_des() {
+        return model_goal_des;
+    }
+
+    public void setModel_goal_des(String model_goal_des) {
+        this.model_goal_des = model_goal_des;
+    }
 
     ///////////////////////////////////////////////
     private int cri_id;
@@ -378,7 +387,7 @@ public class Model {
         Model m = new Model();
         try {
             Connection con = ConnectionBuilder.getConnection();
-            String sql = "SELECT M_ID,MODEL_NAME,MODEL_STATUS,MODEL_CREATE_BY,MODEL_LAST_UPDATE,GOAL_NAME FROM MODEL WHERE M_ID = ? ";
+            String sql = "SELECT M_ID,MODEL_NAME,MODEL_STATUS,MODEL_CREATE_BY,MODEL_LAST_UPDATE,GOAL_NAME,GOAL_DESCRIPTION FROM MODEL WHERE M_ID = ? ";
             PreparedStatement stm = con.prepareStatement(sql);
             stm.setInt(1, m_id);
             ResultSet rs = stm.executeQuery();
@@ -389,6 +398,7 @@ public class Model {
                 m.setCreate_by_id(rs.getInt(4));
                 m.setModel_lastUpdate(rs.getString(5));
                 m.setModel_goal(rs.getString(6));
+                m.setModel_goal_des(rs.getString(7));
             }
             con.close();
         } catch (SQLException ex) {
@@ -519,6 +529,28 @@ public class Model {
         return ans;
     }
 
+    public void updateModel(Model m) {
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "UPDATE MODEL SET MODEL_NAME = ?, GOAL_NAME = ?,GOAL_DESCRIPTION = ? ,MODEL_LAST_UPDATE = ? WHERE M_ID = ? ";
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            // set the preparedstatement parameters
+            ps.setString(1, m.getModel_name());
+            ps.setString(2, m.getModel_goal());
+            ps.setString(3, m.getModel_goal_des());
+            ps.setTimestamp(4, getCurrentTimeStamp());
+            ps.setInt(5, m.getModel_id());
+
+            // call executeUpdate to execute our sql update statement
+            ps.executeUpdate();
+
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+
     public String delByModelId(int m_id) {
         ArrayList<Integer> listSu_id = new ArrayList();
         ArrayList<Integer> listSc_id = new ArrayList();
@@ -567,7 +599,7 @@ public class Model {
             Statement stmt = con.createStatement();
             sql = "DELETE FROM ALTERNATIVE WHERE M_ID = " + m_id;
             stmt.executeUpdate(sql);
-            
+
             sql = "select P_ID  from PROJECT where m_id = ? ";
             stm = con.prepareStatement(sql);
             stm.setInt(1, m_id);
@@ -575,20 +607,20 @@ public class Model {
             while (rs.next()) {
                 listP_id.add(rs.getInt(1));
             }
-            
+
             for (int i : listP_id) {
-            stmt = con.createStatement();
-            sql = "DELETE FROM PROJECT_CRITERIA_DETAIL WHERE P_ID = " + i;
-            stmt.executeUpdate(sql);
-            stmt = con.createStatement();
-            sql = "DELETE FROM PROJECT_ALTERNATIVE_TABLEDETAIL WHERE P_ID = " + i;
-            stmt.executeUpdate(sql);
-            stmt = con.createStatement();
-            sql = "DELETE FROM PROJECT_CRITERIA_INTENSITY WHERE P_ID = " + i;
-            stmt.executeUpdate(sql);
-            stmt = con.createStatement();
-            sql = "DELETE FROM PROJECT WHERE P_ID = " + i;
-            stmt.executeUpdate(sql);
+                stmt = con.createStatement();
+                sql = "DELETE FROM PROJECT_CRITERIA_DETAIL WHERE P_ID = " + i;
+                stmt.executeUpdate(sql);
+                stmt = con.createStatement();
+                sql = "DELETE FROM PROJECT_ALTERNATIVE_TABLEDETAIL WHERE P_ID = " + i;
+                stmt.executeUpdate(sql);
+                stmt = con.createStatement();
+                sql = "DELETE FROM PROJECT_CRITERIA_INTENSITY WHERE P_ID = " + i;
+                stmt.executeUpdate(sql);
+                stmt = con.createStatement();
+                sql = "DELETE FROM PROJECT WHERE P_ID = " + i;
+                stmt.executeUpdate(sql);
             }
 
             stmt = con.createStatement();
