@@ -214,14 +214,14 @@
 
                 </div>
             </div>
-                            <form action="EditModel" method="post">
-                                <input type="hidden" name="modelId" id="modelId2" value="">
-                            </form>
+            <form action="EditModel" method="post">
+                <input type="hidden" name="modelId" id="modelId2" value="">
+            </form>
             <script>
                 function who(num) {
                     $("#modelId").val(num);
                 }
-                function who2(num){
+                function who2(num) {
                     $("#modelId2").val(num);
                     document.forms[1].submit();
                 }

@@ -103,19 +103,19 @@
                     <div class="row">
                         <h3>Define Criteria</h3>
                         <hr>
-                        <form action="CreateModel" method="POST">
+                        <form action="EditModel" method="POST">
                             <div class="col-sm-offset-2 col-sm-8 ">
                                 <input type="hidden" name="page" id="page" value="2"/>
 
                                 <span id="cr">
                                     <%
                                         if (request.getAttribute("criDB") != null) {
-                                            ArrayList<Model> criDB = (ArrayList)request.getAttribute("criDB");
-                                            for (Model mdb : criDB){
+                                            ArrayList<Model> criDB = (ArrayList) request.getAttribute("criDB");
+                                            for (Model mdb : criDB) {
                                     %>
-                                    <div class="alert alert-danger">
-                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                                        <h3><%=mdb.getCri_name()%></h3><%=mdb.getCri_des()%>
+                                    <div class="alert alert-danger" id="<%=mdb.getCri_id()%>">
+                                        <a href="#" class="close" onclick="alertBefore()">×</a>
+                                        <a href="#" data-toggle="modal" data-target="#old" onclick="idIs(<%=mdb.getCri_id()%>)"><h3><%=mdb.getCri_name()%></h3><span><%=mdb.getCri_des()%></span></a>
                                         <input type="hidden" name="criId" value="<%=mdb.getCri_id()%>">
                                         <input type="hidden" name="cri" value="<%=mdb.getCri_name()%>">
                                         <input type="hidden" name="criDes" value="<%=mdb.getCri_des()%>">
@@ -152,6 +152,53 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div id="old" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Edit Criteria</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <span class="label label-default">Criteria</span>
+                                                <input type="hidden" id="oldNum" />
+                                                <input class="form-control" type="text" name="oldc1" id="oldc1"/>
+                                                <span class="label label-default">Criteria Description</span>
+                                                <textarea rows="4" class="form-control" name="oldc2" id="oldc2"></textarea>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary"  onclick="changeText()" data-dismiss="modal">Accept</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script>
+                                    function idIs(num) {
+                                        $("#oldc1").val($("#" + num + "> a > h3").text());
+                                        $("#oldc2").val($("#" + num + "> a > span").text());
+                                        $("#oldNum").val(num);
+                                    }
+                                    function changeText() {
+                                        $("#" + $("#oldNum").val() + "> a > h3").text($("#oldc1").val());
+                                        $("#" + $("#oldNum").val() + "> a > span").text($("#oldc2").val());
+                                        $("#" + $("#oldNum").val() + "> input[name=cri]").val($("#oldc1").val());
+                                        $("#" + $("#oldNum").val() + "> input[name=criDes]").val($("#oldc2").val());
+                                    }
+                                    $(document).ready(function () {
+                                        $(".close").click(function () {
+                                            var r = confirm("Delete this Criteria will delete your Sub-Criteria and Your Survey");
+                                            if (r == true) {
+                                                $(this).alert("close");
+                                            } else {
+                                                console.log("cancel");
+                                            }
+                                        });
+                                    });
+                                </script>
                                 <div style="text-align: center">
                                     <button type="submit" class="btn btn-default" style="float: right"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
                                 </div>

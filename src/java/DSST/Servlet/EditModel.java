@@ -60,15 +60,13 @@ public class EditModel extends HttpServlet {
                     String criDes[] = request.getParameterValues("criDes");
                     
                     ArrayList<String> arrayListCriId = new ArrayList<String>(Arrays.asList(criId));
-                    ArrayList<String> arrayListCriIdDel = new ArrayList();
                     for(int i =0 ; i< criDB.size() ;i++){
                         if( !arrayListCriId.contains(criDB.get(i).getCri_id()+"")){
-                            //del in db
-                            arrayListCriIdDel.add(criDB.get(i).getCri_id()+"");
+                            m.delModelCriteriaByID(criDB.get(i).getCri_id());
                         }
                     }
                     for(int i =0 ; i< criId.length ;i++){
-                        // update to db criId[i] cri[i] criDes[i]
+                        m.updateCri(Integer.parseInt(criId[i]), cri[i], criDes[i]);
                     }
                 }
                 if(request.getParameter("Ncri")!=null){
@@ -78,7 +76,7 @@ public class EditModel extends HttpServlet {
                         m.setCriteria(Integer.parseInt(ss.getAttribute("model_id") + ""), Ncri[i], NcriDes[i]);
                     }
                 }
-                
+                criDB = m.getModelsCriteriaByID(Integer.parseInt(ss.getAttribute("model_id") + ""));
                 request.setAttribute("criDB", criDB);
                 viewAgent = "/WEB-INF/edit_model/eModel_2.jsp";
             } else if (page.equals("3")) {

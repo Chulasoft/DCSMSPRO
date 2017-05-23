@@ -550,6 +550,25 @@ public class Model {
             System.out.println(ex);
         }
     }
+        public void updateCri(int cr_id,String cr_name,String cr_des) {
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "UPDATE CRITERIA SET MAIN_CRITERIA_NAME = ?, MAIN_CRITERIA_DESCRIPTION = ? WHERE MC_ID = ? ";
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            // set the preparedstatement parameters
+            ps.setString(1, cr_name);
+            ps.setString(2, cr_des);
+            ps.setInt(3, cr_id);
+
+            // call executeUpdate to execute our sql update statement
+            ps.executeUpdate();
+
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
 
     public String delByModelId(int m_id) {
         ArrayList<Integer> listSu_id = new ArrayList();
@@ -626,6 +645,44 @@ public class Model {
             stmt = con.createStatement();
             sql = "DELETE FROM MODEL WHERE M_ID = " + m_id;
             stmt.executeUpdate(sql);
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return "success";
+    }
+    
+    public String delModelCriteriaByID(int cr_id) {
+        ArrayList<Integer> listSu_id = new ArrayList();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "select s.su_id  from survey s \n"
+                    + "join sub_criteria sc\n"
+                    + "on s.sc_id = sc.sc_id \n"
+                    + "join criteria c\n"
+                    + "on sc.mc_id = c.mc_id\n"
+                    + "where c.MC_ID = ? ";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, cr_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                listSu_id.add(rs.getInt(1));
+            }
+            for (int i : listSu_id) {
+                Statement stmt = con.createStatement();
+                stmt = con.createStatement();
+                sql = "DELETE FROM ALTERNATIVE_SPECIFICATION WHERE SU_ID = " + i;
+                stmt.executeUpdate(sql);
+                stmt = con.createStatement();
+                sql = "DELETE FROM SURVEY WHERE SU_ID = " + i;
+                stmt.executeUpdate(sql);
+            }
+                Statement stmt = con.createStatement();
+                sql = "DELETE FROM SUB_CRITERIA WHERE MC_ID = " + cr_id;
+                stmt.executeUpdate(sql);
+                stmt = con.createStatement();
+                sql = "DELETE FROM CRITERIA WHERE MC_ID = " + cr_id;
+                stmt.executeUpdate(sql);
             con.close();
         } catch (SQLException ex) {
             System.out.println(ex);
