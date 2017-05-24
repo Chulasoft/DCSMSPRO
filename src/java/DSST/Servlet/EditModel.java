@@ -80,19 +80,19 @@ public class EditModel extends HttpServlet {
                 request.setAttribute("criDB", criDB);
                 viewAgent = "/WEB-INF/edit_model/eModel_2.jsp";
             } else if (page.equals("3")) {
+                Model m = new Model();
+                ArrayList<Model> criDB = m.getModelsCriteriaByID(Integer.parseInt(ss.getAttribute("model_id") + ""));
+                ArrayList<Model> allSubDB = new ArrayList();
+                for(Model mCriDB : criDB){
+                    ArrayList<Model> subCriDB = m.getSubCriteriaByID(mCriDB.getCri_id());
+                    for(Model mSubDB : subCriDB ){
+                        mSubDB.setCri_name(mCriDB.getCri_name());
+                        allSubDB.add(mSubDB);
+                    }
+                }
+                request.setAttribute("allSubDB", allSubDB);
+                viewAgent = "/WEB-INF/edit_model/eModel_3.jsp";
 
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
             }
         } else {
             String model_id = request.getParameter("modelId");

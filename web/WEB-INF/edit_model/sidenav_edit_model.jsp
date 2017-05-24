@@ -15,7 +15,7 @@
         </li>
         <li>
             <span>
-                <a href="#">Step 3 : Define Sub-Criteria</a>
+                <a href="EditModel?page=3">Define Sub-Criteria</a>
                 <a href="#" style="float: right;color: green" hidden><span class="glyphicon glyphicon-ok"></span></a>
             </span>
         </li>
