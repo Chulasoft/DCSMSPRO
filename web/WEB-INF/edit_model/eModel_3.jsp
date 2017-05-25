@@ -69,12 +69,13 @@
                 <span class="hidden-mob">
                     <jsp:include page="sidenav_edit_model.jsp" flush="false"/>
                 </span>
+
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="top: 72px">
                     <div class="row">
                         <h3>Define Sub-Criteria</h3>
                         <hr>
                         <div class="col-sm-offset-2 col-sm-8 ">
-                            <form method="POST" action="CreateModel">
+                            <form method="POST" action="EditModel">
                                 <input type="hidden" name="page" id="page" value="3"/>
                                 <%
                                     ArrayList<Model> allSubDB = (ArrayList) request.getAttribute("allSubDB");
@@ -89,10 +90,10 @@
                                         criteria_id = allSubDB.get(i).getCri_id();
                                     }
                                 %>
-                                <div class="col-sm-offset-1 col-sm-11">
-                                    <div class="alert alert-success"> 
+                                <div class="col-sm-offset-1 col-sm-11" id="">
+                                    <div class="alert alert-success" id="<%=allSubDB.get(i).getSc_id()%>"> 
                                         <a href="#" class="close" onclick="alertBefore()">×</a>
-                                        <h3><%=allSubDB.get(i).getSc_name()%></h3><%=allSubDB.get(i).getSc_des()%>
+                                        <a href="#" data-toggle="modal" data-target="#old" onclick="idIs(<%=allSubDB.get(i).getSc_id()%>)"><h3><%=allSubDB.get(i).getSc_name()%></h3><span><%=allSubDB.get(i).getSc_des()%></span></a>
                                         <input type="hidden" name="scriIdDB" value="<%=allSubDB.get(i).getSc_id()%>">
                                         <input type="hidden" name="scriDB" value="<%=allSubDB.get(i).getSc_name()%>">
                                         <input type="hidden" name="scriDesDB" value="<%=allSubDB.get(i).getSc_des()%>">
@@ -110,7 +111,12 @@
 
 
                                 <%
-                                            }
+                                    }
+                                } else {
+                                %>
+                                <div class="col-sm-offset-1 col-sm-11" id="output<%=allSubDB.get(i).getCri_id()%>"></div>
+                                <a href="#" data-toggle="modal" data-target="#myModal" style="font-size: 30px" onclick="whereIsTagA(<%=allSubDB.get(i).getCri_id()%>)"><div class="glyphicon glyphicon-plus-sign"></div></a>
+                                <%
                                         }
                                     }
                                 %>
@@ -126,7 +132,7 @@
                                             var d_criter = $("#sc2").val();
                                             $("#output" + who).append("<div class='alert alert-success'> <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
                                                     "<h3>" + t_criter + "</h3>" + d_criter +
-                                                    "<input type='hidden' name='scri" + who + "' value=" + t_criter + "><input type='hidden' name='scriDes" + who + "' value=" + d_criter + "></div>");
+                                                    "<input type='hidden' name='scri' value='" + who + ":" + t_criter + "'><input type='hidden' name='scriDes' value='" + d_criter + "'></div>");
                                             $("#sc1").val("");
                                             $("#sc2").val("");
                                         });
@@ -165,16 +171,51 @@
 
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
-                                    <ul class="pager">
-                                        <li><a href="#">Previous</a></li>
-                                        <li><a href="#" onclick="document.forms[0].submit();">Next</a></li>
-                                    </ul>
+
+                                <div id="old" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Define Sub-Criteria</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="hidden" id="oldNum" />
+                                                <span class="label label-default">Sub-Criteria</span>
+                                                <input class="form-control" type="text" name="oldsc1" id="oldsc1" />
+                                                <span class="label label-default">Sub-Criteria Description</span>
+                                                <textarea rows="4" class="form-control" name="oldsc2" id="oldsc2"></textarea>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="changeText()">Accept</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div style="text-align: center">
+                                    <button type="submit" class="btn btn-default" style="float: right"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
                 </content>
+                <script>
+                    function idIs(num) {
+                        $("#oldsc1").val($("#" + num + "> a > h3").text());
+                        $("#oldsc2").val($("#" + num + "> a > span").text());
+                        $("#oldNum").val(num);
+                    }
+                    function changeText() {
+                        $("#" + $("#oldNum").val() + "> a > h3").text($("#oldsc1").val());
+                        $("#" + $("#oldNum").val() + "> a > span").text($("#oldsc2").val());
+                        $("#" + $("#oldNum").val() + "> input[name=scriDB]").val($("#oldsc1").val());
+                        $("#" + $("#oldNum").val() + "> input[name=scriDesDB]").val($("#oldsc2").val());
+                    }
+                </script>
                 </body>
                 </html>
