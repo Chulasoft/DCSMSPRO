@@ -117,6 +117,10 @@
         <servlet-name>SettingPath</servlet-name>
         <servlet-class>DSST.Servlet.SettingPath</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteProject</servlet-name>
+        <servlet-class>DSST.Servlet.DeleteProject</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TestServ</servlet-name>
         <url-pattern>/TestServ</url-pattern>
@@ -184,6 +188,10 @@
     <servlet-mapping>
         <servlet-name>SettingPath</servlet-name>
         <url-pattern>/SettingPath</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteProject</servlet-name>
+        <url-pattern>/DeleteProject</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

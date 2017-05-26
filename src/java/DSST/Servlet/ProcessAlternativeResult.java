@@ -91,13 +91,13 @@ public class ProcessAlternativeResult extends HttpServlet {
                         } else if (0.71 <= (scoreA - scoreB) && (scoreA - scoreB) <= 1) {
                             csvListScore.add("9");
                         } else if (-0.00 > (scoreA - scoreB) && (scoreA - scoreB) > -0.31) {
-                            csvListScore.add("1/3");
+                            csvListScore.add("-3");
                         } else if (-0.31 >= (scoreA - scoreB) && (scoreA - scoreB) > -0.51) {
-                            csvListScore.add("1/5");
+                            csvListScore.add("-5");
                         } else if (-0.51 >= (scoreA - scoreB) && (scoreA - scoreB) > -0.71) {
-                            csvListScore.add("1/7");
+                            csvListScore.add("-7");
                         } else if (-0.71 >= (scoreA - scoreB) && (scoreA - scoreB) >= -1.0) {
-                            csvListScore.add("1/9");
+                            csvListScore.add("-9");
                         }
 
                     }

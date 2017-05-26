@@ -5,23 +5,19 @@
  */
 package DSST.Servlet;
 
-import DSST.Model.Member;
 import DSST.Model.Model;
-import DSST.Model.Project;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Jab
+ * @author Jab-PC
  */
-public class ProjectMenu extends HttpServlet {
+public class DeleteProject extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,42 +31,10 @@ public class ProjectMenu extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String viewAgent = "/WEB-INF/project/project_main.jsp";
-        String msg = "Unfinished Project";
-        Project pj = new Project();
-        HttpSession ss = request.getSession();
-        Member user = (Member) ss.getAttribute("login");
-        
-        ArrayList<Project> listProjects = pj.getProject(user.getMem_id());
-        if (request.getParameter("pId")!= null) {
-            String pId = request.getParameter("pId");
-            if (!pj.getProductTable(Integer.parseInt(pId)).isEmpty()) {
-                ArrayList<Project> table = pj.getTable(Integer.parseInt(pId));
-                request.setAttribute("table", table);
-                ArrayList<Project> list = pj.getProductTable(Integer.parseInt(pId));
-                request.setAttribute("list", list);
-            } else {
-                request.setAttribute("msg", msg);
-            }
-            pj = pj.findProject(Integer.parseInt(pId));
-            request.setAttribute("pj", pj);
-            request.setAttribute("listProjects", listProjects);
-        }else{
-            String pId = listProjects.get(0).getProj_id()+"";
-            if (!pj.getProductTable(Integer.parseInt(pId)).isEmpty()) {
-                ArrayList<Project> table = pj.getTable(Integer.parseInt(pId));
-                request.setAttribute("table", table);
-                ArrayList<Project> list = pj.getProductTable(Integer.parseInt(pId));
-                request.setAttribute("list", list);
-            } else {
-                request.setAttribute("msg", msg);
-            }
-            pj = pj.findProject(Integer.parseInt(pId));
-            request.setAttribute("pj", pj);
-            request.setAttribute("listProjects", listProjects);
-        }
-        
-        getServletContext().getRequestDispatcher(response.encodeURL(viewAgent)).forward(request, response);
+        String p_id = request.getParameter("projectId");
+        Model m = new Model();
+        m.delProject(Integer.parseInt(p_id));
+        response.sendRedirect("ProjectMenu");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

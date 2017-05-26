@@ -550,8 +550,8 @@ public class Model {
             System.out.println(ex);
         }
     }
-    
-    public void updateCri(int cr_id,String cr_name,String cr_des) {
+
+    public void updateCri(int cr_id, String cr_name, String cr_des) {
         try {
             Connection con = ConnectionBuilder.getConnection();
             String sql = "UPDATE CRITERIA SET MAIN_CRITERIA_NAME = ?, MAIN_CRITERIA_DESCRIPTION = ? WHERE MC_ID = ? ";
@@ -570,7 +570,8 @@ public class Model {
             System.out.println(ex);
         }
     }
-        public void updateSubCri(int scId,String scName,String scDes) {
+
+    public void updateSubCri(int scId, String scName, String scDes) {
         try {
             Connection con = ConnectionBuilder.getConnection();
             String sql = "UPDATE SUB_CRITERIA SET SUB_CRITERIA_NAME = ?, SUB_CRITERIA_DESCRIPTION = ? WHERE SC_ID = ? ";
@@ -671,7 +672,7 @@ public class Model {
         }
         return "success";
     }
-    
+
     public String delModelCriteriaByID(int cr_id) {
         ArrayList<Integer> listSu_id = new ArrayList();
         try {
@@ -697,19 +698,20 @@ public class Model {
                 sql = "DELETE FROM SURVEY WHERE SU_ID = " + i;
                 stmt.executeUpdate(sql);
             }
-                Statement stmt = con.createStatement();
-                sql = "DELETE FROM SUB_CRITERIA WHERE MC_ID = " + cr_id;
-                stmt.executeUpdate(sql);
-                stmt = con.createStatement();
-                sql = "DELETE FROM CRITERIA WHERE MC_ID = " + cr_id;
-                stmt.executeUpdate(sql);
+            Statement stmt = con.createStatement();
+            sql = "DELETE FROM SUB_CRITERIA WHERE MC_ID = " + cr_id;
+            stmt.executeUpdate(sql);
+            stmt = con.createStatement();
+            sql = "DELETE FROM CRITERIA WHERE MC_ID = " + cr_id;
+            stmt.executeUpdate(sql);
             con.close();
         } catch (SQLException ex) {
             System.out.println(ex);
         }
         return "success";
     }
-        public String delModelSubByID(int sub_id) {
+
+    public String delModelSubByID(int sub_id) {
         ArrayList<Integer> listSu_id = new ArrayList();
         try {
             Connection con = ConnectionBuilder.getConnection();
@@ -729,9 +731,34 @@ public class Model {
                 sql = "DELETE FROM SURVEY WHERE SU_ID = " + i;
                 stmt.executeUpdate(sql);
             }
-                Statement stmt = con.createStatement();
-                sql = "DELETE FROM SUB_CRITERIA WHERE SC_ID = " + sub_id;
-                stmt.executeUpdate(sql);
+            Statement stmt = con.createStatement();
+            sql = "DELETE FROM SUB_CRITERIA WHERE SC_ID = " + sub_id;
+            stmt.executeUpdate(sql);
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return "success";
+    }
+
+    public String delProject(int p_id) {
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            Statement stmt = con.createStatement();
+            String sql = "DELETE FROM PROJECT_CRITERIA_DETAIL WHERE P_ID = " + p_id;
+            stmt.executeUpdate(sql);
+            stmt = con.createStatement();
+            sql = "DELETE FROM PROJECT_ALTERNATIVE_TABLEDETAIL WHERE P_ID = " + p_id;
+            stmt.executeUpdate(sql);
+            stmt = con.createStatement();
+            sql = "DELETE FROM PROJECT_CRITERIA_INTENSITY WHERE P_ID = " + p_id;
+            stmt.executeUpdate(sql);
+            stmt = con.createStatement();
+            sql = "DELETE FROM PROJECT_REQUIREMENT WHERE P_ID = " + p_id;
+            stmt.executeUpdate(sql);
+            stmt = con.createStatement();
+            sql = "DELETE FROM PROJECT WHERE P_ID = " + p_id;
+            stmt.executeUpdate(sql);
             con.close();
         } catch (SQLException ex) {
             System.out.println(ex);

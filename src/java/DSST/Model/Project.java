@@ -386,7 +386,7 @@ public class Project {
     public void setWeight(double weight) {
         this.weight = weight;
     }
-    
+
     public ArrayList<Project> getProductTable(int p_id) {
         ArrayList<Project> listProduct = new ArrayList();
         try {
@@ -410,4 +410,84 @@ public class Project {
         return listProduct;
     }
 
+    private int proj_id;
+    private String proj_name;
+    private String proj_status;
+    private String proj_lastUpdate;
+
+    public int getProj_id() {
+        return proj_id;
+    }
+
+    public void setProj_id(int proj_id) {
+        this.proj_id = proj_id;
+    }
+
+    public String getProj_name() {
+        return proj_name;
+    }
+
+    public void setProj_name(String proj_name) {
+        this.proj_name = proj_name;
+    }
+
+    public String getProj_status() {
+        return proj_status;
+    }
+
+    public void setProj_status(String proj_status) {
+        this.proj_status = proj_status;
+    }
+
+    public String getProj_lastUpdate() {
+        return proj_lastUpdate;
+    }
+
+    public void setProj_lastUpdate(String proj_lastUpdate) {
+        this.proj_lastUpdate = proj_lastUpdate;
+    }
+
+    public ArrayList<Project> getProject(int mem_id) {
+        ArrayList<Project> listProject = new ArrayList();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT * FROM APP.PROJECT where PROJECT_CREATE_BY = ?";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, mem_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Project p = new Project();
+                p.setProj_id(rs.getInt("P_ID"));
+                p.setProj_name(rs.getString("PROJECT_NAME"));
+                p.setProj_lastUpdate(rs.getString("PROJECT_LAST_UPDATE"));
+                p.setProj_status(rs.getString("PROJECT_STATUS"));
+                listProject.add(p);
+            }
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return listProject;
+    }
+
+    public Project findProject(int p_id) {
+        Project pj = new Project();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT * FROM APP.PROJECT where P_ID = ?";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, p_id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                pj.setProj_id(rs.getInt("P_ID"));
+                pj.setProj_name(rs.getString("PROJECT_NAME"));
+                pj.setProj_lastUpdate(rs.getString("PROJECT_LAST_UPDATE"));
+                pj.setProj_status(rs.getString("PROJECT_STATUS"));
+            }
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return pj;
+    }
 }

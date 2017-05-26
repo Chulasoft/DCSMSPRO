@@ -130,10 +130,10 @@
                                                     <li><a onclick="setnum<%=z%>('5')" href="#">5</a></li>
                                                     <li><a onclick="setnum<%=z%>('3')" href="#">3</a></li>
                                                     <li><a onclick="setnum<%=z%>('1')" href="#">1</a></li>
-                                                    <li><a onclick="setnum<%=z%>('1/3')" href="#">3</a></li>
-                                                    <li><a onclick="setnum<%=z%>('1/5')" href="#">5</a></li>
-                                                    <li><a onclick="setnum<%=z%>('1/7')" href="#">7</a></li>
-                                                    <li><a onclick="setnum<%=z%>('1/9')" href="#">9</a></li>
+                                                    <li><a onclick="setnum<%=z%>('-3')" href="#">3</a></li>
+                                                    <li><a onclick="setnum<%=z%>('-5')" href="#">5</a></li>
+                                                    <li><a onclick="setnum<%=z%>('-7')" href="#">7</a></li>
+                                                    <li><a onclick="setnum<%=z%>('-9')" href="#">9</a></li>
                                                     <input type="hidden" name="ansSc" id="<%=z%>" value=""/>
                                                     <input type="hidden" name="criId" value="<%=a.getSc_id()%>:<%=b.getSc_id()%>"/>
                                                 </ul>
@@ -155,13 +155,13 @@
                                                     $('#text<%=z%>').text('Moderately More Important Than');
                                                 } else if (num == '1') {
                                                     $('#text<%=z%>').text('Equally Important');
-                                                } else if (num == '1/3') {
+                                                } else if (num == '-3') {
                                                     $('#text<%=z%>').text('Moderately Less Important Than');
-                                                } else if (num == '1/5') {
+                                                } else if (num == '-5') {
                                                     $('#text<%=z%>').text('Moderately Less Important Than');
-                                                } else if (num == '1/7') {
+                                                } else if (num == '-7') {
                                                     $('#text<%=z%>').text('Very Strongly Less Important Than');
-                                                } else if (num == '1/9') {
+                                                } else if (num == '-9') {
                                                     $('#text<%=z%>').text('Extremely Less Important Than');
                                                 }
                                             }
