@@ -56,6 +56,7 @@ public class CreateModel extends HttpServlet {
                 String criDes[] = request.getParameterValues("criDes");
                 int cri_id[] = new int[cri.length];
                 for (int i = 0; i < cri.length; i++) {
+                    System.out.println(cri[i]);
                     cri_id[i] = mo.setCriteria(mo.getModel_id(), cri[i], criDes[i]);
                 };
                 ss.setAttribute("cri", cri);

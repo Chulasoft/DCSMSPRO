@@ -134,7 +134,7 @@
                                             var question = $("#ques<%=sub_id[j]%>").val();
                                             $("#questionOutput<%=sub_id[j]%>").append("<div class='alert alert-success' style='border-color: #EBEDEF;background-color: white;color: black;'> <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
                                                     question +
-                                                    "<input type='hidden' name='question" + <%=sub_id[j]%> + "' value=" + question + "></div>");
+                                                    "<input type='hidden' name='question" + <%=sub_id[j]%> + "' value='" + question + "'></div>");
                                             $("#ques<%=sub_id[j]%>").val("");
                                         } else {
                                             alert("กรอกข้อมูลให้ครบท้วน");

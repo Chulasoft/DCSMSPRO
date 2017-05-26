@@ -65,7 +65,7 @@
                         var d_criter = $("#c2").val();
                         $("#cr").append("<div class='alert alert-danger'> <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
                                 "<h3>" + t_criter + "</h3>" + d_criter +
-                                "<input type='hidden' name='cri' value=" + t_criter + "><input type='hidden' name='criDes' value=" + d_criter + "></div>");
+                                "<input type='hidden' name='cri' value='" + t_criter + "'><input type='hidden' name='criDes' value='" + d_criter + "'></div>");
                         $("#c1").val("");
                         $("#c2").val("");
                         $('#myModal').modal('toggle');

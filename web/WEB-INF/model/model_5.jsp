@@ -65,7 +65,7 @@
                         var d_ra = $("#ra2").val();
                         $("#ra").append("<div class='alert alert-danger'  style='border-color: #EBEDEF;background-color: white;color: black;'> <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
                                 "<h3>" + t_ra + "</h3>" + d_ra +
-                                "<input type='hidden' name='ra' value=" + t_ra + "><input type='hidden' name='raDes' value=" + d_ra + "></div>");
+                                "<input type='hidden' name='ra' value='" + t_ra + "'><input type='hidden' name='raDes' value='" + d_ra + "'></div>");
                         $("#ra1").val("");
                         $("#ra2").val("");
                         $('#myModal').modal('toggle');

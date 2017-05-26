@@ -101,7 +101,7 @@
                                         var d_criter = $("#sc2").val();
                                         $("#output"+who).append("<div class='alert alert-success'> <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
                                                 "<h3>" + t_criter + "</h3>" + d_criter +
-                                                "<input type='hidden' name='scri"+who+"' value=" + t_criter + "><input type='hidden' name='scriDes"+who+"' value=" + d_criter + "></div>");
+                                                "<input type='hidden' name='scri"+who+"' value='" + t_criter + "'><input type='hidden' name='scriDes"+who+"' value='" + d_criter + "'></div>");
                                         $("#sc1").val("");
                                         $("#sc2").val("");
                                     });
