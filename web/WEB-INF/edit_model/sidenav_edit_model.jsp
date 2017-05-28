@@ -21,7 +21,7 @@
         </li>
         <li>
             <span>
-                <a href="#">Step 4 : Define Survey</a>
+                <a href="EditModel?page=4">Define Survey</a>
                 <a href="#" style="float: right;color: green" hidden><span class="glyphicon glyphicon-ok"></span></a>
             </span>
         </li>

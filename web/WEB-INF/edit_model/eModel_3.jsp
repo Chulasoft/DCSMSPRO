@@ -89,6 +89,7 @@
                                 <%
                                         criteria_id = allSubDB.get(i).getCri_id();
                                     }
+                                    if(allSubDB.get(i).getSc_name()!=null){
                                 %>
                                 <div class="col-sm-offset-1 col-sm-11" id="">
                                     <div class="alert alert-success" id="<%=allSubDB.get(i).getSc_id()%>"> 
@@ -100,6 +101,7 @@
                                     </div>
                                 </div>
                                 <%
+                                    }
                                     if (i + 1 != allSubDB.size()) {
                                         if (allSubDB.get(i).getCri_id() != allSubDB.get(i + 1).getCri_id()) {
                                 %>

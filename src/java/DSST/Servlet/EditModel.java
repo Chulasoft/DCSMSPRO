@@ -53,26 +53,26 @@ public class EditModel extends HttpServlet {
             } else if (page.equals("2")) {
                 Model m = new Model();
                 ArrayList<Model> criDB = m.getModelsCriteriaByID(Integer.parseInt(ss.getAttribute("model_id") + ""));
-                
-                if(request.getParameter("criId")!=null){
+
+                if (request.getParameter("criId") != null) {
                     String criId[] = request.getParameterValues("criId");
                     String cri[] = request.getParameterValues("cri");
                     String criDes[] = request.getParameterValues("criDes");
-                    
+
                     ArrayList<String> arrayListCriId = new ArrayList<String>(Arrays.asList(criId));
-                    for(int i =0 ; i< criDB.size() ;i++){
-                        if( !arrayListCriId.contains(criDB.get(i).getCri_id()+"")){
+                    for (int i = 0; i < criDB.size(); i++) {
+                        if (!arrayListCriId.contains(criDB.get(i).getCri_id() + "")) {
                             m.delModelCriteriaByID(criDB.get(i).getCri_id());
                         }
                     }
-                    for(int i =0 ; i< criId.length ;i++){
+                    for (int i = 0; i < criId.length; i++) {
                         m.updateCri(Integer.parseInt(criId[i]), cri[i], criDes[i]);
                     }
                 }
-                if(request.getParameter("Ncri")!=null){
+                if (request.getParameter("Ncri") != null) {
                     String Ncri[] = request.getParameterValues("Ncri");
                     String NcriDes[] = request.getParameterValues("NcriDes");
-                    for(int i =0 ; i< Ncri.length ;i++){
+                    for (int i = 0; i < Ncri.length; i++) {
                         m.setCriteria(Integer.parseInt(ss.getAttribute("model_id") + ""), Ncri[i], NcriDes[i]);
                     }
                 }
@@ -82,58 +82,77 @@ public class EditModel extends HttpServlet {
                 viewAgent = "/WEB-INF/edit_model/eModel_2.jsp";
             } else if (page.equals("3")) {
                 Model m = new Model();
-                
-                
+
                 ArrayList<Model> criDB = m.getModelsCriteriaByID(Integer.parseInt(ss.getAttribute("model_id") + ""));
                 ArrayList<Model> allSubDB = new ArrayList();
-                for(Model mCriDB : criDB){
+                for (Model mCriDB : criDB) {
                     ArrayList<Model> subCriDB = m.getSubCriteriaByID(mCriDB.getCri_id());
-                    
-                    for(Model mSubDB : subCriDB ){
-                        mSubDB.setCri_name(mCriDB.getCri_name());
-                        allSubDB.add(mSubDB);
+                    if (subCriDB.isEmpty()) {
+                        allSubDB.add(mCriDB);
+                    } else {
+                        for (Model mSubDB : subCriDB) {
+                            mSubDB.setCri_name(mCriDB.getCri_name());
+                            allSubDB.add(mSubDB);
+                        }
                     }
                 }
-                
-                if(request.getParameter("scriIdDB")!=null){
+
+                if (request.getParameter("scriIdDB") != null) {
                     String scriIdDB[] = request.getParameterValues("scriIdDB");
                     String scriDB[] = request.getParameterValues("scriDB");
                     String scriDesDB[] = request.getParameterValues("scriDesDB");
                     ArrayList<String> arrayListSubCriId = new ArrayList<String>(Arrays.asList(scriIdDB));
-                    
-                    for(int i =0 ; i< allSubDB.size() ;i++){
-                        if( !arrayListSubCriId.contains(allSubDB.get(i).getSc_id()+"")){
+
+                    for (int i = 0; i < allSubDB.size(); i++) {
+                        if (!arrayListSubCriId.contains(allSubDB.get(i).getSc_id() + "")) {
                             m.delModelSubByID(allSubDB.get(i).getSc_id());
                         }
                     }
-                    
-                    for(int i =0 ; i< scriIdDB.length ;i++){
+
+                    for (int i = 0; i < scriIdDB.length; i++) {
                         m.updateSubCri(Integer.parseInt(scriIdDB[i]), scriDB[i], scriDesDB[i]);
                     }
                 }
-                if(request.getParameter("scri")!=null){
+                if (request.getParameter("scri") != null) {
                     String scri[] = request.getParameterValues("scri");
                     String scriDes[] = request.getParameterValues("scriDes");
-                    for(int i =0 ; i< scri.length ;i++){
+                    for (int i = 0; i < scri.length; i++) {
                         int colon = scri[i].indexOf(':');
                         String mc_id = scri[i].substring(0, colon);
-                        String scr = scri[i].substring(colon+1);
+                        String scr = scri[i].substring(colon + 1);
                         m.setSubCriteria(Integer.parseInt(mc_id), scr, scriDes[i]);
                     }
                 }
                 allSubDB.clear();
-                for(Model mCriDB : criDB){
+                for (Model mCriDB : criDB) {
                     ArrayList<Model> subCriDB = m.getSubCriteriaByID(mCriDB.getCri_id());
-                    for(Model mSubDB : subCriDB ){
+                    if (subCriDB.isEmpty()) {
+                        allSubDB.add(mCriDB);
+                    } else {
+                        for (Model mSubDB : subCriDB) {
+                            mSubDB.setCri_name(mCriDB.getCri_name());
+                            allSubDB.add(mSubDB);
+                        }
+                    }
+                }
+
+                request.setAttribute("allSubDB", allSubDB);
+                viewAgent = "/WEB-INF/edit_model/eModel_3.jsp";
+
+            } else if (page.equals("4")) {
+                Model m = new Model();
+
+                ArrayList<Model> criDB = m.getModelsCriteriaByID(Integer.parseInt(ss.getAttribute("model_id") + ""));
+                ArrayList<Model> allSubDB = new ArrayList();
+                for (Model mCriDB : criDB) {
+                    ArrayList<Model> subCriDB = m.getSubCriteriaByID(mCriDB.getCri_id());
+                    for (Model mSubDB : subCriDB) {
                         mSubDB.setCri_name(mCriDB.getCri_name());
                         allSubDB.add(mSubDB);
                     }
                 }
-                
-                
                 request.setAttribute("allSubDB", allSubDB);
-                viewAgent = "/WEB-INF/edit_model/eModel_3.jsp";
-
+                viewAgent = "/WEB-INF/edit_model/eModel_4.jsp";
             }
         } else {
             String model_id = request.getParameter("modelId");

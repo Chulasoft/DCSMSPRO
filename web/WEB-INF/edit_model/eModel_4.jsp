@@ -4,6 +4,9 @@
     Author     : 006131
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="DSST.Model.Model"%>
+<%@page import="DSST.Model.Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -64,42 +67,30 @@
         <div class="container-fluid">
             <div class="row">
                 <span class="hidden-mob">
-                    <jsp:include page="sidenav_create_model.jsp" flush="false"/>
+                    <jsp:include page="sidenav_edit_model.jsp" flush="false"/>
                 </span>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="top: 72px">
                     <div class="row">
-                        <form action="CreateModel" method="POST">
+                        <form action="EditModel" method="POST">
                         <h3>Define Survey</h3>
                         <hr>
                         <div class="col-sm-offset-2 col-sm-8 ">
                             <input type="hidden" name="page" id="page" value="4"/>
                             <%
-                                String cri[] = (String[]) session.getAttribute("cri");
-                                int cri_id[] = (int[]) session.getAttribute("cri_id");
-                                System.out.println(cri_id.length);
-                                for (int i = 0; i < cri.length; i++) {
-                            %>
-                            <div class="col-sm-12">
-                                <div class="alert alert-danger">
-                                    <h3><%=cri[i]%></h3>
-                                </div>
-                            </div>
-                            <%
-                                String scri[] = (String[]) session.getAttribute("scri" + cri_id[i]);
-                                int sub_id[] = (int[]) session.getAttribute("sub_id" + cri_id[i]);
-                                for (int j = 0; j < scri.length; j++) {
+                                ArrayList<Model> allSubDB = (ArrayList) request.getAttribute("allSubDB");
+                                for (int j = 0; j < allSubDB.size(); j++) {
                             %>    
-                            <div class="col-sm-offset-1 col-sm-11">
-                                <a href="#" style="text-decoration: none;" data-toggle="modal" data-target="#myModal<%=sub_id[j]%>" >
+                            <div class="col-sm-12">
+                                <a href="#" style="text-decoration: none;" data-toggle="modal" data-target="#myModal<%=allSubDB.get(j).getSc_id()%>" >
                                     <div class="alert alert-success"> 
-                                        <h3 name="<%=sub_id[j]%>"><%=scri[j]%></h3>
-                                        <p style="text-align: right" id="countQues<%=sub_id[j]%>">CLICK</p>
+                                        <h3 name="<%=allSubDB.get(j).getSc_id()%>"><%=allSubDB.get(j).getSc_name()%></h3>
+                                        <p style="text-align: right" id="countQues<%=allSubDB.get(j).getSc_id()%>">CLICK</p>
                                     </div>
                                 </a>
                             </div>
 
                             <!-- Modal -->
-                            <div id="myModal<%=sub_id[j]%>" class="modal fade" role="dialog" style="display: none;">
+                            <div id="myModal<%=allSubDB.get(j).getSc_id()%>" class="modal fade" role="dialog" style="display: none;">
                                 <div class="modal-dialog">
 
                                     <!-- Modal content-->
@@ -109,18 +100,18 @@
                                             <h4 class="modal-title">Define Question</h4>
                                         </div>
                                         <div class="modal-body">
-                                            <span id="questionOutput<%=sub_id[j]%>"></span>
+                                            <span id="questionOutput<%=allSubDB.get(j).getSc_id()%>"></span>
 
                                             <span class="label label-default">Question</span>
                                             <div class="input-group input-group-lg">
-                                                <input class="form-control" type="text" name="ques<%=sub_id[j]%>" id="ques<%=sub_id[j]%>">
+                                                <input class="form-control" type="text" name="ques<%=allSubDB.get(j).getSc_id()%>" id="ques<%=allSubDB.get(j).getSc_id()%>">
                                                 <div class="input-group-btn">
-                                                    <button type="button" class="btn" id="subQuest<%=sub_id[j]%>">ADD</button>
+                                                    <button type="button" class="btn" id="subQuest<%=allSubDB.get(j).getSc_id()%>">ADD</button>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" data-dismiss="modal" id="OK<%=sub_id[j]%>">OK</button>
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal" id="OK<%=allSubDB.get(j).getSc_id()%>">OK</button>
                                         </div>
                                     </div>
 
@@ -129,28 +120,27 @@
 
                             <script>
                                 $(document).ready(function () {
-                                    $("#subQuest<%=sub_id[j]%>").click(function () {
-                                        if ($("#ques<%=sub_id[j]%>").val() != "") {
-                                            var question = $("#ques<%=sub_id[j]%>").val();
-                                            $("#questionOutput<%=sub_id[j]%>").append("<div class='alert alert-success' style='border-color: #EBEDEF;background-color: white;color: black;'> <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
+                                    $("#subQuest<%=allSubDB.get(j).getSc_id()%>").click(function () {
+                                        if ($("#ques<%=allSubDB.get(j).getSc_id()%>").val() != "") {
+                                            var question = $("#ques<%=allSubDB.get(j).getSc_id()%>").val();
+                                            $("#questionOutput<%=allSubDB.get(j).getSc_id()%>").append("<div class='alert alert-success' style='border-color: #EBEDEF;background-color: white;color: black;'> <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
                                                     question +
-                                                    "<input type='hidden' name='question" + <%=sub_id[j]%> + "' value=" + question + "></div>");
-                                            $("#ques<%=sub_id[j]%>").val("");
+                                                    "<input type='hidden' name='question" + <%=allSubDB.get(j).getSc_id()%> + "' value=" + question + "></div>");
+                                            $("#ques<%=allSubDB.get(j).getSc_id()%>").val("");
                                         } else {
                                             alert("กรอกข้อมูลให้ครบท้วน");
                                         }
                                     });
-                                    $("#OK<%=sub_id[j]%>").click(function () {
-                                        var count = $('input[name*="question<%=sub_id[j]%>"]').length;
+                                    $("#OK<%=allSubDB.get(j).getSc_id()%>").click(function () {
+                                        var count = $('input[name*="question<%=allSubDB.get(j).getSc_id()%>"]').length;
                                         console.log(count);
-                                        $("#countQues<%=sub_id[j]%>").text(count+" Question");
+                                        $("#countQues<%=allSubDB.get(j).getSc_id()%>").text(count+" Question");
                                     });
                                 });
                             </script>
 
                             <%
                                     }
-                                }
                             %>
                         </div>
                         <div class="col-sm-12">
