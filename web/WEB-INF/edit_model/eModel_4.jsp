@@ -125,7 +125,7 @@
                                             var question = $("#ques<%=allSubDB.get(j).getSc_id()%>").val();
                                             $("#questionOutput<%=allSubDB.get(j).getSc_id()%>").append("<div class='alert alert-success' style='border-color: #EBEDEF;background-color: white;color: black;'> <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
                                                     question +
-                                                    "<input type='hidden' name='question" + <%=allSubDB.get(j).getSc_id()%> + "' value=" + question + "></div>");
+                                                    "<input type='hidden' name='question" + <%=allSubDB.get(j).getSc_id()%> + "' value='" + question + "'></div>");
                                             $("#ques<%=allSubDB.get(j).getSc_id()%>").val("");
                                         } else {
                                             alert("กรอกข้อมูลให้ครบท้วน");
