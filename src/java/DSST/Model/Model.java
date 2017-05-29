@@ -498,7 +498,8 @@ public class Model {
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Model m = new Model();
-                m.setQuest_id(rs.getInt(1));
+                m.setQuest_id(rs.getInt("SU_ID"));
+                m.setQuest_name(rs.getString("SURVEY_QUESTION"));
                 if (m != null) {
                     am.add(m);
                 }

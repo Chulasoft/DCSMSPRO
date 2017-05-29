@@ -104,7 +104,7 @@
 
                                             <span class="label label-default">Question</span>
                                             <div class="input-group input-group-lg">
-                                                <input class="form-control" type="text" name="ques<%=allSubDB.get(j).getSc_id()%>" id="ques<%=allSubDB.get(j).getSc_id()%>">
+                                                <input class="form-control" type="text" id="ques<%=allSubDB.get(j).getSc_id()%>">
                                                 <div class="input-group-btn">
                                                     <button type="button" class="btn" id="subQuest<%=allSubDB.get(j).getSc_id()%>">ADD</button>
                                                 </div>
@@ -125,15 +125,14 @@
                                             var question = $("#ques<%=allSubDB.get(j).getSc_id()%>").val();
                                             $("#questionOutput<%=allSubDB.get(j).getSc_id()%>").append("<div class='alert alert-success' style='border-color: #EBEDEF;background-color: white;color: black;'> <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
                                                     question +
-                                                    "<input type='hidden' name='question" + <%=allSubDB.get(j).getSc_id()%> + "' value='" + question + "'></div>");
+                                                    "<input type='hidden' name='question' id='question" + <%=allSubDB.get(j).getSc_id()%> + "' value='" +<%=allSubDB.get(j).getSc_id()%> +":"+ question + "'></div>");
                                             $("#ques<%=allSubDB.get(j).getSc_id()%>").val("");
                                         } else {
                                             alert("กรอกข้อมูลให้ครบท้วน");
                                         }
                                     });
                                     $("#OK<%=allSubDB.get(j).getSc_id()%>").click(function () {
-                                        var count = $('input[name*="question<%=allSubDB.get(j).getSc_id()%>"]').length;
-                                        console.log(count);
+                                        var count = $('input[id*="question<%=allSubDB.get(j).getSc_id()%>"]').length;
                                         $("#countQues<%=allSubDB.get(j).getSc_id()%>").text(count+" Question");
                                     });
                                 });

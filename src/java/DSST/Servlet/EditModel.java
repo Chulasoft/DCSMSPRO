@@ -151,9 +151,15 @@ public class EditModel extends HttpServlet {
                         allSubDB.add(mSubDB);
                     }
                 }
-                for(Model allQuest :allSubDB){
-                    
+                ArrayList<Model> allQuestDB = new ArrayList();
+                for(Model subCr :allSubDB){
+                    ArrayList<Model> QuestDB = m.getQuestionByID(subCr.getSc_id());
+                    for(Model mQuestDB : QuestDB){
+                        mQuestDB.setSc_id(subCr.getSc_id());
+                        allQuestDB.add(mQuestDB);
+                    }
                 }
+                request.setAttribute("allQuestDB", allQuestDB);
                 request.setAttribute("allSubDB", allSubDB);
                 viewAgent = "/WEB-INF/edit_model/eModel_4.jsp";
             }
