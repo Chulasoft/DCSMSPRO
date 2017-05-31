@@ -140,8 +140,8 @@ public class EditModel extends HttpServlet {
                 viewAgent = "/WEB-INF/edit_model/eModel_3.jsp";
 
             } else if (page.equals("4")) {
+                
                 Model m = new Model();
-
                 ArrayList<Model> criDB = m.getModelsCriteriaByID(Integer.parseInt(ss.getAttribute("model_id") + ""));
                 ArrayList<Model> allSubDB = new ArrayList();
                 for (Model mCriDB : criDB) {
@@ -159,8 +159,55 @@ public class EditModel extends HttpServlet {
                         allQuestDB.add(mQuestDB);
                     }
                 }
+                
+                if(request.getParameter("questionIdDB")!=null){
+                    String questId[] = request.getParameterValues("questionIdDB");
+                    String questionDB[] = request.getParameterValues("questionDB");
+                    ArrayList<String> arrayListquestId = new ArrayList<String>(Arrays.asList(questId));
+                    for (int i = 0; i < allQuestDB.size(); i++) {
+                        if (!arrayListquestId.contains(allQuestDB.get(i).getQuest_id() + "")) {
+                            m.delQuestByID(allQuestDB.get(i).getQuest_id());
+                        }
+                    }
+                    for (int i = 0; i < questId.length; i++) {
+                        m.updateQuestion(Integer.parseInt(questId[i]), questionDB[i]);
+                    }
+                    
+                 }
+                
+                if (request.getParameter("question") != null) {
+                    String question[] = request.getParameterValues("question");
+                    for (int i = 0; i < question.length; i++) {
+                        int colon = question[i].indexOf(':');
+                        String sc_id = question[i].substring(0, colon);
+                        String ques = question[i].substring(colon + 1);
+                        m.setQuestion(Integer.parseInt(sc_id),0, ques);
+                    }
+                }
+                criDB.clear();
+                criDB = m.getModelsCriteriaByID(Integer.parseInt(ss.getAttribute("model_id") + ""));
+                allSubDB.clear();
+                for (Model mCriDB : criDB) {
+                    ArrayList<Model> subCriDB = m.getSubCriteriaByID(mCriDB.getCri_id());
+                    for (Model mSubDB : subCriDB) {
+                        mSubDB.setCri_name(mCriDB.getCri_name());
+                        allSubDB.add(mSubDB);
+                    }
+                }
+                allQuestDB.clear();
+                for(Model subCr :allSubDB){
+                    ArrayList<Model> QuestDB = m.getQuestionByID(subCr.getSc_id());
+                    for(Model mQuestDB : QuestDB){
+                        mQuestDB.setSc_id(subCr.getSc_id());
+                        allQuestDB.add(mQuestDB);
+                    }
+                }
+                
                 request.setAttribute("allQuestDB", allQuestDB);
                 request.setAttribute("allSubDB", allSubDB);
+                
+                
+                
                 viewAgent = "/WEB-INF/edit_model/eModel_4.jsp";
             }
         } else {

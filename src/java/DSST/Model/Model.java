@@ -591,6 +591,24 @@ public class Model {
             System.out.println(ex);
         }
     }
+        public void updateQuestion(int suId, String suName) {
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "UPDATE SURVEY SET SURVEY_QUESTION = ? WHERE SU_ID = ? ";
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            // set the preparedstatement parameters
+            ps.setString(1, suName);
+            ps.setInt(2, suId);
+
+            // call executeUpdate to execute our sql update statement
+            ps.executeUpdate();
+
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
 
     public String delByModelId(int m_id) {
         ArrayList<Integer> listSu_id = new ArrayList();
@@ -734,6 +752,24 @@ public class Model {
             }
             Statement stmt = con.createStatement();
             sql = "DELETE FROM SUB_CRITERIA WHERE SC_ID = " + sub_id;
+            stmt.executeUpdate(sql);
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return "success";
+    }
+
+    public String delQuestByID(int quest_id) {
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "";
+            Statement stmt = con.createStatement();
+            stmt = con.createStatement();
+            sql = "DELETE FROM ALTERNATIVE_SPECIFICATION WHERE SU_ID = " + quest_id;
+            stmt.executeUpdate(sql);
+            stmt = con.createStatement();
+            sql = "DELETE FROM SURVEY WHERE SU_ID = " + quest_id;
             stmt.executeUpdate(sql);
             con.close();
         } catch (SQLException ex) {
