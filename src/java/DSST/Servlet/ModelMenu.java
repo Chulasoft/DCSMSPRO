@@ -34,6 +34,7 @@ public class ModelMenu extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         String viewAgent = "/WEB-INF/model/model_main.jsp";
         HttpSession ss = request.getSession();
         Model m = new Model();

@@ -33,6 +33,7 @@ public class ShowResult extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         String viewAgent = "/WEB-INF/project/project_6.jsp";
         HttpSession ss = request.getSession();
         Project pj = new Project();

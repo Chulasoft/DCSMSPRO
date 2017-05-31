@@ -34,6 +34,7 @@ public class CreateModel extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         String viewAgent = "/WEB-INF/model/model_1.jsp";
         String page = request.getParameter("page");
         String msg = "";

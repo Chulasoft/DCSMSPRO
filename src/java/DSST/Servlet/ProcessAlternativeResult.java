@@ -41,6 +41,7 @@ public class ProcessAlternativeResult extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         HttpSession ss = request.getSession();
         int p_id = Integer.parseInt(ss.getAttribute("p_id") + ""); // เอา pid จาก session
         Model m = new Model();

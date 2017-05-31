@@ -34,6 +34,7 @@ public class EditModel extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         String viewAgent = "/WEB-INF/edit_model/eModel_1.jsp";
         String page = request.getParameter("page");
         HttpSession ss = request.getSession();
@@ -205,10 +206,13 @@ public class EditModel extends HttpServlet {
                 
                 request.setAttribute("allQuestDB", allQuestDB);
                 request.setAttribute("allSubDB", allSubDB);
-                
-                
-                
                 viewAgent = "/WEB-INF/edit_model/eModel_4.jsp";
+            } else if (page.equals("5")) {
+                Model m = new Model();
+//                ArrayList<Model>
+                viewAgent = "/WEB-INF/edit_model/eModel_5.jsp";
+            }else if (page.equals("6")) {
+                viewAgent = "/WEB-INF/edit_model/eModel_6.jsp";
             }
         } else {
             String model_id = request.getParameter("modelId");

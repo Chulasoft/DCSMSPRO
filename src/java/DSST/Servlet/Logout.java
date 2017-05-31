@@ -31,7 +31,7 @@ public class Logout extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        request.setCharacterEncoding("UTF-8");
         HttpSession ss = request.getSession(false);
         ss.invalidate();
         getServletContext().getRequestDispatcher(response.encodeURL("/WEB-INF/logout.jsp")).forward(request, response);

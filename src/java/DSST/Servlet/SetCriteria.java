@@ -31,6 +31,7 @@ public class SetCriteria extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         String cri[] = request.getParameterValues("cri");
         String criDes[] = request.getParameterValues("criDes");
         HttpSession ss = request.getSession();

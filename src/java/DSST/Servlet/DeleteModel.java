@@ -31,6 +31,7 @@ public class DeleteModel extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         String m_id = request.getParameter("modelId");
         Model m = new Model();
         m.delByModelId(Integer.parseInt(m_id));

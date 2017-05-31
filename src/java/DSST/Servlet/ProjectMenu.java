@@ -35,6 +35,7 @@ public class ProjectMenu extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         String viewAgent = "/WEB-INF/project/project_main.jsp";
         String msg = "Unfinished Project";
         Project pj = new Project();

@@ -109,7 +109,7 @@
                                                     %>
                                                     <div class="alert alert-success" style="border-color: #EBEDEF;background-color: white;color: black;"> 
                                                         <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                                                        <%=allQuestDB.get(k).getQuest_name()%><input type="hidden" name="questionDB" id="question<%=allSubDB.get(j).getSc_id()%>" value="<%=allSubDB.get(j).getSc_id()%>:<%=allQuestDB.get(k).getQuest_name()%>">
+                                                        <%=allQuestDB.get(k).getQuest_name()%><input type="hidden" name="questionDB" id="question<%=allSubDB.get(j).getSc_id()%>" value="<%=allQuestDB.get(k).getQuest_name()%>">
                                                         <input type="hidden" name="questionIdDB" value="<%=allQuestDB.get(k).getQuest_id()%>">
                                                     </div>
                                                     <%
