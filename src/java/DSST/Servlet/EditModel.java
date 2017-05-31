@@ -6,6 +6,7 @@
 package DSST.Servlet;
 
 import DSST.Model.Model;
+import DSST.Model.Project;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -51,6 +52,8 @@ public class EditModel extends HttpServlet {
                 em = em.getModelByID(Integer.parseInt(ss.getAttribute("model_id") + ""));
                 request.setAttribute("m", em);
                 viewAgent = "/WEB-INF/edit_model/eModel_1.jsp";
+
+///////////////////////////////////////////////////////////////////
             } else if (page.equals("2")) {
                 Model m = new Model();
                 ArrayList<Model> criDB = m.getModelsCriteriaByID(Integer.parseInt(ss.getAttribute("model_id") + ""));
@@ -81,6 +84,7 @@ public class EditModel extends HttpServlet {
                 criDB = m.getModelsCriteriaByID(Integer.parseInt(ss.getAttribute("model_id") + ""));
                 request.setAttribute("criDB", criDB);
                 viewAgent = "/WEB-INF/edit_model/eModel_2.jsp";
+///////////////////////////////////////////////////////////////////
             } else if (page.equals("3")) {
                 Model m = new Model();
 
@@ -139,9 +143,9 @@ public class EditModel extends HttpServlet {
 
                 request.setAttribute("allSubDB", allSubDB);
                 viewAgent = "/WEB-INF/edit_model/eModel_3.jsp";
-
+///////////////////////////////////////////////////////////////////
             } else if (page.equals("4")) {
-                
+
                 Model m = new Model();
                 ArrayList<Model> criDB = m.getModelsCriteriaByID(Integer.parseInt(ss.getAttribute("model_id") + ""));
                 ArrayList<Model> allSubDB = new ArrayList();
@@ -153,15 +157,15 @@ public class EditModel extends HttpServlet {
                     }
                 }
                 ArrayList<Model> allQuestDB = new ArrayList();
-                for(Model subCr :allSubDB){
+                for (Model subCr : allSubDB) {
                     ArrayList<Model> QuestDB = m.getQuestionByID(subCr.getSc_id());
-                    for(Model mQuestDB : QuestDB){
+                    for (Model mQuestDB : QuestDB) {
                         mQuestDB.setSc_id(subCr.getSc_id());
                         allQuestDB.add(mQuestDB);
                     }
                 }
-                
-                if(request.getParameter("questionIdDB")!=null){
+
+                if (request.getParameter("questionIdDB") != null) {
                     String questId[] = request.getParameterValues("questionIdDB");
                     String questionDB[] = request.getParameterValues("questionDB");
                     ArrayList<String> arrayListquestId = new ArrayList<String>(Arrays.asList(questId));
@@ -173,16 +177,16 @@ public class EditModel extends HttpServlet {
                     for (int i = 0; i < questId.length; i++) {
                         m.updateQuestion(Integer.parseInt(questId[i]), questionDB[i]);
                     }
-                    
-                 }
-                
+
+                }
+
                 if (request.getParameter("question") != null) {
                     String question[] = request.getParameterValues("question");
                     for (int i = 0; i < question.length; i++) {
                         int colon = question[i].indexOf(':');
                         String sc_id = question[i].substring(0, colon);
                         String ques = question[i].substring(colon + 1);
-                        m.setQuestion(Integer.parseInt(sc_id),0, ques);
+                        m.setQuestion(Integer.parseInt(sc_id), 0, ques);
                     }
                 }
                 criDB.clear();
@@ -196,22 +200,55 @@ public class EditModel extends HttpServlet {
                     }
                 }
                 allQuestDB.clear();
-                for(Model subCr :allSubDB){
+                for (Model subCr : allSubDB) {
                     ArrayList<Model> QuestDB = m.getQuestionByID(subCr.getSc_id());
-                    for(Model mQuestDB : QuestDB){
+                    for (Model mQuestDB : QuestDB) {
                         mQuestDB.setSc_id(subCr.getSc_id());
                         allQuestDB.add(mQuestDB);
                     }
                 }
-                
+
                 request.setAttribute("allQuestDB", allQuestDB);
                 request.setAttribute("allSubDB", allSubDB);
                 viewAgent = "/WEB-INF/edit_model/eModel_4.jsp";
+
+///////////////////////////////////////////////////////////////////
             } else if (page.equals("5")) {
                 Model m = new Model();
-//                ArrayList<Model>
+                ArrayList<Model> listAlter = new ArrayList();
+                listAlter = m.getAlterById(Integer.parseInt(ss.getAttribute("model_id") + ""));
+                if (request.getParameter("raIdDB") != null) {
+                    String raIdDB[] = request.getParameterValues("raIdDB");
+                    String raDB[] = request.getParameterValues("raDB");
+                    String raDesDB[] = request.getParameterValues("raDesDB");
+                    ArrayList<String> arrayListraIdDB = new ArrayList<String>(Arrays.asList(raIdDB));
+                    for (int i = 0; i < listAlter.size(); i++) {
+                        if (!arrayListraIdDB.contains(listAlter.get(i).getAl_id() + "")) {
+                            m.delAlterByID(listAlter.get(i).getAl_id());
+                        }
+                        
+                    }
+                    for (int i = 0; i < raIdDB.length; i++) {
+                        m.updateAlter(Integer.parseInt(raIdDB[i]), raDB[i],raDesDB[i]);
+                    }
+                }
+                if (request.getParameter("ra") != null) {
+                    String ra[] = request.getParameterValues("ra");
+                    String raDes[] = request.getParameterValues("raDes");
+                    for (int i = 0; i < ra.length; i++) {
+                        m.setRelated(ra[i],raDes[i],Integer.parseInt(ss.getAttribute("model_id") + ""));
+                    }
+                }
+                listAlter.clear();
+                listAlter = m.getAlterById(Integer.parseInt(ss.getAttribute("model_id") + ""));
+                request.setAttribute("listAlter", listAlter);
                 viewAgent = "/WEB-INF/edit_model/eModel_5.jsp";
-            }else if (page.equals("6")) {
+///////////////////////////////////////////////////////////////////
+            } else if (page.equals("6")) {
+                Model m = new Model();
+                ArrayList<Model> listAlter = new ArrayList();
+                listAlter = m.getAlterById(Integer.parseInt(ss.getAttribute("model_id") + ""));
+                request.setAttribute("listAlter", listAlter);
                 viewAgent = "/WEB-INF/edit_model/eModel_6.jsp";
             }
         } else {

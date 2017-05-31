@@ -4,6 +4,9 @@
     Author     : Jab
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="DSST.Model.Model"%>
+<%@page import="DSST.Model.Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -64,7 +67,7 @@
         <div class="container-fluid">
             <div class="row">
                 <span class="hidden-mob">
-                    <jsp:include page="sidenav_create_model.jsp" flush="false"/>
+                    <jsp:include page="sidenav_edit_model.jsp" flush="false"/>
                 </span>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="top: 72px">
                     <div class="row">
@@ -72,33 +75,30 @@
                         <hr>
                         <div class="col-sm-offset-2 col-sm-8">
                             <%
-                                String ra[] = (String[]) session.getAttribute("ra");
-                                int ra_id[] = (int[]) session.getAttribute("ra_id");
-                                System.out.println(ra_id.length);
-                                for (int i = 0; i < ra.length; i++) {
+                                        ArrayList<Model> listAlter = (ArrayList) request.getAttribute("listAlter");
+                                        for (Model m : listAlter) {
                             %>
-                            <form method="POST" action="DefineSpecification" id="<%=ra_id[i]%>"> 
-                                <a href="#" style="text-decoration: none" onclick="document.getElementById('<%=ra_id[i]%>').submit();">
+                            <form method="POST" action="SetAnswer" id="<%=m.getAl_id()%>"> 
+                                <a href="#" style="text-decoration: none" onclick="document.getElementById('<%=m.getAl_id()%>').submit();">
                                     <div class='alert alert-danger' style='border-color: #EBEDEF;background-color: white;color: black;'>
-                                        <h3><%=ra[i]%></h3>
+                                        <h3><%=m.getAl_name()%></h3>
                                         <p style="text-align: right">CLICK</p>
                                     </div>
-                                    <input type="hidden" name="ra_id" value="<%=ra_id[i]%>">
-                                    <input type="hidden" name="ra" value="<%=ra[i]%>">
+                                    <input type="hidden" name="ra_id" value="<%=m.getAl_id()%>">
+                                    <input type="hidden" name="ra" value="<%=m.getAl_name()%>">
                                 </a>
                             </form>
                             <%
                                 }
                             %>
                         </div>
-                        <form action="CreateModel" method="POST" id="end">
+                        <form action="EditModel" method="POST" id="end">
                             <div class="col-sm-12">
                                 <ul class="pager">
-                                    <li><a href="#">Previous</a></li>
-                                    <li><a href="#" onclick="document.getElementById('end').submit();">Next</a></li>
+                                    <li><a href="#" onclick="document.getElementById('end').submit();">Finished</a></li>
                                 </ul>
                             </div>
-                            <input type="hidden" name="page" id="page" value="6"/>
+                            <input type="hidden" name="page" id="page" value="8"/>
                         </form>
                     </div>
                 </div>

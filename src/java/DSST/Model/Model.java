@@ -529,6 +529,55 @@ public class Model {
         }
         return ans;
     }
+    private int al_id;
+    private String al_name;
+    private String al_des;
+
+    public String getAl_des() {
+        return al_des;
+    }
+
+    public void setAl_des(String al_des) {
+        this.al_des = al_des;
+    }
+
+    public int getAl_id() {
+        return al_id;
+    }
+
+    public void setAl_id(int al_id) {
+        this.al_id = al_id;
+    }
+
+    public String getAl_name() {
+        return al_name;
+    }
+
+    public void setAl_name(String al_name) {
+        this.al_name = al_name;
+    }
+
+    public ArrayList<Model> getAlterById(int m_id) {
+        ArrayList<Model> am = new ArrayList();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT * FROM APP.ALTERNATIVE where m_id = ?";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, m_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Model m = new Model();
+                m.setAl_id(rs.getInt("AL_ID"));
+                m.setAl_name(rs.getString("ALTERNATIVE_NAME"));
+                m.setAl_des(rs.getString("ALTERNATIVE_DESCRIPTION"));
+                am.add(m);
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return am;
+    }
 
     public void updateModel(Model m) {
         try {
@@ -591,7 +640,8 @@ public class Model {
             System.out.println(ex);
         }
     }
-        public void updateQuestion(int suId, String suName) {
+
+    public void updateQuestion(int suId, String suName) {
         try {
             Connection con = ConnectionBuilder.getConnection();
             String sql = "UPDATE SURVEY SET SURVEY_QUESTION = ? WHERE SU_ID = ? ";
@@ -600,6 +650,26 @@ public class Model {
             // set the preparedstatement parameters
             ps.setString(1, suName);
             ps.setInt(2, suId);
+
+            // call executeUpdate to execute our sql update statement
+            ps.executeUpdate();
+
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+
+    public void updateAlter(int raId, String raName, String raDes) {
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "UPDATE ALTERNATIVE SET ALTERNATIVE_NAME = ?,ALTERNATIVE_DESCRIPTION = ? WHERE AL_ID = ? ";
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            // set the preparedstatement parameters
+            ps.setString(1, raName);
+            ps.setString(2, raDes);
+            ps.setInt(3, raId);
 
             // call executeUpdate to execute our sql update statement
             ps.executeUpdate();
@@ -770,6 +840,24 @@ public class Model {
             stmt.executeUpdate(sql);
             stmt = con.createStatement();
             sql = "DELETE FROM SURVEY WHERE SU_ID = " + quest_id;
+            stmt.executeUpdate(sql);
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return "success";
+    }
+
+    public String delAlterByID(int alter_id) {
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "";
+            Statement stmt = con.createStatement();
+            stmt = con.createStatement();
+            sql = "DELETE FROM ALTERNATIVE_SPECIFICATION WHERE AL_ID = " + alter_id;
+            stmt.executeUpdate(sql);
+            stmt = con.createStatement();
+            sql = "DELETE FROM ALTERNATIVE WHERE AL_ID = " + alter_id;
             stmt.executeUpdate(sql);
             con.close();
         } catch (SQLException ex) {

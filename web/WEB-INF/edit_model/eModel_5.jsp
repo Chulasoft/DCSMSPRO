@@ -4,6 +4,8 @@
     Author     : Jab
 --%>
 
+<%@page import="DSST.Model.Model"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -65,24 +67,24 @@
                         var d_ra = $("#ra2").val();
                         $("#ra").append("<div class='alert alert-danger'  style='border-color: #EBEDEF;background-color: white;color: black;'> <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
                                 "<h3>" + t_ra + "</h3>" + d_ra +
-                                "<input type='hidden' name='ra' value=" + t_ra + "><input type='hidden' name='raDes' value=" + d_ra + "></div>");
+                                "<input type='hidden' name='ra' value='" + t_ra + "'><input type='hidden' name='raDes' value='" + d_ra + "'></div>");
                         $("#ra1").val("");
                         $("#ra2").val("");
                         $('#myModal').modal('toggle');
                     } else {
-                        if($("#ra1").val() == ""){
+                        if ($("#ra1").val() == "") {
                             alert("กรุณากรอกข้อมูลให้ครบ");
                             $("#ra1").focus();
-                        }else{
+                        } else {
                             alert("กรุณากรอกข้อมูลให้ครบ");
                             $("#ra2").focus();
                         }
                     }
                 });
                 $("#sub").click(function () {
-                    if($("input[name='ra']").length < 2){
+                    if ($("input[name='ra']").length < 2) {
                         alert("ต้องมีอย่างน้อย 2 Alternative");
-                    }else{
+                    } else {
                         document.forms[0].submit();
                     }
                 });
@@ -95,17 +97,34 @@
         <div class="container-fluid">
             <div class="row">
                 <span class="hidden-mob">
-                    <jsp:include page="sidenav_create_model.jsp" flush="false"/>
+                    <jsp:include page="sidenav_edit_model.jsp" flush="false"/>
                 </span>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="top: 72px">
                     <div class="row">
                         <h3>Define Related Alternative</h3>
                         <hr>
-                        <form action="CreateModel" method="POST">
+                        <form action="EditModel" method="POST">
                             <div class="col-sm-offset-2 col-sm-8 ">
                                 <input type="hidden" name="page" id="page" value="5"/>
 
-                                <span id="ra"></span>
+                                <span id="ra">
+                                    <%
+                                        ArrayList<Model> listAlter = (ArrayList) request.getAttribute("listAlter");
+                                        for (Model m : listAlter) {
+                                    %>
+                                    <div class="alert alert-danger" id="<%=m.getAl_id()%>" style="border-color: #EBEDEF;background-color: white;color: black;"> 
+                                        <a href="#" class="close">×</a>
+                                        <a href="#" data-toggle="modal" data-target="#old" onclick="idIs(<%=m.getAl_id()%>)">
+                                            <h3><%=m.getAl_name()%></h3><span><%=m.getAl_des()%></span>
+                                        </a>
+                                        <input type="hidden" name="raIdDB" value="<%=m.getAl_id()%>">
+                                        <input type="hidden" name="raDB" value="<%=m.getAl_name()%>">
+                                        <input type="hidden" name="raDesDB" value="<%=m.getAl_des()%>">
+                                    </div>
+                                    <%
+                                        }
+                                    %>
+                                </span>
 
                                 <!-- Trigger the modal with a button -->
                                 <a href="#" data-toggle="modal" data-target="#myModal" style="font-size: 30px"><div class="glyphicon glyphicon-plus-sign"></div></a>
@@ -117,7 +136,6 @@
                                         <!-- Modal content-->
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 <h4 class="modal-title">Define Related Alternative</h4>
                                             </div>
                                             <div class="modal-body">
@@ -133,17 +151,64 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div id="old" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Edit Related Alternative</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <span class="label label-default">Alternative Name</span>
+                                                <input type="hidden" id="oldNum" />
+                                                <input class="form-control" type="text" name="oldc1" id="oldc1"/>
+                                                <span class="label label-default">Description</span>
+                                                <textarea rows="4" class="form-control" name="oldc2" id="oldc2"></textarea>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary"  onclick="changeText()" data-dismiss="modal">Accept</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
-                            <div class="col-sm-12">
-                                <ul class="pager">
-                                    <li><a href="#">Previous</a></li>
-                                    <li><a href="#" id="sub">Next</a></li>
-                                </ul>
+                            <div class="col-sm-offset-2 col-sm-8" style="margin-bottom: 40px">
+                                <div style="text-align: center">
+                                    <button type="submit" class="btn btn-default" style="float: right"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
+                                </div>
                             </div>
+                                
                         </form>
+                        <script>
+                            function idIs(num) {
+                                $("#oldc1").val($("#" + num + "> a > h3").text());
+                                $("#oldc2").val($("#" + num + "> a > span").text());
+                                $("#oldNum").val(num);
+                            }
+                            function changeText() {
+                                $("#" + $("#oldNum").val() + "> a > h3").text($("#oldc1").val());
+                                $("#" + $("#oldNum").val() + "> a > span").text($("#oldc2").val());
+                                $("#" + $("#oldNum").val() + "> input[name=raDB]").val($("#oldc1").val());
+                                $("#" + $("#oldNum").val() + "> input[name=raDesDB]").val($("#oldc2").val());
+                            }
+                            $(document).ready(function () {
+                                $(".close").click(function () {
+                                    var r = confirm("Delete this Alternative will delete your Alternative Answers");
+                                    if (r == true) {
+                                        $(this).alert("close");
+                                    } else {
+                                        console.log("cancel");
+                                    }
+                                });
+                            });
+                        </script>
                     </div>
                 </div>
             </div>
     </content>
-    </body>
+</body>
 </html>
