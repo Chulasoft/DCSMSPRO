@@ -4,6 +4,9 @@
     Author     : Jab
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="DSST.Model.Model"%>
+<%@page import="DSST.Model.Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -73,74 +76,62 @@
         <div class="container-fluid">
             <div class="row">
                 <span class="hidden-mob">
-                    <jsp:include page="sidenav_create_model.jsp" flush="false"/>
+                    <jsp:include page="sidenav_edit_model.jsp" flush="false"/>
                 </span>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="top: 72px">
                     <div class="row">
                         <h3>Specification for ${whoName}</h3>
                         <hr>
-                        <form method="POST" action="DefineSpecification">
-                            <input type="hidden" name="who" value="${who}">
-                        <div class="col-sm-offset-2 col-sm-8 ">
-                            <%
-                                String cri[] = (String[]) session.getAttribute("cri");
-                                int cri_id[] = (int[]) session.getAttribute("cri_id");
-                                System.out.println(cri_id.length);
-                                for (int i = 0; i < cri.length; i++) {
-                            %>
-                            <h3><%=cri[i]%></h3>
-                            <%
-                                String scri[] = (String[]) session.getAttribute("scri" + cri_id[i]);
-                                int sub_id[] = (int[]) session.getAttribute("sub_id" + cri_id[i]);
-                                for (int j = 0; j < scri.length; j++) {
-                            %>    
-                            <div class="panel-group">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" href="#collapse<%=sub_id[j]%>"><%=i + 1%>.<%=j + 1%> <%=scri[j]%></a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapse<%=sub_id[j]%>" class="panel-collapse collapse in">
-                                        <%
-                                            String question[] = (String[]) session.getAttribute("question" + sub_id[j]);
-                                            int ques_id[] = (int[]) session.getAttribute("ques_id" + sub_id[j]);
-                                            for (int k = 0; k < question.length; k++) {
+                        <form method="POST" action="EditModel">
+                            <input type="hidden" name="who" value="${who}"/>
+                            <div class="col-sm-offset-2 col-sm-8 ">
+                                <div class="panel-group">
+                                    <%
+                                        ArrayList<Model> allQuest = (ArrayList) request.getAttribute("listQuest");
+                                        int old_id = -1;
+                                        for (int i = 0; i < allQuest.size(); i++) {
+                                            if(allQuest.get(i).getSc_id()!=old_id){
                                         %>
-
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading"><%=allQuest.get(i).getSc_name()%></div>
+                                        <%
+                                            old_id = allQuest.get(i).getSc_id();
+                                        }
+                                        %>
                                         <div class="panel-body">
-                                            <div  style="float: left"><%=question[k]%></div>
-                                            <div style="float: right">
-                                                <ul class="pagination" id="<%=ques_id[k]%>">
-                                                    <li><a onclick="setRes<%=ques_id[k]%>(1)"><span class="glyphicon glyphicon-ok" style="color: green"></span></a></li>
-                                                    <li><a onclick="setRes<%=ques_id[k]%>(0)"><span class="glyphicon glyphicon-remove" style="color: #ac2925"></span></a></li>
-                                                    <input type="hidden" name="ans" value="" id="hidden<%=ques_id[k]%>" />
+                                            <div  style="float: left"><%=allQuest.get(i).getQuest_name()%></div>
+                                            <div style="float: right;">
+                                                <ul class="pagination" id="<%=allQuest.get(i).getQuest_id()%>">
+                                                    <li><a onclick="setRes<%=allQuest.get(i).getQuest_id()%>(1)"><span class="glyphicon glyphicon-ok" style="color: green"></span></a></li>
+                                                    <li><a onclick="setRes<%=allQuest.get(i).getQuest_id()%>(0)"><span class="glyphicon glyphicon-remove" style="color: #ac2925"></span></a></li>
+                                                    <input type="hidden" name="ans" value="" id="hidden<%=allQuest.get(i).getQuest_id()%>" />
                                                 </ul>
                                             </div>
                                         </div>
-
                                         <script>
-                                            function setRes<%=ques_id[k]%>(num){
-                                                $('#hidden<%=ques_id[k]%>').val(<%=ques_id[k]%>+':'+num);
+                                            function setRes<%=allQuest.get(i).getQuest_id()%>(num) {
+                                                $('#hidden<%=allQuest.get(i).getQuest_id()%>').val(<%=allQuest.get(i).getQuest_id()%> + ':' + num);
                                             }
-                                            $("#<%=ques_id[k]%> li").on("click", function () {
-                                                $("#<%=ques_id[k]%> li").removeClass("active");
+                                            $("#<%=allQuest.get(i).getQuest_id()%> li").on("click", function () {
+                                                $("#<%=allQuest.get(i).getQuest_id()%> li").removeClass("active");
                                                 $(this).addClass("active");
                                             });
-                                            
                                         </script>
                                         <%
-                                            }
+                                            if(i+1==allQuest.size()){
                                         %>
                                     </div>
+
+                                    <%
+                                            }else if(allQuest.get(i).getSc_id()!=allQuest.get(i+1).getSc_id()){
+                                            %>
+                                            </div>
+                                    <%
+                                            }
+                                        }
+                                    %>
                                 </div>
                             </div>
-
-                            <%
-                                    }
-                                }
-                            %>
-                        </div>
                         </form>
                     </div>
                     <div class="col-sm-12" style="margin-top: 10px">

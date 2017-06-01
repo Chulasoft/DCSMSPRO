@@ -9,6 +9,7 @@ import DSST.Model.Member;
 import DSST.Model.Model;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,18 +40,21 @@ public class SetAnswer extends HttpServlet {
         
         if (request.getParameter("ans")!=null) {
             String ans[] = request.getParameterValues("ans");
-            Model mo = (Model)ss.getAttribute("mo");
+            Model m = new Model();
             for(int i = 0; i <ans.length;i++){
                 int colon = ans[i].indexOf(':');
                 String ques_id = ans[i].substring(0, colon);
                 String answer = ans[i].substring(colon+1);
                 Member login = (Member)ss.getAttribute("login");
-                mo.setAns(answer, login.getName() , Integer.parseInt(ques_id) , Integer.parseInt(request.getParameter("who")));
+                m.setAns(answer, login.getName() , Integer.parseInt(ques_id) , Integer.parseInt(request.getParameter("who")));
             }
             viewAgent = "/WEB-INF/edit_model/eModel_6.jsp";
         } else {
             String who = request.getParameter("ra_id");
             String whoName = request.getParameter("ra");
+            Model m = new Model();
+            ArrayList<Model> listQuest = m.getAllQuest(Integer.parseInt(ss.getAttribute("model_id") + ""));
+            request.setAttribute("listQuest", listQuest);
             request.setAttribute("whoName", whoName);
             request.setAttribute("who", who);
             viewAgent = "/WEB-INF/edit_model/eModel_define_spec.jsp";
