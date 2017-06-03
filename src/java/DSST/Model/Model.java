@@ -529,6 +529,24 @@ public class Model {
         }
         return ans;
     }
+    
+    public int getSpecAnsNum(int al_id) {
+        int ans = 0;
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT COUNT(SPECIFICATION_ANSWER) FROM APP.ALTERNATIVE_SPECIFICATION WHERE AL_ID = ?";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, al_id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                ans = rs.getInt(1);
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return ans;
+    }
     private int al_id;
     private String al_name;
     private String al_des;
@@ -679,7 +697,24 @@ public class Model {
             System.out.println(ex);
         }
     }
+    public void updateStatus(int m_id,String status) {
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "UPDATE MODEL SET MODEL_STATUS = ? WHERE M_ID = ? ";
+            PreparedStatement ps = con.prepareStatement(sql);
 
+            // set the preparedstatement parameters
+            ps.setString(1, status);
+            ps.setInt(2, m_id);
+
+            // call executeUpdate to execute our sql update statement
+            ps.executeUpdate();
+
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
     public String delByModelId(int m_id) {
         ArrayList<Integer> listSu_id = new ArrayList();
         ArrayList<Integer> listSc_id = new ArrayList();

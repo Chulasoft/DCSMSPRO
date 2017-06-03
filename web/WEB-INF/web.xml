@@ -125,6 +125,10 @@
         <servlet-name>SetAnswer</servlet-name>
         <servlet-class>DSST.Servlet.SetAnswer</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PublishModel</servlet-name>
+        <servlet-class>DSST.Servlet.PublishModel</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TestServ</servlet-name>
         <url-pattern>/TestServ</url-pattern>
@@ -200,6 +204,10 @@
     <servlet-mapping>
         <servlet-name>SetAnswer</servlet-name>
         <url-pattern>/SetAnswer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PublishModel</servlet-name>
+        <url-pattern>/PublishModel</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

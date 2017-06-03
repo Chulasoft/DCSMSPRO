@@ -170,7 +170,15 @@
                             <h3>Last update : <%=model.getModel_lastUpdate()%></h3>
                         </div>
                         <div class="form-group col-xs-3">
-                            <h3>Status : <%=model.getModel_status()%></h3>
+                            <h3>Status : <% if(model.getModel_status().equals("1")){out.print("Finished");}else{out.print("On Progress");}%></h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <p>${msg}</p>
+                        </div>
+                        <div class="col-xs-offset-6 col-xs-3">
+                            <a href="PublishModel?m_id=<%=model.getModel_id()%>"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-open-file"></span> Publish Model </button></a>
                         </div>
                     </div>
                     <hr>

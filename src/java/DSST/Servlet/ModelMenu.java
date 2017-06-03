@@ -41,36 +41,81 @@ public class ModelMenu extends HttpServlet {
         Member user = (Member) ss.getAttribute("login");
         ArrayList<Model> am = null;
         String m_id = request.getParameter("m_id");
+        int status = 1;
         try {
             am = m.getModels(user.getMem_id());
             request.setAttribute("am", am);
-            if(m_id!=null){
+            if (m_id != null) {
                 m = m.getModelByID(Integer.parseInt(m_id));
                 ArrayList<Model> listCri = new ArrayList();
                 ArrayList<Model> listSub = new ArrayList();
+                ArrayList<Model> listQuest = new ArrayList();
                 listCri = m.getModelsCriteriaByID(Integer.parseInt(m_id));
-                for(Model mCri : listCri){
-                    listSub = mCri.getSubCriteriaByID(mCri.getCri_id());
-                    request.setAttribute("listSub"+mCri.getCri_id(), listSub);
+                if (listCri.size() < 2) {
+                    status = 0;
                 }
+                for (Model mCri : listCri) {
+                    listSub = mCri.getSubCriteriaByID(mCri.getCri_id());
+                    if (listSub.size() < 2) {
+                        status = 0;
+                    }
+                    request.setAttribute("listSub" + mCri.getCri_id(), listSub);
+                }
+                listQuest = m.getAllQuest(Integer.parseInt(m_id));
+                ArrayList<Model> listAlter = new ArrayList();
+                listAlter = m.getAlterById(Integer.parseInt(m_id));
+                if (listAlter.size() < 2) {
+                    status = 0;
+                }
+                for (Model mAlter : listAlter) {
+                    int numOfAl = m.getSpecAnsNum(mAlter.getAl_id());
+                    listQuest = m.getAllQuest(Integer.parseInt(m_id));
+                    if (numOfAl != listQuest.size()) {
+                        status = 0;
+                    }
+                }
+                m.updateStatus(Integer.parseInt(m_id), status+"");
+                m = m.getModelByID(Integer.parseInt(m_id));
                 request.setAttribute("listCri", listCri);
                 request.setAttribute("m", m);
-            }else if (am != null) {
+            } else if (am != null) {
                 m = m.getModelByID(am.get(0).getModel_id());
                 ArrayList<Model> listCri = new ArrayList();
                 ArrayList<Model> listSub = new ArrayList();
+                ArrayList<Model> listQuest = new ArrayList();
                 listCri = m.getModelsCriteriaByID(am.get(0).getModel_id());
-                for(Model mCri : listCri){
-                    listSub = mCri.getSubCriteriaByID(mCri.getCri_id());
-                    request.setAttribute("listSub"+mCri.getCri_id(), listSub);
+                if (listCri.size() < 2) {
+                    status = 0;
                 }
+                for (Model mCri : listCri) {
+                    listSub = mCri.getSubCriteriaByID(mCri.getCri_id());
+                    if (listSub.size() < 2) {
+                        status = 0;
+                    }
+                    request.setAttribute("listSub" + mCri.getCri_id(), listSub);
+                }
+                listQuest = m.getAllQuest(am.get(0).getModel_id());
+                ArrayList<Model> listAlter = new ArrayList();
+                listAlter = m.getAlterById(am.get(0).getModel_id());
+                if (listAlter.size() < 2) {
+                    status = 0;
+                }
+                for (Model mAlter : listAlter) {
+                    int numOfAl = m.getSpecAnsNum(mAlter.getAl_id());
+                    listQuest = m.getAllQuest(am.get(0).getModel_id());
+                    if (numOfAl != listQuest.size()) {
+                        status = 0;
+                    }
+                }
+                m.updateStatus(am.get(0).getModel_id(), status+"");
+                m = m.getModelByID(am.get(0).getModel_id());
                 request.setAttribute("listCri", listCri);
                 request.setAttribute("m", m);
             }
         } catch (Exception e) {
             System.out.println(e);
         }
-
+        System.out.println("Sta : "+status);
         getServletContext().getRequestDispatcher(response.encodeURL(viewAgent)).forward(request, response);
     }
 
