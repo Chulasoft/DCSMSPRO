@@ -529,7 +529,7 @@ public class Model {
         }
         return ans;
     }
-    
+
     public int getSpecAnsNum(int al_id) {
         int ans = 0;
         try {
@@ -697,7 +697,8 @@ public class Model {
             System.out.println(ex);
         }
     }
-    public void updateStatus(int m_id,String status) {
+
+    public void updateStatus(int m_id, String status) {
         try {
             Connection con = ConnectionBuilder.getConnection();
             String sql = "UPDATE MODEL SET MODEL_STATUS = ? WHERE M_ID = ? ";
@@ -707,6 +708,43 @@ public class Model {
             ps.setString(1, status);
             ps.setInt(2, m_id);
 
+            // call executeUpdate to execute our sql update statement
+            ps.executeUpdate();
+
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+
+    public void updatePublish(int m_id, boolean pub) {
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "UPDATE MODEL SET MODEL_PUBLISH = ? WHERE M_ID = ? ";
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            // set the preparedstatement parameters
+            ps.setBoolean(1, pub);
+            ps.setInt(2, m_id);
+
+            // call executeUpdate to execute our sql update statement
+            ps.executeUpdate();
+
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+
+        public void updateLastUpdate(int m_id) {
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "UPDATE MODEL SET MODEL_LAST_UPDATE = ? WHERE M_ID = ? ";
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            // set the preparedstatement parameters
+            ps.setTimestamp(1, getCurrentTimeStamp());
+            ps.setInt(2, m_id);
             // call executeUpdate to execute our sql update statement
             ps.executeUpdate();
 
@@ -893,6 +931,20 @@ public class Model {
             stmt.executeUpdate(sql);
             stmt = con.createStatement();
             sql = "DELETE FROM ALTERNATIVE WHERE AL_ID = " + alter_id;
+            stmt.executeUpdate(sql);
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return "success";
+    }
+        public String delAlterSpecByID(int alter_id) {
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "";
+            Statement stmt = con.createStatement();
+            stmt = con.createStatement();
+            sql = "DELETE FROM ALTERNATIVE_SPECIFICATION WHERE AL_ID = " + alter_id;
             stmt.executeUpdate(sql);
             con.close();
         } catch (SQLException ex) {

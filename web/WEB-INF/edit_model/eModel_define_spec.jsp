@@ -82,14 +82,16 @@
                     <div class="row">
                         <h3>Specification for ${whoName}</h3>
                         <hr>
-                        <form method="POST" action="EditModel">
+                        <form method="POST" action="SetAnswer">
                             <input type="hidden" name="who" value="${who}"/>
                             <div class="col-sm-offset-2 col-sm-8 ">
                                 <div class="panel-group">
                                     <%
                                         ArrayList<Model> allQuest = (ArrayList) request.getAttribute("listQuest");
                                         int old_id = -1;
+                                        Model m = new Model();
                                         for (int i = 0; i < allQuest.size(); i++) {
+                                            int questAc =  m.getSpecAnsByID(allQuest.get(i).getQuest_id(),Integer.parseInt(request.getAttribute("who")+""));
                                             if(allQuest.get(i).getSc_id()!=old_id){
                                         %>
                                     <div class="panel panel-default">
@@ -102,9 +104,9 @@
                                             <div  style="float: left"><%=allQuest.get(i).getQuest_name()%></div>
                                             <div style="float: right;">
                                                 <ul class="pagination" id="<%=allQuest.get(i).getQuest_id()%>">
-                                                    <li><a onclick="setRes<%=allQuest.get(i).getQuest_id()%>(1)"><span class="glyphicon glyphicon-ok" style="color: green"></span></a></li>
-                                                    <li><a onclick="setRes<%=allQuest.get(i).getQuest_id()%>(0)"><span class="glyphicon glyphicon-remove" style="color: #ac2925"></span></a></li>
-                                                    <input type="hidden" name="ans" value="" id="hidden<%=allQuest.get(i).getQuest_id()%>" />
+                                                    <li <%if(questAc==1){out.print("class='active'");}%>><a onclick="setRes<%=allQuest.get(i).getQuest_id()%>(1)"><span class="glyphicon glyphicon-ok" style="color: green"></span></a></li>
+                                                    <li <%if(questAc==0){out.print("class='active'");}%>><a onclick="setRes<%=allQuest.get(i).getQuest_id()%>(0)"><span class="glyphicon glyphicon-remove" style="color: #ac2925"></span></a></li>
+                                                    <input type="hidden" name="ans" value="<%=allQuest.get(i).getQuest_id()%>:<% String vals = questAc == 1 ? "1":"0"; out.print(vals); %>" id="hidden<%=allQuest.get(i).getQuest_id()%>" />
                                                 </ul>
                                             </div>
                                         </div>

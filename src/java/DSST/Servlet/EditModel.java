@@ -258,7 +258,8 @@ public class EditModel extends HttpServlet {
             ss.setAttribute("model_id", model_id);
             request.setAttribute("m", m);
         }
-
+        Model up = new Model();
+        up.updateLastUpdate(Integer.parseInt(ss.getAttribute("model_id") + ""));
         getServletContext().getRequestDispatcher(response.encodeURL(viewAgent)).forward(request, response);
     }
 

@@ -78,7 +78,7 @@ public class PublishModel extends HttpServlet {
             }
         }
         if(status==1){
-            m.updatePublish();
+            m.updatePublish(Integer.parseInt(m_id),true);
         }
         request.setAttribute("msg", msg);
         getServletContext().getRequestDispatcher(response.encodeURL(viewAgent)).forward(request, response);

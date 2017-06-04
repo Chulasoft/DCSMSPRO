@@ -37,17 +37,21 @@ public class SetAnswer extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String viewAgent = "";
         HttpSession ss = request.getSession();
-        
-        if (request.getParameter("ans")!=null) {
+
+        if (request.getParameter("ans") != null) {
             String ans[] = request.getParameterValues("ans");
             Model m = new Model();
-            for(int i = 0; i <ans.length;i++){
+            m.delAlterSpecByID(Integer.parseInt(request.getParameter("who")));
+            for (int i = 0; i < ans.length; i++) {
                 int colon = ans[i].indexOf(':');
                 String ques_id = ans[i].substring(0, colon);
-                String answer = ans[i].substring(colon+1);
-                Member login = (Member)ss.getAttribute("login");
-                m.setAns(answer, login.getName() , Integer.parseInt(ques_id) , Integer.parseInt(request.getParameter("who")));
+                String answer = ans[i].substring(colon + 1);
+                Member login = (Member) ss.getAttribute("login");
+                m.setAns(answer, login.getName(), Integer.parseInt(ques_id), Integer.parseInt(request.getParameter("who")));
             }
+            ArrayList<Model> listAlter = new ArrayList();
+            listAlter = m.getAlterById(Integer.parseInt(ss.getAttribute("model_id") + ""));
+            request.setAttribute("listAlter", listAlter);
             viewAgent = "/WEB-INF/edit_model/eModel_6.jsp";
         } else {
             String who = request.getParameter("ra_id");
