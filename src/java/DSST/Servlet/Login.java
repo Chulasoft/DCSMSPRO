@@ -41,11 +41,11 @@ public class Login extends HttpServlet {
             String password = request.getParameter("password");
 
             if ((username != null) && (password != null)) {
-                //Member login = Member.login(username, password);
-                Member login = new Member();
-                login.setName("Soft");
-                login.setType(2);
-                login.setMem_id(0003);
+                Member login = Member.login(username, password);
+//                Member login = new Member();
+//                login.setName("Soft");
+//                login.setType(2);
+//                login.setMem_id(0003);
                 if (login != null) {
                     ss.setAttribute("login", login);
                     viewAgent = "/WEB-INF/main_menu.jsp";

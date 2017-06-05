@@ -129,6 +129,18 @@
         <servlet-name>PublishModel</servlet-name>
         <servlet-class>DSST.Servlet.PublishModel</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RequestAns</servlet-name>
+        <servlet-class>DSST.Servlet.RequestAns</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CustomerAns</servlet-name>
+        <servlet-class>DSST.Servlet.CustomerAns</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Chart</servlet-name>
+        <servlet-class>DSST.Servlet.Chart</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TestServ</servlet-name>
         <url-pattern>/TestServ</url-pattern>
@@ -208,6 +220,18 @@
     <servlet-mapping>
         <servlet-name>PublishModel</servlet-name>
         <url-pattern>/PublishModel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RequestAns</servlet-name>
+        <url-pattern>/RequestAns</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CustomerAns</servlet-name>
+        <url-pattern>/CustomerAns</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Chart</servlet-name>
+        <url-pattern>/Chart</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

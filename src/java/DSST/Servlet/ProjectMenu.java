@@ -36,13 +36,13 @@ public class ProjectMenu extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-        String viewAgent = "/WEB-INF/project/project_main.jsp";
+        String viewAgent = "/WEB-INF/create_project/project_main.jsp";
         String msg = "Unfinished Project";
         Project pj = new Project();
         HttpSession ss = request.getSession();
         Member user = (Member) ss.getAttribute("login");
         
-        ArrayList<Project> listProjects = pj.getProject(user.getMem_id());
+        ArrayList<Project> listProjects = pj.getProject(Integer.parseInt(user.getGroup()));
         if (request.getParameter("pId")!= null) {
             String pId = request.getParameter("pId");
             if (!pj.getProductTable(Integer.parseInt(pId)).isEmpty()) {
@@ -56,7 +56,7 @@ public class ProjectMenu extends HttpServlet {
             pj = pj.findProject(Integer.parseInt(pId));
             request.setAttribute("pj", pj);
             request.setAttribute("listProjects", listProjects);
-        }else{
+        }else if(!listProjects.isEmpty()){
             String pId = listProjects.get(0).getProj_id()+"";
             if (!pj.getProductTable(Integer.parseInt(pId)).isEmpty()) {
                 ArrayList<Project> table = pj.getTable(Integer.parseInt(pId));

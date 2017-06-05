@@ -43,9 +43,27 @@ public class ModelMenu extends HttpServlet {
         String m_id = request.getParameter("m_id");
         int status = 1;
         try {
-            am = m.getModels(user.getMem_id());
+            am = m.getModels(Integer.parseInt(user.getGroup()));
             request.setAttribute("am", am);
             if (m_id != null) {
+                ArrayList<Model> criDB = m.getModelsCriteriaByID(Integer.parseInt(m_id));
+                ArrayList<Model> allSubDB = new ArrayList();
+                for (Model mCriDB : criDB) {
+                    ArrayList<Model> subCriDB = m.getSubCriteriaByID(mCriDB.getCri_id());
+                    if (subCriDB.isEmpty()) {
+                        allSubDB.add(mCriDB);
+                    } else {
+                        for (Model mSubDB : subCriDB) {
+                            mSubDB.setCri_name(mCriDB.getCri_name());
+                            allSubDB.add(mSubDB);
+                        }
+                    }
+                }
+                Model mo = new Model();
+                ArrayList<Model> listAlterss = new ArrayList();
+                listAlterss = mo.getAlterById(Integer.parseInt(m_id));
+                request.setAttribute("listAlter", listAlterss);
+                request.setAttribute("allSubDB", allSubDB);
                 m = m.getModelByID(Integer.parseInt(m_id));
                 ArrayList<Model> listCri = new ArrayList();
                 ArrayList<Model> listSub = new ArrayList();
@@ -79,6 +97,24 @@ public class ModelMenu extends HttpServlet {
                 request.setAttribute("listCri", listCri);
                 request.setAttribute("m", m);
             } else if (am != null) {
+                ArrayList<Model> criDB = m.getModelsCriteriaByID(am.get(0).getModel_id());
+                ArrayList<Model> allSubDB = new ArrayList();
+                for (Model mCriDB : criDB) {
+                    ArrayList<Model> subCriDB = m.getSubCriteriaByID(mCriDB.getCri_id());
+                    if (subCriDB.isEmpty()) {
+                        allSubDB.add(mCriDB);
+                    } else {
+                        for (Model mSubDB : subCriDB) {
+                            mSubDB.setCri_name(mCriDB.getCri_name());
+                            allSubDB.add(mSubDB);
+                        }
+                    }
+                }
+                Model mo = new Model();
+                ArrayList<Model> listAlterss = new ArrayList();
+                listAlterss = mo.getAlterById(am.get(0).getModel_id());
+                request.setAttribute("listAlter", listAlterss);
+                request.setAttribute("allSubDB", allSubDB);
                 m = m.getModelByID(am.get(0).getModel_id());
                 ArrayList<Model> listCri = new ArrayList();
                 ArrayList<Model> listSub = new ArrayList();

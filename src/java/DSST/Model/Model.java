@@ -356,12 +356,21 @@ public class Model {
         }
         return done;
     }
+private boolean publish;
+
+    public boolean isPublish() {
+        return publish;
+    }
+
+    public void setPublish(boolean publish) {
+        this.publish = publish;
+    }
 
     public ArrayList<Model> getModels(int mem_id) {
         ArrayList am = new ArrayList();
         try {
             Connection con = ConnectionBuilder.getConnection();
-            String sql = "SELECT M_ID,MODEL_NAME,MODEL_STATUS,MODEL_CREATE_BY,MODEL_LAST_UPDATE FROM MODEL WHERE MODEL_CREATE_BY = ? ";
+            String sql = "SELECT M_ID,MODEL_NAME,MODEL_STATUS,MODEL_CREATE_BY,MODEL_LAST_UPDATE,MODEL_PUBLISH FROM MODEL WHERE MODEL_CREATE_BY = ? ";
             PreparedStatement stm = con.prepareStatement(sql);
             stm.setInt(1, mem_id);
             ResultSet rs = stm.executeQuery();
@@ -372,6 +381,7 @@ public class Model {
                 m.setModel_status(rs.getString(3));
                 m.setCreate_by_id(rs.getInt(4));
                 m.setModel_lastUpdate(rs.getString(5));
+                m.setPublish(rs.getBoolean(6));
                 if (m != null) {
                     am.add(m);
                 }
@@ -387,7 +397,7 @@ public class Model {
         Model m = new Model();
         try {
             Connection con = ConnectionBuilder.getConnection();
-            String sql = "SELECT M_ID,MODEL_NAME,MODEL_STATUS,MODEL_CREATE_BY,MODEL_LAST_UPDATE,GOAL_NAME,GOAL_DESCRIPTION FROM MODEL WHERE M_ID = ? ";
+            String sql = "SELECT M_ID,MODEL_NAME,MODEL_STATUS,MODEL_CREATE_BY,MODEL_LAST_UPDATE,GOAL_NAME,GOAL_DESCRIPTION,MODEL_PUBLISH FROM MODEL WHERE M_ID = ? ";
             PreparedStatement stm = con.prepareStatement(sql);
             stm.setInt(1, m_id);
             ResultSet rs = stm.executeQuery();
@@ -399,6 +409,7 @@ public class Model {
                 m.setModel_lastUpdate(rs.getString(5));
                 m.setModel_goal(rs.getString(6));
                 m.setModel_goal_des(rs.getString(7));
+                m.setPublish(rs.getBoolean(8));
             }
             con.close();
         } catch (SQLException ex) {

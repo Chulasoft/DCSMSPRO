@@ -72,6 +72,26 @@ public class Project {
         return cr_id;
     }
 
+    public int setAlter(int al_id, int p_id) {
+        int pa_id = 0;
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "INSERT INTO PROJECT_ALTER (AL_ID, P_ID) VALUES (?, ?)";
+            PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            stm.setInt(1, al_id);
+            stm.setInt(2, p_id);
+            stm.executeUpdate();
+            ResultSet rs = stm.getGeneratedKeys();
+            while (rs.next()) {
+                pa_id = rs.getInt(1);
+            }
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return pa_id;
+    }
+
     public ArrayList<Integer> getAnswerFrommAL_ID(int al_id) {
         ArrayList am = new ArrayList();
         try {
@@ -160,11 +180,11 @@ public class Project {
         return (double) tmp / factor;
     }
 
-    public int setCriDetail(double cr, int cri_id, String criName, int type, double local, double global, int p_id) {
+    public int setCriDetail(double cr, int cri_id, String criName, int type, double local, double global, int p_id,int sc_id) {
         int pcd_id = 0;
         try {
             Connection con = ConnectionBuilder.getConnection();
-            String sql = "INSERT INTO PROJECT_CRITERIA_DETAIL (CR,CRI_ID, CRITERIA_NAME, CRI_TYPE,LOCAL_WEIGHT,GLOBAL_WEIGHT, P_ID) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO PROJECT_CRITERIA_DETAIL (CR,CRI_ID, CRITERIA_NAME, CRI_TYPE,LOCAL_WEIGHT,GLOBAL_WEIGHT, P_ID ,SC_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stm.setDouble(1, cr);
             stm.setInt(2, cri_id);
@@ -173,6 +193,7 @@ public class Project {
             stm.setDouble(5, local);
             stm.setDouble(6, global);
             stm.setInt(7, p_id);
+            stm.setInt(8, sc_id);
             stm.executeUpdate();
             ResultSet rs = stm.getGeneratedKeys();
             while (rs.next()) {
@@ -185,30 +206,30 @@ public class Project {
         return pcd_id;
     }
 
-    public int setCriDetail(double cr, int cri_id, String criName, int type, double local, int p_id) {
-        int pcd_id = 0;
-        try {
-            Connection con = ConnectionBuilder.getConnection();
-            String sql = "INSERT INTO PROJECT_CRITERIA_DETAIL (CR,CRI_ID, CRITERIA_NAME, CRI_TYPE,LOCAL_WEIGHT, GLOBAL_WEIGHT ,P_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            stm.setDouble(1, cr);
-            stm.setInt(2, cri_id);
-            stm.setString(3, criName);
-            stm.setInt(4, type);
-            stm.setDouble(5, local);
-            stm.setNull(6, Types.DOUBLE);
-            stm.setInt(7, p_id);
-            stm.executeUpdate();
-            ResultSet rs = stm.getGeneratedKeys();
-            while (rs.next()) {
-                pcd_id = rs.getInt(1);
-            }
-            con.close();
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-        return pcd_id;
-    }
+//    public int setCriDetail(double cr, int cri_id, String criName, int type, double local, int p_id) {
+//        int pcd_id = 0;
+//        try {
+//            Connection con = ConnectionBuilder.getConnection();
+//            String sql = "INSERT INTO PROJECT_CRITERIA_DETAIL (CR,CRI_ID, CRITERIA_NAME, CRI_TYPE,LOCAL_WEIGHT, GLOBAL_WEIGHT ,P_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+//            PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+//            stm.setDouble(1, cr);
+//            stm.setInt(2, cri_id);
+//            stm.setString(3, criName);
+//            stm.setInt(4, type);
+//            stm.setDouble(5, local);
+//            stm.setNull(6, Types.DOUBLE);
+//            stm.setInt(7, p_id);
+//            stm.executeUpdate();
+//            ResultSet rs = stm.getGeneratedKeys();
+//            while (rs.next()) {
+//                pcd_id = rs.getInt(1);
+//            }
+//            con.close();
+//        } catch (Exception ex) {
+//            System.out.println(ex);
+//        }
+//        return pcd_id;
+//    }
 
     private double CR;
     private int CRI_ID;
@@ -264,7 +285,49 @@ public class Project {
     public void setGLOBAL_WEIGHT(double GLOBAL_WEIGHT) {
         this.GLOBAL_WEIGHT = GLOBAL_WEIGHT;
     }
-
+    public ArrayList<Project> getChart(int p_id,int sc_id) {
+        ArrayList<Project> listProject = new ArrayList();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT * FROM APP.PROJECT_ALTERNATIVE_TABLEDETAIL where P_ID = ? AND SC_ID = ? order by al_id";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, p_id);
+            stm.setInt(2, sc_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Project p = new Project();
+                p.setAl_name(rs.getString("AL_NAME"));
+                p.setWeight(rs.getDouble("WEIGHT"));
+                listProject.add(p);
+            }
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return listProject;
+    }
+    
+        public ArrayList<Project> getPieChart(int p_id,int cri_id) {
+        ArrayList<Project> listProject = new ArrayList();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT * FROM APP.PROJECT_CRITERIA_DETAIL WHERE CRI_ID = ? AND P_ID = ? AND CRI_TYPE = 2";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(2, p_id);
+            stm.setInt(1, cri_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Project p = new Project();
+                p.setCRITERIA_NAME(rs.getString("CRITERIA_NAME"));
+                p.setWeight(rs.getDouble("LOCAL_WEIGHT"));
+                listProject.add(p);
+            }
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return listProject;
+    }
     public ArrayList<Project> getTable(int p_id) {
         ArrayList<Project> listProject = new ArrayList();
         try {
@@ -281,6 +344,8 @@ public class Project {
                 p.setCRI_TYPE(rs.getInt("CRI_TYPE"));
                 p.setLOCAL_WEIGHT(rs.getDouble("LOCAL_WEIGHT"));
                 p.setGLOBAL_WEIGHT(rs.getDouble("GLOBAL_WEIGHT"));
+                p.setSc_id(rs.getInt("SC_ID"));
+                p.setProj_id(p_id);
                 listProject.add(p);
             }
             con.close();
@@ -307,6 +372,43 @@ public class Project {
             System.out.println(ex);
         }
         return ans;
+    }
+
+    public int getNumOfAlter(int p_id) {
+        int num = 0;
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT count(AL_ID) FROM APP.PROJECT_ALTER WHERE P_ID = ?";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, p_id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                num = rs.getInt(1);
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return num;
+    }
+
+    public void updateState(int p_id, int state) {
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "UPDATE PROJECT SET PROJECT_STATE = ? WHERE P_ID = ? ";
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            // set the preparedstatement parameters
+            ps.setInt(1, state);
+            ps.setInt(2, p_id);
+            
+            // call executeUpdate to execute our sql update statement
+            ps.executeUpdate();
+
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
     }
 
     public int setALDetailTable(int p_id, int sc_id, int al_id, String al_name, double weight) {
@@ -410,10 +512,45 @@ public class Project {
         return listProduct;
     }
 
+        public ArrayList<Integer> getProAL(int p_id) {
+        ArrayList<Integer> listProduct = new ArrayList();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT * FROM APP.PROJECT_ALTER where P_ID = ?";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, p_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                listProduct.add(rs.getInt("AL_ID"));
+            }
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return listProduct;
+    }
     private int proj_id;
     private String proj_name;
     private String proj_status;
     private String proj_lastUpdate;
+    private int proj_state;
+    private int proj_m_id;
+
+    public int getProj_m_id() {
+        return proj_m_id;
+    }
+
+    public void setProj_m_id(int proj_m_id) {
+        this.proj_m_id = proj_m_id;
+    }
+
+    public int getProj_state() {
+        return proj_state;
+    }
+
+    public void setProj_state(int proj_state) {
+        this.proj_state = proj_state;
+    }
 
     public int getProj_id() {
         return proj_id;
@@ -461,6 +598,8 @@ public class Project {
                 p.setProj_name(rs.getString("PROJECT_NAME"));
                 p.setProj_lastUpdate(rs.getString("PROJECT_LAST_UPDATE"));
                 p.setProj_status(rs.getString("PROJECT_STATUS"));
+                p.setProj_state(rs.getInt("PROJECT_STATE"));
+                p.setProj_m_id(rs.getInt("M_ID"));
                 listProject.add(p);
             }
             con.close();
@@ -483,6 +622,8 @@ public class Project {
                 pj.setProj_name(rs.getString("PROJECT_NAME"));
                 pj.setProj_lastUpdate(rs.getString("PROJECT_LAST_UPDATE"));
                 pj.setProj_status(rs.getString("PROJECT_STATUS"));
+                pj.setProj_state(rs.getInt("PROJECT_STATE"));
+                pj.setProj_m_id(rs.getInt("M_ID"));
             }
             con.close();
         } catch (Exception ex) {

@@ -5,21 +5,18 @@
  */
 package DSST.Servlet;
 
-import DSST.Model.Project;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Jab-PC
  */
-public class ShowResult extends HttpServlet {
+public class Chart extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,14 +30,7 @@ public class ShowResult extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        String viewAgent = "/WEB-INF/create_project/project_7.jsp";
-        HttpSession ss = request.getSession();
-        Project pj = new Project();
-        ArrayList<Project> table = pj.getTable(Integer.parseInt(ss.getAttribute("p_id") + ""));
-        request.setAttribute("table", table);
-        ArrayList<Project> list = pj.getProductTable(Integer.parseInt(ss.getAttribute("p_id") + ""));
-        request.setAttribute("list", list);
+        String viewAgent = "/WEB-INF/create_project/Chart.jsp";
         getServletContext().getRequestDispatcher(response.encodeURL(viewAgent)).forward(request, response);
     }
 

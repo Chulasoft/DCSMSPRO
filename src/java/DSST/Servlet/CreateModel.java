@@ -47,7 +47,7 @@ public class CreateModel extends HttpServlet {
                 String modelName = request.getParameter("model_name");
                 String goal = request.getParameter("goal");
                 String goal_des = request.getParameter("goal_des");
-                mo = Model.initialModel(modelName, goal, goal_des, mem.getMem_id());
+                mo = Model.initialModel(modelName, goal, goal_des, Integer.parseInt(mem.getGroup()));
                 ss.setAttribute("mo", mo);
                 viewAgent = "/WEB-INF/model/model_2.jsp";
             

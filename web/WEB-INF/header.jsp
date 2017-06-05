@@ -14,7 +14,13 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
+                <%
+                    if(login.getType()==1){
+                %>
                 <li><a href="ModelMenu">Model</a></li>
+                <%
+                    }
+                %>
                 <li><a href="ProjectMenu">Project</a></li>
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown">More</a>

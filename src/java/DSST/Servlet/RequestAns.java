@@ -8,18 +8,16 @@ package DSST.Servlet;
 import DSST.Model.Project;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Jab-PC
  */
-public class ShowResult extends HttpServlet {
+public class RequestAns extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,14 +32,20 @@ public class ShowResult extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-        String viewAgent = "/WEB-INF/create_project/project_7.jsp";
-        HttpSession ss = request.getSession();
+        String viewAgent = "/ProjectMenu";
+        String msgRes = "";
+        String p_id = request.getParameter("p_id");
         Project pj = new Project();
-        ArrayList<Project> table = pj.getTable(Integer.parseInt(ss.getAttribute("p_id") + ""));
-        request.setAttribute("table", table);
-        ArrayList<Project> list = pj.getProductTable(Integer.parseInt(ss.getAttribute("p_id") + ""));
-        request.setAttribute("list", list);
+        int num = pj.getNumOfAlter(Integer.parseInt(p_id));
+        if(num<2){
+            msgRes = "Choose alternative at least 2";
+        }else{
+            pj.updateState(Integer.parseInt(p_id),1);
+        }
+        request.setAttribute("msgRes", msgRes);
+        
         getServletContext().getRequestDispatcher(response.encodeURL(viewAgent)).forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

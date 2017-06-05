@@ -127,8 +127,8 @@
         <div class="container-fluid">
             <div class="row">
                 <span class="hidden-mob">
-                    <div class="col-sm-3 col-md-2 sidebar">
-                        <h3>Model 
+                    <div class="col-sm-3 col-md-2 sidebar" style="overflow-y:auto">
+                        <h3 style="margin-bottom: 30px">Model 
                             <div class="dropdown" style="float: right;">
                                 <a href="#" data-toggle="dropdown" data-toggle="tooltip" data-placement="bottom" title="Add New Model"><span class="glyphicon glyphicon-plus-sign"></span></a>
                                 <ul class="dropdown-menu" style="z-index: 20">
@@ -137,24 +137,54 @@
                             </div>
                         </h3>
 
-                        <ul class="nav nav-sidebar">
-                            <%
-                                if (request.getAttribute("am") != null) {
-                                    ArrayList<Model> am = (ArrayList) request.getAttribute("am");
-                                    for (Model m : am) {
-                            %>
-                            <li>
-                                <span>
-                                    <a href="ModelMenu?m_id=<%=m.getModel_id()%>"><%=m.getModel_name()%></a>
-                                    <a href="#" style="float: right;" data-toggle="modal" data-target="#myModal" onclick="who(<%=m.getModel_id()%>)"><span class="glyphicon glyphicon-remove"></span></a>
-                                    <a href="#" style="float: right;margin-right: 6px;" onclick="who2(<%=m.getModel_id()%>)"><span class="glyphicon glyphicon-wrench"></span></a>
-                                </span>
-                            </li>
-                            <%
-                                    }
-                                }
-                            %>
-                        </ul>
+
+                        <%
+                            if (request.getAttribute("am") != null) {
+                        %>
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><strong>Recent Model</strong></div>
+                            <div class="panel-body"><ul class="nav nav-sidebar">
+                                    <%
+                                        ArrayList<Model> am = (ArrayList) request.getAttribute("am");
+                                        for (Model m : am) {
+                                            if (!m.isPublish()) {
+                                    %>
+                                    <li>
+                                        <span>
+                                            <a href="ModelMenu?m_id=<%=m.getModel_id()%>"><%=m.getModel_name()%></a>
+                                            <a href="#" style="float: right;" data-toggle="modal" data-target="#myModal" onclick="who(<%=m.getModel_id()%>)"><span class="glyphicon glyphicon-remove"></span></a>
+                                            <a href="#" style="float: right;margin-right: 6px;" onclick="who2(<%=m.getModel_id()%>)"><span class="glyphicon glyphicon-wrench"></span></a>
+                                        </span>
+                                    </li>
+                                    <%
+                                            }
+                                        }
+                                    %>
+                                </ul></div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><strong>Publish Model</strong></div>
+                            <div class="panel-body"><ul class="nav nav-sidebar">
+                                    <%
+                                        for (Model m : am) {
+                                            if (m.isPublish()) {
+                                    %>
+                                    <li>
+                                        <span>
+                                            <a href="ModelMenu?m_id=<%=m.getModel_id()%>"><%=m.getModel_name()%></a>
+                                            <a href="#" style="float: right;" data-toggle="modal" data-target="#myModal" onclick="who(<%=m.getModel_id()%>)"><span class="glyphicon glyphicon-remove"></span></a>
+                                        </span>
+                                    </li>
+                                    <%
+                                            }
+                                        }
+                                    %>
+                                </ul></div>
+                        </div>
+                        <%
+                            }
+                        %>
+
                     </div>
                 </span>
                 <%
@@ -170,21 +200,85 @@
                             <h3>Last update : <%=model.getModel_lastUpdate()%></h3>
                         </div>
                         <div class="form-group col-xs-3">
-                            <h3>Status : <% if(model.getModel_status().equals("1")){out.print("Finished");}else{out.print("On Progress");}%></h3>
+                            <h3>Status : <% if (model.getModel_status().equals("1")) {
+                                    out.print("Finished");
+                                } else {
+                                    out.print("On Progress");
+                                }%></h3>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-3">
                             <p>${msg}</p>
                         </div>
+                        <%
+                            if (!model.isPublish()) {
+                        %>
                         <div class="col-xs-offset-6 col-xs-3">
                             <a href="PublishModel?m_id=<%=model.getModel_id()%>"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-open-file"></span> Publish Model </button></a>
                         </div>
+                        <%
+                            }
+                        %>
                     </div>
                     <hr>
-                    <div class="row">
-                        <div id='chart_div'></div>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#Hierarchy">Hierarchy</a></li>
+                        <li><a data-toggle="tab" href="#AllCriteria">All Criteria</a></li>
+                        <li><a data-toggle="tab" href="#AllAlternative">All Alternative</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="Hierarchy" class="tab-pane fade in active">
+                            <div class="row" style="margin-top: 50px">
+                                <div id='chart_div'></div>
+                            </div>
+                        </div>
+                        <div id="AllCriteria" class="tab-pane fade">
+                            <div class="col-sm-offset-3 col-sm-6" style="margin-top: 30px">
+                                <%
+                                    ArrayList<Model> allSubDB = (ArrayList) request.getAttribute("allSubDB");
+                                    int criteria_id = -1;
+                                    for (int i = 0; i < allSubDB.size(); i++) {
+                                        if (criteria_id != allSubDB.get(i).getCri_id()) {
+                                %>
+                                <span class="col-sm-12">
+                                    <div class='alert alert-danger'>
+                                        <h3><%=allSubDB.get(i).getCri_name()%></h3>
+                                    </div>
+                                </span>
+                                <%
+                                        criteria_id = allSubDB.get(i).getCri_id();
+                                    }
+                                    if (allSubDB.get(i).getSc_name() != null) {
+                                %>
+                                <span class="col-sm-offset-1 col-sm-11">
+                                    <div class="alert alert-success"> 
+                                        <h3><%=allSubDB.get(i).getSc_name()%></h3>
+                                    </div>
+                                </span>
+                                <%
+                                        }
+                                    }
+                                %>
+                            </div>
+                        </div>
+                        <div id="AllAlternative" class="tab-pane fade">
+                            <div class="col-sm-offset-3 col-sm-6" style="margin-top: 30px">
+                            <%
+                                ArrayList<Model> listAlter = (ArrayList) request.getAttribute("listAlter");
+                                for (Model m : listAlter) {
+                            %>
+                            <div class="alert alert-danger" id="<%=m.getAl_id()%>" style="border-color: #EBEDEF;background-color: white;color: black;"> 
+                                <h3><%=m.getAl_name()%></h3>
+                            </div>
+                            <%
+                                }
+                            %>
+                            </div>
+                        </div>
                     </div>
+
+
                 </div>
                 <%
                 } else {

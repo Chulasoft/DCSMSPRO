@@ -21,7 +21,16 @@ public class Member {
     private String password;
     private int type;
     private String name;
+    private String group;
     private static int mem_id;
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
 
     public String getUsername() {
         return username;
@@ -67,7 +76,7 @@ public class Member {
         Member us = null;
         try {
             Connection conn = ConnectionBuilder.getConnection();
-            String sqlCmd = "select username, password, name,type,mem_id from Member where username = ? ";
+            String sqlCmd = "select username, password, name,type,mem_id,GROUP_MEM from Member where username = ? ";
             PreparedStatement pstm = conn.prepareStatement(sqlCmd);
             pstm.setString(1, username);
             ResultSet rs = pstm.executeQuery();
@@ -78,6 +87,7 @@ public class Member {
                     us.setName(rs.getString("name"));
                     us.setType(rs.getInt("type"));
                     setMem_id(rs.getInt("mem_id"));
+                    us.setGroup(rs.getString("GROUP_MEM"));
                 }
             }
             conn.close();
