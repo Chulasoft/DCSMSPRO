@@ -156,7 +156,7 @@ public class ProcessAlternativeResult extends HttpServlet {
                 int loop_num = 0;
                 for (String cell : linea) {
                     double a = Double.parseDouble(cell);
-                    pj.setALDetailTable(p_id, sc.getSc_id(), Integer.parseInt(examArrayALter[loop_num]), pj.getALNameByID(Integer.parseInt(examArrayALter[loop_num])), a);
+                    pj.setALDetailTable(p_id, sc.getSc_id(), Integer.parseInt(examArrayALter[loop_num]), pj.getALNameByID(Integer.parseInt(examArrayALter[loop_num])), a,m.getCriFromSub(sc.getSc_id()));
                     loop_num++;
                 }
                 br.close();

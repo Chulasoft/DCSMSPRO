@@ -285,6 +285,30 @@ public class Project {
     public void setGLOBAL_WEIGHT(double GLOBAL_WEIGHT) {
         this.GLOBAL_WEIGHT = GLOBAL_WEIGHT;
     }
+    
+    public ArrayList<Project> getRadarCriChart(int p_id,int cr_id) {
+        ArrayList<Project> listProject = new ArrayList();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT * FROM APP.PROJECT_ALTERNATIVE_TABLEDETAIL where P_ID = ? AND CR_ID = ? order by al_id,sc_id";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, p_id);
+            stm.setInt(2, cr_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Project p = new Project();
+                p.setAl_id(rs.getInt("AL_ID"));
+                p.setAl_name(rs.getString("AL_NAME"));
+                p.setWeight(rs.getDouble("WEIGHT"));
+                listProject.add(p);
+            }
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return listProject;
+    }
+    
     public ArrayList<Project> getChart(int p_id,int sc_id) {
         ArrayList<Project> listProject = new ArrayList();
         try {
@@ -411,17 +435,18 @@ public class Project {
         }
     }
 
-    public int setALDetailTable(int p_id, int sc_id, int al_id, String al_name, double weight) {
+    public int setALDetailTable(int p_id, int sc_id, int al_id, String al_name, double weight,int cr_id) {
         int pcd_id = 0;
         try {
             Connection con = ConnectionBuilder.getConnection();
-            String sql = "INSERT INTO PROJECT_ALTERNATIVE_TABLEDETAIL (P_ID,SC_ID,AL_ID, AL_NAME, WEIGHT ) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO PROJECT_ALTERNATIVE_TABLEDETAIL (P_ID,SC_ID,AL_ID, AL_NAME, WEIGHT ,CR_ID) VALUES (?, ?, ?, ?, ?,?)";
             PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stm.setInt(1, p_id);
             stm.setInt(2, sc_id);
             stm.setInt(3, al_id);
             stm.setString(4, al_name);
             stm.setDouble(5, weight);
+            stm.setInt(6, cr_id);
             stm.executeUpdate();
             ResultSet rs = stm.getGeneratedKeys();
             while (rs.next()) {

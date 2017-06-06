@@ -558,6 +558,25 @@ private boolean publish;
         }
         return ans;
     }
+    
+    public int getCriFromSub(int su_id) {
+        int cr_id = 0;
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT MC_ID FROM APP.SUB_CRITERIA WHERE SC_ID = ?";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, su_id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                cr_id = rs.getInt(1);
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return cr_id;
+    }
+        
     private int al_id;
     private String al_name;
     private String al_des;
