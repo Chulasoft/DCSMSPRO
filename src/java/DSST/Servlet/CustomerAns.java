@@ -81,30 +81,47 @@ public class CustomerAns extends HttpServlet {
                         }
                         i++;
                     }
-                    if (ii > 0) {
-                        dontWant.add(new Integer(a_m_id));
-                    }
+// for remove dont want
+//                    if (ii > 0) {
+//                        dontWant.add(new Integer(a_m_id));
+//                    }
                 }
-                for (int number : dontWant) {
-                    array_al_id.remove(new Integer(number));
+// for remove dont want
+//                for (int number : dontWant) {
+//                    array_al_id.remove(new Integer(number));
+//                }
+//                ArrayList<String> al_name_want = new ArrayList();
+//                for (int id : array_al_id) {
+//                    al_name_want.add(pj.getALNameByID(id));
+//                }
+                String chosenAL[] = new String[array_al_id.size()];
+                for(int l = 0; l < array_al_id.size();l++){
+                    chosenAL[l] =  array_al_id.get(l)+"";   
                 }
-                ArrayList<String> al_name_want = new ArrayList();
-                for (int id : array_al_id) {
-                    al_name_want.add(pj.getALNameByID(id));
+                for(int l = 0; l < array_al_id.size();l++){
+                    System.out.println(chosenAL[l]);  
                 }
-                request.setAttribute("array_al_id", array_al_id);
-                request.setAttribute("al_name_want", al_name_want);
-                viewAgent = "/WEB-INF/create_project/project_4.jsp";
-            } else if (page.equals("4")) {
-                String chosenAL[] = request.getParameterValues("chosenAL");
-                //--------------------
+// for remove dont want
+//                request.setAttribute("array_al_id", array_al_id);
+//                request.setAttribute("al_name_want", al_name_want);
+//                viewAgent = "/WEB-INF/create_project/project_4.jsp";
                 ss.setAttribute("chosenAL", chosenAL);
-                //--------------------
-                String m_id = ss.getAttribute("m_id")+"";
-                ArrayList<Model> allCriteria = m.getModelsCriteriaByID(Integer.parseInt(m_id));
+                ArrayList<Model> allCriteria = m.getModelsCriteriaByID(Integer.parseInt(ss.getAttribute("m_id")+""));
                 request.setAttribute("allCriteria", allCriteria);
                 viewAgent = "/WEB-INF/create_project/project_5.jsp";
-            } else if (page.equals("5")) {
+            } 
+// for remove dont want            
+//            else if (page.equals("4")) {
+//                String chosenAL[] = request.getParameterValues("chosenAL");
+//                //--------------------
+//                ss.setAttribute("chosenAL", chosenAL);
+//                //--------------------
+//                String m_id = ss.getAttribute("m_id")+"";
+//                ArrayList<Model> allCriteria = m.getModelsCriteriaByID(Integer.parseInt(m_id));
+//                request.setAttribute("allCriteria", allCriteria);
+//                viewAgent = "/WEB-INF/create_project/project_5.jsp";
+//            } 
+            else if (page.equals("5")) {
                 String listAnsCri[] = request.getParameterValues("ansCri");
                 String listCriId[] = request.getParameterValues("criId");
                 String stSize = request.getParameter("size");

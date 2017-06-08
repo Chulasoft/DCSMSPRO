@@ -352,6 +352,47 @@ public class Project {
         }
         return listProject;
     }
+        public ArrayList<Project> getPieChart(int p_id) {
+        ArrayList<Project> listProject = new ArrayList();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT * FROM APP.PROJECT_CRITERIA_DETAIL WHERE P_ID = ? AND CRI_TYPE = 1";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, p_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Project p = new Project();
+                p.setCRITERIA_NAME(rs.getString("CRITERIA_NAME"));
+                p.setWeight(rs.getDouble("LOCAL_WEIGHT"));
+                listProject.add(p);
+            }
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return listProject;
+    }
+        public ArrayList<Project> getPieChartAll(int p_id) {
+        ArrayList<Project> listProject = new ArrayList();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT * FROM APP.PROJECT_CRITERIA_DETAIL WHERE P_ID = ? AND CRI_TYPE = 2";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, p_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Project p = new Project();
+                p.setCRITERIA_NAME(rs.getString("CRITERIA_NAME"));
+                p.setWeight(rs.getDouble("LOCAL_WEIGHT"));
+                listProject.add(p);
+            }
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return listProject;
+    }
+        
     public ArrayList<Project> getTable(int p_id) {
         ArrayList<Project> listProject = new ArrayList();
         try {

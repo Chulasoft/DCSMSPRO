@@ -260,9 +260,11 @@
                                         %>
                                     </tbody>
                                 </table>
+                                <a href="#" onclick='window.open("allCriteriaPie.jsp?p_id=<%=proj.getProj_id()%>", "", "width=800,height=500")'><button class="btn btn-default" type="button"><span>Criteria Pie Chart</span></button></a>
+                                <a href="#" onclick='window.open("allSubPie.jsp?p_id=<%=proj.getProj_id()%>", "", "width=800,height=500")'><button class="btn btn-default" type="button"><span>Sub-Criteria Pie Chart</span></button></a>
                             </div>
-                                    
-                                    
+
+
                             <div id="Product" class="tab-pane fade">
                                 <table class="table">
                                     <thead>
@@ -302,10 +304,10 @@
                                         %>
                                         <tr>
                                             <td rowspan = "<%=mcri.size() + 1%>"><a href="#" onclick='window.open("ChartCriteria.jsp?p_id=<%=cri.getProj_id()%>&cr_id=<%=cri.getCRI_ID()%>", "", "width=420,height=420")'><%=cri.getCRITERIA_NAME()%></a></td>
-                                            <%
-                                            } else {
-                                                if (after == cri.getCRI_ID()) {
-                                            %>
+                                                <%
+                                                } else {
+                                                    if (after == cri.getCRI_ID()) {
+                                                %>
                                         <tr>
                                             <%
                                                 }
