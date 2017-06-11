@@ -192,13 +192,27 @@
                             </a>
                         </div>
                         <ul class="pager">
-                            <li><a href="ModelMenu">Cancel</a></li>
-                            <li><a href="#" onclick="document.forms[0].submit()">Next</a></li>
+                            <li><a href="#" onclick="onSub()">Next</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
     </content>
+    <script>
+        function onSub() {
+            var chk = 0;
+            $('input[name^="ansSc"]').each(function () {
+                if ($(this).val() == "") {
+                    chk++;
+                }
+            });
+            if(chk == 0){
+                document.forms[0].submit();
+            }else{
+                alert("Please answer all the question");
+            }
+        }
+    </script>
 </body>
 </html>

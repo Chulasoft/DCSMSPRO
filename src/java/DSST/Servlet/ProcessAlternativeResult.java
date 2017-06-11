@@ -105,7 +105,7 @@ public class ProcessAlternativeResult extends HttpServlet {
                 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-                PrintWriter pw = new PrintWriter(new File("D:\\Chula\\Server\\Glassfish\\glassfish\\config\\script\\VALINPUT.csv"));
+                PrintWriter pw = new PrintWriter(new File("C:\\Users\\Jab-PC\\GlassFish_Server\\glassfish\\domains\\domain1\\config\\script\\VALINPUT.csv"));
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < examArrayALter.length; i++) {
                     for (int y = i + 1; y < examArrayALter.length; y++) {
@@ -133,7 +133,7 @@ public class ProcessAlternativeResult extends HttpServlet {
                 pw.close();
                 System.out.println("done!");
                 Runtime rt = Runtime.getRuntime();
-                Process pr = rt.exec("octave-cli M_FAHP.m", null, new File("D:\\Chula\\Server\\Glassfish\\glassfish\\config\\script"));
+                Process pr = rt.exec("octave-cli M_FAHP.m", null, new File("C:\\Users\\Jab-PC\\GlassFish_Server\\glassfish\\domains\\domain1\\config\\script"));
                 
                 BufferedReader stdInput = new BufferedReader(new InputStreamReader(pr.getInputStream()));
                 BufferedReader stdError = new BufferedReader(new InputStreamReader(pr.getErrorStream()));
@@ -150,7 +150,7 @@ public class ProcessAlternativeResult extends HttpServlet {
                     System.out.println(s);
                 }
                 String splitBy = ",";
-                BufferedReader br = new BufferedReader(new FileReader("D:\\Chula\\Server\\Glassfish\\glassfish\\config\\script\\RESULT.csv"));
+                BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Jab-PC\\GlassFish_Server\\glassfish\\domains\\domain1\\config\\script\\RESULT.csv"));
                 String line = br.readLine();
                 String linea[] = line.split(splitBy);
                 int loop_num = 0;
@@ -162,9 +162,10 @@ public class ProcessAlternativeResult extends HttpServlet {
                 br.close();
             }
         }
+        pj.updateStatus(p_id);
         ss.removeAttribute("chosenAL");
-        response.sendRedirect("ShowResult");
-
+//        response.sendRedirect("ShowResult");
+        response.sendRedirect("ProcessAns");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

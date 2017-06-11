@@ -180,7 +180,7 @@ public class Project {
         return (double) tmp / factor;
     }
 
-    public int setCriDetail(double cr, int cri_id, String criName, int type, double local, double global, int p_id,int sc_id) {
+    public int setCriDetail(double cr, int cri_id, String criName, int type, double local, double global, int p_id, int sc_id) {
         int pcd_id = 0;
         try {
             Connection con = ConnectionBuilder.getConnection();
@@ -230,7 +230,6 @@ public class Project {
 //        }
 //        return pcd_id;
 //    }
-
     private double CR;
     private int CRI_ID;
     private String CRITERIA_NAME;
@@ -285,8 +284,8 @@ public class Project {
     public void setGLOBAL_WEIGHT(double GLOBAL_WEIGHT) {
         this.GLOBAL_WEIGHT = GLOBAL_WEIGHT;
     }
-    
-    public ArrayList<Project> getRadarCriChart(int p_id,int cr_id) {
+
+    public ArrayList<Project> getRadarCriChart(int p_id, int cr_id) {
         ArrayList<Project> listProject = new ArrayList();
         try {
             Connection con = ConnectionBuilder.getConnection();
@@ -308,8 +307,8 @@ public class Project {
         }
         return listProject;
     }
-    
-    public ArrayList<Project> getChart(int p_id,int sc_id) {
+
+    public ArrayList<Project> getChart(int p_id, int sc_id) {
         ArrayList<Project> listProject = new ArrayList();
         try {
             Connection con = ConnectionBuilder.getConnection();
@@ -330,8 +329,8 @@ public class Project {
         }
         return listProject;
     }
-    
-        public ArrayList<Project> getPieChart(int p_id,int cri_id) {
+
+    public ArrayList<Project> getPieChart(int p_id, int cri_id) {
         ArrayList<Project> listProject = new ArrayList();
         try {
             Connection con = ConnectionBuilder.getConnection();
@@ -352,7 +351,8 @@ public class Project {
         }
         return listProject;
     }
-        public ArrayList<Project> getPieChart(int p_id) {
+
+    public ArrayList<Project> getPieChart(int p_id) {
         ArrayList<Project> listProject = new ArrayList();
         try {
             Connection con = ConnectionBuilder.getConnection();
@@ -372,7 +372,8 @@ public class Project {
         }
         return listProject;
     }
-        public ArrayList<Project> getPieChartAll(int p_id) {
+
+    public ArrayList<Project> getPieChartAll(int p_id) {
         ArrayList<Project> listProject = new ArrayList();
         try {
             Connection con = ConnectionBuilder.getConnection();
@@ -392,7 +393,7 @@ public class Project {
         }
         return listProject;
     }
-        
+
     public ArrayList<Project> getTable(int p_id) {
         ArrayList<Project> listProject = new ArrayList();
         try {
@@ -466,7 +467,7 @@ public class Project {
             // set the preparedstatement parameters
             ps.setInt(1, state);
             ps.setInt(2, p_id);
-            
+
             // call executeUpdate to execute our sql update statement
             ps.executeUpdate();
 
@@ -476,7 +477,7 @@ public class Project {
         }
     }
 
-    public int setALDetailTable(int p_id, int sc_id, int al_id, String al_name, double weight,int cr_id) {
+    public int setALDetailTable(int p_id, int sc_id, int al_id, String al_name, double weight, int cr_id) {
         int pcd_id = 0;
         try {
             Connection con = ConnectionBuilder.getConnection();
@@ -578,7 +579,7 @@ public class Project {
         return listProduct;
     }
 
-        public ArrayList<Integer> getProAL(int p_id) {
+    public ArrayList<Integer> getProAL(int p_id) {
         ArrayList<Integer> listProduct = new ArrayList();
         try {
             Connection con = ConnectionBuilder.getConnection();
@@ -696,5 +697,43 @@ public class Project {
             System.out.println(ex);
         }
         return pj;
+    }
+
+    public void updateStatus(int p_id) {
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "UPDATE PROJECT SET PROJECT_STATE = 2,PROJECT_STATUS = '1' WHERE P_ID = ? ";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, p_id);
+            stm.executeUpdate();
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
+
+    public void updateFinal(int p_id) {
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "UPDATE PROJECT SET PROJECT_STATUS = '2' WHERE P_ID = ? ";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, p_id);
+            stm.executeUpdate();
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
+    public void updateRevert(int p_id) {
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "UPDATE PROJECT SET PROJECT_STATE = 1 ,PROJECT_STATUS = '0' WHERE P_ID = ? ";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, p_id);
+            stm.executeUpdate();
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
     }
 }

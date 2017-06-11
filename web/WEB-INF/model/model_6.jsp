@@ -94,7 +94,6 @@
                         <form action="CreateModel" method="POST" id="end">
                             <div class="col-sm-12">
                                 <ul class="pager">
-                                    <li><a href="#">Previous</a></li>
                                     <li><a href="#" onclick="document.getElementById('end').submit();">Next</a></li>
                                 </ul>
                             </div>

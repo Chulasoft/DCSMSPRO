@@ -77,56 +77,79 @@
                 <span class="hidden-mob">
                     <jsp:include page="sidenav_create_project.jsp" flush="false"/>
                 </span>
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="top: 72px">
-                    <div class="row">
-                        <h3>Specification for ${whoName}</h3>
-                        <hr>
-                        <form method="POST" action="CustomerAns">
+                <form method="POST" action="CustomerAns">
+                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="top: 72px">
+                        <div class="row">
+                            <h3>Specification for ${whoName}</h3>
+                            <hr>
+
                             <input type="hidden" name="page" value="3"/>
                             <div class="col-sm-offset-2 col-sm-8 ">
                                 <div class="panel-group">
                                     <%
+                                        int before = -1;
                                         ArrayList<Model> allQuest = (ArrayList) request.getAttribute("allQuest");
                                         for (int i = 0; i < allQuest.size(); i++) {
+                                            if (allQuest.get(i).getSc_id() != before) {
                                     %>                                    
                                     <div class="panel panel-default">
                                         <div class="panel-heading"><%=allQuest.get(i).getSc_name()%></div>
                                         <div class="panel-body">
-                                            <div style="float: left;"><%=allQuest.get(i).getQuest_name()%></div>
-                                            <div style="float: right;">
-                                                <select style="width: 100%;padding: 10px;border-radius: 5px;" name="ansQues" required>
-                                                    <option value="">--Choice--</option>
-                                                    <option value="<%=allQuest.get(i).getQuest_id()%>:3">Must Have</option>
-                                                    <option value="<%=allQuest.get(i).getQuest_id()%>:2">Should Have</option>
-                                                    <option value="<%=allQuest.get(i).getQuest_id()%>:1">Could Have</option>
-                                                    <option value="<%=allQuest.get(i).getQuest_id()%>:0">Don't Want</option>
-                                                </select>
+
+                                            <%
+                                                before = allQuest.get(i).getSc_id(); 
+                                                }
+                                            %> 
+
+                                            <div class="container-fluid" style="margin-bottom:  10px">
+                                                <div style="float: left;"><%=allQuest.get(i).getQuest_name()%></div>
+                                                <div style="float: right;">
+                                                    <select style="width: 100%;padding: 10px;border-radius: 5px;" name="ansQues" required>
+                                                        <option value="">--Choice--</option>
+                                                        <option value="<%=allQuest.get(i).getQuest_id()%>:3">Must Have</option>
+                                                        <option value="<%=allQuest.get(i).getQuest_id()%>:2">Should Have</option>
+                                                        <option value="<%=allQuest.get(i).getQuest_id()%>:1">Could Have</option>
+                                                        <option value="<%=allQuest.get(i).getQuest_id()%>:0">Don't Want</option>
+                                                    </select>
+                                                </div>
                                             </div>
+                                            <%
+                                                if (i + 1 != allQuest.size()) {
+                                                    if (allQuest.get(i + 1).getSc_id() != allQuest.get(i).getSc_id()) {
+                                            %> 
                                         </div>
                                     </div>
                                     <%
+                                        }
+                                    } else {
+                                    %>
+                                        </div>
+                                    </div>
+                                    <%
+                                            }
                                         }
                                     %>
                                 </div>
 
                             </div>
-                        </form>
+
+                        </div>
+                        <div class="col-sm-12" style="margin-top: 10px">
+                            <ul class="pager">
+                                <li><button class="btn btn-default" style="border-radius: 20px" type="submit">Submit</button></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="col-sm-12" style="margin-top: 10px">
-                        <ul class="pager">
-                            <li><a href="#" onclick="document.forms[0].submit()" >Submit</a></li>
-                        </ul>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </content>
-<!--    <script>
-        $("#submit").click(function () {
-            if($("select[name='ansQues']").val()==0){
-                alert("กรุณากรอกข้อมูลให้ครบถ้วน");
-            }
-        });
-    </script>-->
+    <!--    <script>
+            $("#submit").click(function () {
+                if($("select[name='ansQues']").val()==0){
+                    alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+                }
+            });
+        </script>-->
 </body>
 </html>

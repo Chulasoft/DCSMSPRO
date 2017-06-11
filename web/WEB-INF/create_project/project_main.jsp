@@ -94,7 +94,8 @@
                         %>
                         <div class="panel panel-default">
                             <div class="panel-heading"><strong>Recent Project</strong></div>
-                            <div class="panel-body"><ul class="nav nav-sidebar">
+                            <div class="panel-body">
+                                <ul class="nav nav-sidebar" id="reChkEmt">
                                     <%
                                         for (Project pj : listProjects) {
                                             if (pj.getProj_state() == 0) {
@@ -110,14 +111,15 @@
                                             }
                                         }
                                     %>
-                                </ul></div>
+                                </ul>
+                            </div>
                         </div>
                         <%
                             }
                         %>
                         <div class="panel panel-default">
                             <div class="panel-heading"><strong>Request Answers</strong></div>
-                            <div class="panel-body"><ul class="nav nav-sidebar">
+                            <div class="panel-body"><ul class="nav nav-sidebar" id="reqChkEmt">
                                     <%
                                         for (Project pj : listProjects) {
                                             if (pj.getProj_state() == 1) {
@@ -126,7 +128,7 @@
                                         <span>
                                             <a href="ProjectMenu?pId=<%=pj.getProj_id()%>"><%=pj.getProj_name()%></a>
                                             <a href="#" style="float: right;" data-toggle="modal" data-target="#myModal" onclick="who(<%=pj.getProj_id()%>)"><span class="glyphicon glyphicon-remove"></span></a>
-                                            <a href="#" style="float: right;margin-right: 6px;" onclick="who2(<%=pj.getProj_id()%>)"><span class="glyphicon glyphicon-wrench"></span></a>
+<!--                                            <a href="#" style="float: right;margin-right: 6px;" onclick="who2(<%=pj.getProj_id()%>)"><span class="glyphicon glyphicon-wrench"></span></a>-->
                                         </span>
                                     </li>
                                     <%
@@ -137,7 +139,7 @@
                         </div>
                         <div class="panel panel-default">
                             <div class="panel-heading"><strong>Finished Project</strong></div>
-                            <div class="panel-body"><ul class="nav nav-sidebar">
+                            <div class="panel-body"><ul class="nav nav-sidebar" id="finChkEmt">
                                     <%
                                         for (Project pj : listProjects) {
                                             if (pj.getProj_state() == 2) {
@@ -146,7 +148,7 @@
                                         <span>
                                             <a href="ProjectMenu?pId=<%=pj.getProj_id()%>"><%=pj.getProj_name()%></a>
                                             <a href="#" style="float: right;" data-toggle="modal" data-target="#myModal" onclick="who(<%=pj.getProj_id()%>)"><span class="glyphicon glyphicon-remove"></span></a>
-                                            <a href="#" style="float: right;margin-right: 6px;" onclick="who2(<%=pj.getProj_id()%>)"><span class="glyphicon glyphicon-wrench"></span></a>
+<!--                                            <a href="#" style="float: right;margin-right: 6px;" onclick="who2(<%=pj.getProj_id()%>)"><span class="glyphicon glyphicon-wrench"></span></a>-->
                                         </span>
                                     </li>
                                     <%
@@ -156,13 +158,51 @@
                                 </ul></div>
                         </div>
                         <%
+                        } else {
+                            if (login.getType() == 1) {
+                        %>
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><strong>Recent Project</strong></div>
+                            <div class="panel-body">
+                                <ul class="nav nav-sidebar">
+                                    <li style="color:#C0C0C0;text-align: center">
+                                        Empty
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <%
+                            }
+                        %>
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><strong>Request Answers</strong></div>
+                            <div class="panel-body">
+                                <ul class="nav nav-sidebar">
+                                    <li style="color:#C0C0C0;text-align: center">
+                                        Empty
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><strong>Finished Project</strong></div>
+                            <div class="panel-body">
+                                <ul class="nav nav-sidebar">
+                                    <li style="color:#C0C0C0;text-align: center">
+                                        Empty
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <%
                             }
                         %>
                     </div>
                 </span>
                 <%
-                    Project proj = (Project) request.getAttribute("pj");
-                    if (request.getAttribute("msg") == null) {
+                    if (request.getAttribute("pj") != null) {
+                        Project proj = (Project) request.getAttribute("pj");
+                        if (request.getAttribute("msg") == null) {
                 %>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="top: 72px">
                     <div class="row">
@@ -173,7 +213,11 @@
                             <h3>Last update : <%=proj.getProj_lastUpdate()%></h3>
                         </div>
                         <div class="form-group col-xs-3">
-                            <h3>Status : <%=proj.getProj_status()%></h3>
+                            <h3>Status : <%if (proj.getProj_status().equals("0")) {
+                                    out.print("OnProgress");
+                                } else {
+                                    out.print("Finished");
+                                }%></h3>
                         </div>
                     </div>
                     <div class="row">
@@ -188,15 +232,27 @@
                         </div>
                         <%
                         } else if (login.getType() == 2) {
+                            if (proj.getProj_status().equals("1")) {
+                        %>
+                        <div class="col-xs-offset-6 col-xs-3">
+                            <a href="CustomerAns?p_id=<%=proj.getProj_id()%>"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-log-out"></span> Set New Answer </button></a>
+                            <a href="ProcessAns?p_id=<%=proj.getProj_id()%>"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-log-out"></span> Process Answer </button></a>
+                        </div>
+                        <%
+                        } else if (!proj.getProj_status().equals("2")) {
                         %>
                         <div class="col-xs-offset-6 col-xs-3">
                             <a href="CustomerAns?p_id=<%=proj.getProj_id()%>"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-log-out"></span> Set Answer </button></a>
                         </div>
                         <%
+                                }
                             }
                         %>
                     </div>
                     <hr>
+                    <%
+                        if (proj.getProj_state() == 2 && proj.getProj_status().equals("2")) {
+                    %>
                     <div class="row">
                         <h3>Result</h3>
                         <hr>
@@ -384,9 +440,13 @@
                             </div>
                         </div>
                     </div>
+                    <%
+                        }
+                    %>
                 </div>
                 <%
                 } else {
+                    if (!(proj.getProj_state() == 0 && login.getType() == 2)) {
                 %>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="top: 72px;">
                     <div class="row">
@@ -397,7 +457,11 @@
                             <h3>Last update : <%=proj.getProj_lastUpdate()%></h3>
                         </div>
                         <div class="form-group col-xs-3">
-                            <h3>Status : <%=proj.getProj_status()%></h3>
+                            <h3>Status : <%if (proj.getProj_status().equals("0")) {
+                                    out.print("OnProgress");
+                                } else {
+                                    out.print("Finished");
+                                }%></h3>
                         </div>
                     </div>
                     <div class="row">
@@ -424,6 +488,22 @@
                     <hr>
                     <h1><%=request.getAttribute("msg")%></h1>  
                 </div>
+            </div>
+            <%
+            } else {
+            %>
+            <div style="top:50%;left: 50%;position: fixed;">
+                <h1>Project are not available</h1>
+            </div>
+
+
+            <%
+                    }
+                }
+            } else {
+            %>
+            <div style="top:50%;left: 50%;position: fixed;">
+                <h1>Project are not available</h1>
             </div>
             <%
                 }
@@ -458,6 +538,17 @@
         <input type="hidden" name="projectId" id="projectId2" value="">
     </form>
     <script>
+        $(document).ready(function () {
+            if($("ul#reChkEmt li").length == 0){
+                $("ul#reChkEmt").html("<li style='color:#C0C0C0;text-align: center'>Empty</li>");
+            }
+            if($("ul#reqChkEmt li").length == 0){
+                $("ul#reqChkEmt").html("<li style='color:#C0C0C0;text-align: center'>Empty</li>");
+            }
+            if($("ul#finChkEmt li").length == 0){
+                $("ul#finChkEmt").html("<li style='color:#C0C0C0;text-align: center'>Empty</li>");
+            }
+        });
         function who(num) {
             $("#projectId").val(num);
         }

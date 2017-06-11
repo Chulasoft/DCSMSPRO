@@ -81,71 +81,71 @@
                         <hr>
                         <form method="POST" action="DefineSpecification">
                             <input type="hidden" name="who" value="${who}">
-                        <div class="col-sm-offset-2 col-sm-8 ">
-                            <%
-                                String cri[] = (String[]) session.getAttribute("cri");
-                                int cri_id[] = (int[]) session.getAttribute("cri_id");
-                                System.out.println(cri_id.length);
-                                for (int i = 0; i < cri.length; i++) {
-                            %>
-                            <h3><%=cri[i]%></h3>
-                            <%
-                                String scri[] = (String[]) session.getAttribute("scri" + cri_id[i]);
-                                int sub_id[] = (int[]) session.getAttribute("sub_id" + cri_id[i]);
-                                for (int j = 0; j < scri.length; j++) {
-                            %>    
-                            <div class="panel-group">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" href="#collapse<%=sub_id[j]%>"><%=i + 1%>.<%=j + 1%> <%=scri[j]%></a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapse<%=sub_id[j]%>" class="panel-collapse collapse in">
-                                        <%
-                                            String question[] = (String[]) session.getAttribute("question" + sub_id[j]);
-                                            int ques_id[] = (int[]) session.getAttribute("ques_id" + sub_id[j]);
-                                            for (int k = 0; k < question.length; k++) {
-                                        %>
-
-                                        <div class="panel-body">
-                                            <div  style="float: left"><%=question[k]%></div>
-                                            <div style="float: right">
-                                                <ul class="pagination" id="<%=ques_id[k]%>">
-                                                    <li><a onclick="setRes<%=ques_id[k]%>(1)"><span class="glyphicon glyphicon-ok" style="color: green"></span></a></li>
-                                                    <li><a onclick="setRes<%=ques_id[k]%>(0)"><span class="glyphicon glyphicon-remove" style="color: #ac2925"></span></a></li>
-                                                    <input type="hidden" name="ans" value="" id="hidden<%=ques_id[k]%>" />
-                                                </ul>
-                                            </div>
+                            <div class="col-sm-offset-2 col-sm-8 ">
+                                <%
+                                    String cri[] = (String[]) session.getAttribute("cri");
+                                    int cri_id[] = (int[]) session.getAttribute("cri_id");
+                                    System.out.println(cri_id.length);
+                                    for (int i = 0; i < cri.length; i++) {
+                                %>
+                                <h3><%=cri[i]%></h3>
+                                <%
+                                    String scri[] = (String[]) session.getAttribute("scri" + cri_id[i]);
+                                    int sub_id[] = (int[]) session.getAttribute("sub_id" + cri_id[i]);
+                                    for (int j = 0; j < scri.length; j++) {
+                                %>    
+                                <div class="panel-group">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" href="#collapse<%=sub_id[j]%>"><%=i + 1%>.<%=j + 1%> <%=scri[j]%></a>
+                                            </h4>
                                         </div>
+                                        <div id="collapse<%=sub_id[j]%>" class="panel-collapse collapse in">
+                                            <%
+                                                String question[] = (String[]) session.getAttribute("question" + sub_id[j]);
+                                                int ques_id[] = (int[]) session.getAttribute("ques_id" + sub_id[j]);
+                                                for (int k = 0; k < question.length; k++) {
+                                            %>
 
-                                        <script>
-                                            function setRes<%=ques_id[k]%>(num){
-                                                $('#hidden<%=ques_id[k]%>').val(<%=ques_id[k]%>+':'+num);
+                                            <div class="panel-body">
+                                                <div  style="float: left"><%=question[k]%></div>
+                                                <div style="float: right">
+                                                    <ul class="pagination" id="<%=ques_id[k]%>">
+                                                        <li><a onclick="setRes<%=ques_id[k]%>(1)"><span class="glyphicon glyphicon-ok" style="color: green"></span></a></li>
+                                                        <li><a onclick="setRes<%=ques_id[k]%>(0)"><span class="glyphicon glyphicon-remove" style="color: #ac2925"></span></a></li>
+                                                        <input type="hidden" name="ans" value="" id="hidden<%=ques_id[k]%>" />
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                            <script>
+                                            function setRes<%=ques_id[k]%>(num) {
+                                                $('#hidden<%=ques_id[k]%>').val(<%=ques_id[k]%> + ':' + num);
                                             }
                                             $("#<%=ques_id[k]%> li").on("click", function () {
                                                 $("#<%=ques_id[k]%> li").removeClass("active");
                                                 $(this).addClass("active");
                                             });
-                                            
-                                        </script>
-                                        <%
-                                            }
-                                        %>
+
+                                            </script>
+                                            <%
+                                                }
+                                            %>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <%
+                                <%
+                                        }
                                     }
-                                }
-                            %>
-                        </div>
+                                %>
+                            </div>
                         </form>
                     </div>
                     <div class="col-sm-12" style="margin-top: 10px">
                         <ul class="pager">
-                            <li><a href="#" onclick="document.forms[0].submit()">Submit</a></li>
+                            <li><a href="#" onclick="onSub()">Submit</a></li>
                         </ul>
                     </div>
                 </div>
@@ -153,5 +153,20 @@
 
         </div>
     </content>
+    <script>
+        function onSub() {
+            var chk = 0;
+            $('input[name^="ans"]').each(function () {
+                if ($(this).val() == "") {
+                    chk++;
+                }
+            });
+            if (chk == 0) {
+                document.forms[0].submit();
+            } else {
+                alert("Please answer all the question");
+            }
+        }
+    </script>
 </body>
 </html>

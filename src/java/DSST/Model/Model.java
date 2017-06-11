@@ -1007,6 +1007,28 @@ private boolean publish;
         }
         return "success";
     }
+    
+        public String delProjectForSetNew(int p_id) {
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            Statement stmt = con.createStatement();
+            String sql = "DELETE FROM PROJECT_CRITERIA_DETAIL WHERE P_ID = " + p_id;
+            stmt.executeUpdate(sql);
+            stmt = con.createStatement();
+            sql = "DELETE FROM PROJECT_ALTERNATIVE_TABLEDETAIL WHERE P_ID = " + p_id;
+            stmt.executeUpdate(sql);
+            stmt = con.createStatement();
+            sql = "DELETE FROM PROJECT_CRITERIA_INTENSITY WHERE P_ID = " + p_id;
+            stmt.executeUpdate(sql);
+            stmt = con.createStatement();
+            sql = "DELETE FROM PROJECT_REQUIREMENT WHERE P_ID = " + p_id;
+            stmt.executeUpdate(sql);
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return "success";
+    }
 
     @Override
     public String toString() {

@@ -155,7 +155,6 @@
                         </div>
                         <div class="col-sm-12">
                             <ul class="pager">
-                                <li><a href="#">Previous</a></li>
                                 <li><a href="#" onclick="document.forms[0].submit();">Next</a></li>
                             </ul>
                         </div>

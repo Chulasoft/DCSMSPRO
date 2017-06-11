@@ -136,7 +136,6 @@
                             </div>
                             <div class="col-sm-12">
                                 <ul class="pager">
-                                    <li><a href="#">Previous</a></li>
                                     <li><a href="#" id="sub">Next</a></li>
                                 </ul>
                             </div>
