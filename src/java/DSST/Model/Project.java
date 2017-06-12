@@ -724,6 +724,7 @@ public class Project {
             System.out.println(ex);
         }
     }
+
     public void updateRevert(int p_id) {
         try {
             Connection con = ConnectionBuilder.getConnection();
@@ -735,5 +736,108 @@ public class Project {
         } catch (Exception ex) {
             System.out.println(ex);
         }
+    }
+
+    private String cri_a;
+    private String cri_b;
+    private String intensity;
+
+    public String getCri_a() {
+        return cri_a;
+    }
+
+    public void setCri_a(String cri_a) {
+        this.cri_a = cri_a;
+    }
+
+    public String getCri_b() {
+        return cri_b;
+    }
+
+    public void setCri_b(String cri_b) {
+        this.cri_b = cri_b;
+    }
+
+    public String getIntensity() {
+        return intensity;
+    }
+
+    public void setIntensity(String intensity) {
+        this.intensity = intensity;
+    }
+
+
+
+    public ArrayList<Project> getIntenAnswer(int p_id) {
+        ArrayList<Project> listProject = new ArrayList();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT * FROM APP.PROJECT_CRITERIA_INTENSITY where P_ID = ?";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, p_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Project p = new Project();
+                p.setCri_a(p.findCriName(rs.getInt("CRITERIA_A"), rs.getInt("CRITERIA_TYPE")));
+                p.setCri_b(p.findCriName(rs.getInt("CRITERIA_B"), rs.getInt("CRITERIA_TYPE")));
+                p.setIntensity(rs.getString("INTENSITY_NUMBER"));
+                listProject.add(p);
+            }
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return listProject;
+    }
+
+    public String findCriName(int cri_id,int type) {
+        String cri_name = "";
+        String table = "";
+        if(type == 1){
+            table = "APP.CRITERIA where MC_ID = ?";
+        }else{
+            table = "APP.SUB_CRITERIA where SC_ID = ?";
+        }
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT * FROM "+table;
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, cri_id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                cri_name = rs.getString(2);
+            }
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return cri_name;
+    }
+    
+    
+
+    public ArrayList<Project> getSpecAnswer(int p_id) {
+        ArrayList<Project> listProject = new ArrayList();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT * FROM APP.PROJECT where PROJECT_CREATE_BY = ?";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, p_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Project p = new Project();
+                p.setProj_id(rs.getInt("P_ID"));
+                p.setProj_name(rs.getString("PROJECT_NAME"));
+                p.setProj_lastUpdate(rs.getString("PROJECT_LAST_UPDATE"));
+                p.setProj_status(rs.getString("PROJECT_STATUS"));
+                p.setProj_state(rs.getInt("PROJECT_STATE"));
+                p.setProj_m_id(rs.getInt("M_ID"));
+                listProject.add(p);
+            }
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return listProject;
     }
 }
