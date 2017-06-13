@@ -222,7 +222,7 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-3">
-                            <p>${msgRes}</p>
+                            <p style="color: red">${msgRes}</p>
                         </div>
                         <%
                             if (proj.getProj_state() == 0) {
@@ -259,6 +259,8 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#Score">Score</a></li>
                             <li><a data-toggle="tab" href="#Product">Product</a></li>
+                            <li><a data-toggle="tab" href="#QuesAnswer">Question & Answer</a></li>
+                            <li><a data-toggle="tab" href="#IntenAnswer">Criteria Intensity</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -438,6 +440,86 @@
                                     });
                                 </script>
                             </div>
+
+                            <div id="QuesAnswer" class="tab-pane fade">
+                                <%
+                                    Project pjInten = new Project();
+
+                                    ArrayList<Project> listReq = pjInten.getReqAnswer(proj.getProj_id());
+                                    if (!listReq.isEmpty()) {
+
+                                %>
+                                <div class="col-sm-5" >
+                                    <table class="table">
+                                        <tr>
+                                            <th>Question</th>
+                                            <th>Answers</th>
+                                        </tr>
+                                        <%                for (Project req : listReq) {
+                                        %>
+                                        <tr>
+                                            <td><%=req.getQuestion()%></td>
+                                            <td><%
+                                                if (req.getAnswer() == 0) {
+                                                    out.print("Don't Want");
+                                                } else if (req.getAnswer() == 1) {
+                                                    out.print("Could Have");
+                                                } else if (req.getAnswer() == 2) {
+                                                    out.print("Should Have");
+                                                } else if (req.getAnswer() == 3) {
+                                                    out.print("Must Have");
+                                                }
+                                                %></td>
+                                        </tr>
+                                        <%
+                                            }
+                                        %>
+                                    </table>
+                                </div>
+                                <%
+                                } else {
+                                %>
+                                <h1>Not Have Answer</h1>
+                                <%
+                                    }
+                                %>
+                            </div>
+
+                            <div id="IntenAnswer" class="tab-pane fade">
+                                <%
+                                    ArrayList<Project> listInten = pjInten.getIntenAnswer(proj.getProj_id());
+                                    if (!listInten.isEmpty()) {
+
+                                %>
+
+                                <div class="col-sm-5">
+                                    <table class="table">
+                                        <tr>
+                                            <th>Criteria A</th>
+                                            <th>Intensity</th>
+                                            <th>Criteria B</th>
+                                        </tr>
+                                        <%                for (Project inten : listInten) {
+                                        %>
+                                        <tr>
+                                            <td><%=inten.getCri_a()%></td>
+                                            <td><%=inten.getIntensity()%></td>
+                                            <td><%=inten.getCri_b()%></td>
+                                        </tr>
+                                        <%
+                                            }
+                                        %>
+                                    </table>
+                                </div>
+                                <%
+                                } else {
+                                %>
+                                <h1>Not Have Answer</h1>
+                                <%
+                                    }
+                                %>
+                            </div>
+
                         </div>
                     </div>
                     <%
@@ -466,7 +548,7 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-3">
-                            <p>${msgRes}</p>
+                            <p style="color: red">${msgRes}</p>
                         </div>
                         <%
 
@@ -486,7 +568,102 @@
                         %>
                     </div>
                     <hr>
-                    <h1><%=request.getAttribute("msg")%></h1>  
+                    <h1><%=request.getAttribute("msg")%></h1>
+                    <br>
+                    <!--Unfinished Project-->
+
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#QuesAnswer">Question & Answer</a></li>
+                        <li><a data-toggle="tab" href="#IntenAnswer">Criteria Intensity</a></li>
+                    </ul>
+                    <div class="tab-content">
+
+
+
+                        <div id="QuesAnswer" class="tab-pane fade in active">
+                            <%
+                                Project pjInten = new Project();
+
+                                ArrayList<Project> listReq = pjInten.getReqAnswer(proj.getProj_id());
+                                if (!listReq.isEmpty()) {
+
+                            %>
+                            <div class="col-sm-5" >
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th>Question</th>
+                                        <th>Answers</th>
+                                    </tr>
+                                    <%                for (Project req : listReq) {
+                                    %>
+                                    <tr>
+                                        <td><%=req.getQuestion()%></td>
+                                        <td><%
+                                            if (req.getAnswer() == 0) {
+                                                out.print("Don't Want");
+                                            } else if (req.getAnswer() == 1) {
+                                                out.print("Could Have");
+                                            } else if (req.getAnswer() == 2) {
+                                                out.print("Should Have");
+                                            } else if (req.getAnswer() == 3) {
+                                                out.print("Must Have");
+                                            }
+                                            %></td>
+                                    </tr>
+                                    <%
+                                        }
+                                    %>
+                                </table>
+                            </div>
+                            <%
+                            } else {
+                            %>
+                            <h1>Not Have Answer</h1>
+                            <%
+                                }
+                            %>
+                        </div>
+
+                        <div id="IntenAnswer" class="tab-pane fade">
+                            <%
+                                ArrayList<Project> listInten = pjInten.getIntenAnswer(proj.getProj_id());
+                                if (!listInten.isEmpty()) {
+
+                            %>
+
+                            <div class="col-sm-5">
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th>Criteria A</th>
+                                        <th>Intensity</th>
+                                        <th>Criteria B</th>
+                                    </tr>
+                                    <%                for (Project inten : listInten) {
+                                    %>
+                                    <tr>
+                                        <td><%=inten.getCri_a()%></td>
+                                        <td><%=inten.getIntensity()%></td>
+                                        <td><%=inten.getCri_b()%></td>
+                                    </tr>
+                                    <%
+                                        }
+                                    %>
+                                </table>
+                            </div>
+                            <%
+                            } else {
+                            %>
+                            <h1>Not Have Answer</h1>
+                            <%
+                                }
+                            %>
+                        </div>
+
+
+                    </div>
+
+                    <!--Unfinished Project-->
+
                 </div>
             </div>
             <%
@@ -495,8 +672,6 @@
             <div style="top:50%;left: 50%;position: fixed;">
                 <h1>Project are not available</h1>
             </div>
-
-
             <%
                     }
                 }
@@ -539,13 +714,13 @@
     </form>
     <script>
         $(document).ready(function () {
-            if($("ul#reChkEmt li").length == 0){
+            if ($("ul#reChkEmt li").length == 0) {
                 $("ul#reChkEmt").html("<li style='color:#C0C0C0;text-align: center'>Empty</li>");
             }
-            if($("ul#reqChkEmt li").length == 0){
+            if ($("ul#reqChkEmt li").length == 0) {
                 $("ul#reqChkEmt").html("<li style='color:#C0C0C0;text-align: center'>Empty</li>");
             }
-            if($("ul#finChkEmt li").length == 0){
+            if ($("ul#finChkEmt li").length == 0) {
                 $("ul#finChkEmt").html("<li style='color:#C0C0C0;text-align: center'>Empty</li>");
             }
         });

@@ -92,14 +92,6 @@
                                 }
                             %>
                         </div>
-                        <form action="EditModel" method="POST" id="end">
-                            <div class="col-sm-12">
-                                <ul class="pager">
-                                    <li><a href="#" onclick="document.getElementById('end').submit();">Finished</a></li>
-                                </ul>
-                            </div>
-                            <input type="hidden" name="page" id="page" value="8"/>
-                        </form>
                     </div>
                 </div>
             </div>

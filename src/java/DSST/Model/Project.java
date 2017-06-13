@@ -477,6 +477,32 @@ public class Project {
         }
     }
 
+    
+        public void updateProject(int p_id, String name,String des, int m_id) {
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "UPDATE PROJECT SET PROJECT_NAME = ?,PROJECT_DESCRIPTION = ?,M_ID = ?,PROJECT_LAST_UPDATE = ? WHERE P_ID = ? ";
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            // set the preparedstatement parameters
+            
+            ps.setString(1, name);
+            ps.setString(2, des);
+            ps.setInt(3, m_id);
+            ps.setTimestamp(4, getCurrentTimeStamp());
+            ps.setInt(5, p_id);
+
+            // call executeUpdate to execute our sql update statement
+            ps.executeUpdate();
+
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+    
+    
+    
     public int setALDetailTable(int p_id, int sc_id, int al_id, String al_name, double weight, int cr_id) {
         int pcd_id = 0;
         try {
@@ -598,6 +624,7 @@ public class Project {
     }
     private int proj_id;
     private String proj_name;
+    private String proj_des;
     private String proj_status;
     private String proj_lastUpdate;
     private int proj_state;
@@ -635,6 +662,14 @@ public class Project {
         this.proj_name = proj_name;
     }
 
+    public String getProj_des() {
+        return proj_des;
+    }
+
+    public void setProj_des(String proj_des) {
+        this.proj_des = proj_des;
+    }
+
     public String getProj_status() {
         return proj_status;
     }
@@ -650,7 +685,32 @@ public class Project {
     public void setProj_lastUpdate(String proj_lastUpdate) {
         this.proj_lastUpdate = proj_lastUpdate;
     }
-
+    
+    
+    public Project getProjectForUpdate(int p_id) {
+        Project p = new Project();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT * FROM APP.PROJECT where P_ID = ?";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, p_id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                p.setProj_id(rs.getInt("P_ID"));
+                p.setProj_name(rs.getString("PROJECT_NAME"));
+                p.setProj_des(rs.getString("PROJECT_DESCRIPTION"));
+                p.setProj_lastUpdate(rs.getString("PROJECT_LAST_UPDATE"));
+                p.setProj_status(rs.getString("PROJECT_STATUS"));
+                p.setProj_state(rs.getInt("PROJECT_STATE"));
+                p.setProj_m_id(rs.getInt("M_ID"));
+            }
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return p;
+    }
+    
     public ArrayList<Project> getProject(int mem_id) {
         ArrayList<Project> listProject = new ArrayList();
         try {
@@ -814,24 +874,37 @@ public class Project {
         return cri_name;
     }
     
-    
+    private String question;
+    private int answer;
 
-    public ArrayList<Project> getSpecAnswer(int p_id) {
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public int getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(int answer) {
+        this.answer = answer;
+    }
+    
+    public ArrayList<Project> getReqAnswer(int p_id) {
         ArrayList<Project> listProject = new ArrayList();
         try {
             Connection con = ConnectionBuilder.getConnection();
-            String sql = "SELECT * FROM APP.PROJECT where PROJECT_CREATE_BY = ?";
+            String sql = "SELECT * FROM APP.PROJECT_REQUIREMENT where P_ID = ?";
             PreparedStatement stm = con.prepareStatement(sql);
             stm.setInt(1, p_id);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Project p = new Project();
-                p.setProj_id(rs.getInt("P_ID"));
-                p.setProj_name(rs.getString("PROJECT_NAME"));
-                p.setProj_lastUpdate(rs.getString("PROJECT_LAST_UPDATE"));
-                p.setProj_status(rs.getString("PROJECT_STATUS"));
-                p.setProj_state(rs.getInt("PROJECT_STATE"));
-                p.setProj_m_id(rs.getInt("M_ID"));
+                p.setQuestion(p.findSuName(rs.getInt("SU_ID")));
+                p.setAnswer(rs.getInt("CUSTOMER_ANSWER"));
                 listProject.add(p);
             }
             con.close();
@@ -839,5 +912,39 @@ public class Project {
             System.out.println(ex);
         }
         return listProject;
+    }
+    
+    
+    
+        public String findSuName(int su_id) {
+        String su_name = "";
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT * FROM APP.SURVEY where SU_ID = ?";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, su_id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                su_name = rs.getString("SURVEY_QUESTION");
+            }
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return su_name;
+    }
+        
+        
+    public String delProAlter(int p_id) {
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            Statement stmt = con.createStatement();
+            String sql = "DELETE FROM PROJECT_ALTER WHERE P_ID = " + p_id;
+            stmt.executeUpdate(sql);
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return "success";
     }
 }

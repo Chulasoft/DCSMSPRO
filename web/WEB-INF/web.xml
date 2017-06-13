@@ -145,6 +145,10 @@
         <servlet-name>ProcessAns</servlet-name>
         <servlet-class>DSST.Servlet.ProcessAns</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditProject</servlet-name>
+        <servlet-class>DSST.Servlet.EditProject</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TestServ</servlet-name>
         <url-pattern>/TestServ</url-pattern>
@@ -240,6 +244,10 @@
     <servlet-mapping>
         <servlet-name>ProcessAns</servlet-name>
         <url-pattern>/ProcessAns</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditProject</servlet-name>
+        <url-pattern>/EditProject</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

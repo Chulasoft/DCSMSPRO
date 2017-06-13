@@ -32,9 +32,10 @@ public class RequestAns extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-        String viewAgent = "/ProjectMenu";
+        
         String msgRes = "";
         String p_id = request.getParameter("p_id");
+        String viewAgent = "/ProjectMenu?pId="+p_id;
         Project pj = new Project();
         int num = pj.getNumOfAlter(Integer.parseInt(p_id));
         if(num<2){
