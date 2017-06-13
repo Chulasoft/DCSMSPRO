@@ -39,9 +39,34 @@ public class Test extends HttpServlet {
 //        ArrayList<Project> table = pj.getTable(250);
 //        request.setAttribute("table", table);
 //        getServletContext().getRequestDispatcher(response.encodeURL("/newjsp.jsp")).forward(request, response);
-        Model m = new Model();
-        m.delByModelId(36);
+        
+       
+                        
+                        double scoreA = 0.0;
+                        double scoreB = 1.0;
+                        if (scoreA - scoreB == 0.00) {
+                            System.out.printf("1");
+                        } else if (0.00 < (scoreA - scoreB) && (scoreA - scoreB) < 0.31) {
+                            System.out.printf("3");
+                        } else if (0.31 <= (scoreA - scoreB) && (scoreA - scoreB) < 0.51) {
+                            System.out.printf("5");
+                        } else if (0.51 <= (scoreA - scoreB) && (scoreA - scoreB) < 0.71) {
+                            System.out.printf("7");
+                        } else if (0.71 <= (scoreA - scoreB) && (scoreA - scoreB) <= 1.00) {
+                            System.out.printf("9");
+                        } else if (0.00 > (scoreA - scoreB) && (scoreA - scoreB) > -0.31) {
+                            System.out.printf("-3");
+                        } else if (-0.31 >= (scoreA - scoreB) && (scoreA - scoreB) > -0.51) {
+                            System.out.printf("-5");
+                        } else if (-0.51 >= (scoreA - scoreB) && (scoreA - scoreB) > -0.71) {
+                            System.out.printf("-7");
+                        } else if (-0.71 >= (scoreA - scoreB) && (scoreA - scoreB) >= -1.00) {
+                            System.out.printf("-9");
+                        }
+        
     }
+    
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

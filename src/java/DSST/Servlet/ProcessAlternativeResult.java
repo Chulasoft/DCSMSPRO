@@ -81,25 +81,26 @@ public class ProcessAlternativeResult extends HttpServlet {
                     for (int y = i + 1; y < productScoreDouble.length; y++) {
                         double scoreA = productScoreDouble[i];
                         double scoreB = productScoreDouble[y];
-                        if (scoreA - scoreB == 0) {
+                        if (scoreA - scoreB == 0.00) {
                             csvListScore.add("1");
-                        } else if (0.0 < (scoreA - scoreB) && (scoreA - scoreB) < 0.31) {
+                        } else if (0.00 < (scoreA - scoreB) && (scoreA - scoreB) < 0.31) {
                             csvListScore.add("3");
                         } else if (0.31 <= (scoreA - scoreB) && (scoreA - scoreB) < 0.51) {
                             csvListScore.add("5");
                         } else if (0.51 <= (scoreA - scoreB) && (scoreA - scoreB) < 0.71) {
                             csvListScore.add("7");
-                        } else if (0.71 <= (scoreA - scoreB) && (scoreA - scoreB) <= 1) {
+                        } else if (0.71 <= (scoreA - scoreB) && (scoreA - scoreB) <= 1.00) {
                             csvListScore.add("9");
-                        } else if (-0.00 > (scoreA - scoreB) && (scoreA - scoreB) > -0.31) {
+                        } else if (0.00 > (scoreA - scoreB) && (scoreA - scoreB) > -0.31) {
                             csvListScore.add("-3");
                         } else if (-0.31 >= (scoreA - scoreB) && (scoreA - scoreB) > -0.51) {
                             csvListScore.add("-5");
                         } else if (-0.51 >= (scoreA - scoreB) && (scoreA - scoreB) > -0.71) {
                             csvListScore.add("-7");
-                        } else if (-0.71 >= (scoreA - scoreB) && (scoreA - scoreB) >= -1.0) {
+                        } else if (-0.71 >= (scoreA - scoreB) && (scoreA - scoreB) >= -1.00) {
                             csvListScore.add("-9");
                         }
+                        System.out.println("Score A : " + scoreA + " VS Score B : " + scoreB +" Result : "+ csvListScore.toString());
 
                     }
                 }
@@ -107,6 +108,7 @@ public class ProcessAlternativeResult extends HttpServlet {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
                 PrintWriter pw = new PrintWriter(new File("D:\\Chula\\Server\\Glassfish\\glassfish\\config\\script\\VALINPUT.csv"));
                 StringBuilder sb = new StringBuilder();
+                int x = 0;
                 for (int i = 0; i < examArrayALter.length; i++) {
                     for (int y = i + 1; y < examArrayALter.length; y++) {
                         if (y != i + 1) {
@@ -115,7 +117,8 @@ public class ProcessAlternativeResult extends HttpServlet {
                             sb.append("1");
                             sb.append(",");
                         }
-                        sb.append(csvListScore.get(i));
+                        sb.append(csvListScore.get(x));
+                        x++;
                     }
                     if (examArrayALter.length - 1 == i) {
                         sb.append("1");
