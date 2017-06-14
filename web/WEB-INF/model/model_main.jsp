@@ -71,8 +71,9 @@
         </style>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <%
-            Model d = (Model) request.getAttribute("m");
-            ArrayList<Model> listCri = (ArrayList) request.getAttribute("listCri");
+            if (request.getAttribute("m") != null && request.getAttribute("listCri") != null) {
+                Model d = (Model) request.getAttribute("m");
+                ArrayList<Model> listCri = (ArrayList) request.getAttribute("listCri");
         %>
         <script type="text/javascript">
             google.charts.load('current', {packages: ["orgchart"]});
@@ -120,6 +121,9 @@
                 chart.draw(data, options);
             }
         </script>
+        <%
+            }
+        %>
     </head>
     <body>
         <jsp:include page="../header.jsp" flush="false"/>
@@ -130,10 +134,11 @@
                     <div class="col-sm-3 col-md-2 sidebar" style="overflow-y:auto">
                         <h3 style="margin-bottom: 30px">Model 
                             <div class="dropdown" style="float: right;">
-                                <a href="#" data-toggle="dropdown" data-toggle="tooltip" data-placement="bottom" title="Add New Model"><span class="glyphicon glyphicon-plus-sign"></span></a>
+<!--                                <a href="#" data-toggle="dropdown" data-toggle="tooltip" data-placement="bottom" title="Add New Model"><span class="glyphicon glyphicon-plus-sign"></span></a>
                                 <ul class="dropdown-menu" style="z-index: 20">
                                     <li><a href="CreateModel" >Add</a></li>
-                                </ul>
+                                </ul>-->
+                                    <a href="CreateModel" ><button type="button" class="btn btn-primary" style="border-radius: 0px"> Add </button></a>
                             </div>
                         </h3>
 
@@ -141,9 +146,9 @@
                         <%
                             if (request.getAttribute("am") != null) {
                         %>
-                        <div class="panel panel-default">
+                        <div class="panel panel-default" style="border-radius: 0px">
                             <div class="panel-heading"><strong>Recent Model</strong></div>
-                            <div class="panel-body"><ul class="nav nav-sidebar">
+                            <div class="panel-body"><ul class="nav nav-sidebar" id="reChkEmt">
                                     <%
                                         ArrayList<Model> am = (ArrayList) request.getAttribute("am");
                                         for (Model m : am) {
@@ -162,9 +167,9 @@
                                     %>
                                 </ul></div>
                         </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading"><strong>Publish Model</strong></div>
-                            <div class="panel-body"><ul class="nav nav-sidebar">
+                        <div class="panel panel-default" style="border-radius: 0px">
+                            <div class="panel-heading" ><strong>Publish Model</strong></div>
+                            <div class="panel-body"><ul class="nav nav-sidebar" id="pubChkEmt">
                                     <%
                                         for (Model m : am) {
                                             if (m.isPublish()) {
@@ -264,16 +269,16 @@
                         </div>
                         <div id="AllAlternative" class="tab-pane fade">
                             <div class="col-sm-offset-3 col-sm-6" style="margin-top: 30px">
-                            <%
-                                ArrayList<Model> listAlter = (ArrayList) request.getAttribute("listAlter");
-                                for (Model m : listAlter) {
-                            %>
-                            <div class="alert alert-danger" id="<%=m.getAl_id()%>" style="border-color: #EBEDEF;background-color: white;color: black;"> 
-                                <h3><%=m.getAl_name()%></h3>
-                            </div>
-                            <%
-                                }
-                            %>
+                                <%
+                                    ArrayList<Model> listAlter = (ArrayList) request.getAttribute("listAlter");
+                                    for (Model m : listAlter) {
+                                %>
+                                <div class="alert alert-danger" id="<%=m.getAl_id()%>" style="border-color: #EBEDEF;background-color: white;color: black;"> 
+                                    <h3><%=m.getAl_name()%></h3>
+                                </div>
+                                <%
+                                    }
+                                %>
                             </div>
                         </div>
                     </div>
@@ -284,8 +289,9 @@
                 } else {
                 %>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="top: 72px">
-                    <div class="row">
-                        <h1>Create Your First Model</h1>
+                    <div style="top:50%;left: 50%;position: fixed; text-align: center">
+                        <h1>Create Your First Model</h1><br>
+                        <a href="CreateModel" ><button type="button" class="btn btn-primary" style="border-radius: 0px"> Add </button></a>
                     </div>
                 </div>
                 <%
@@ -320,6 +326,14 @@
                 <input type="hidden" name="modelId" id="modelId2" value="">
             </form>
             <script>
+                $(document).ready(function () {
+                    if ($("ul#reChkEmt li").length == 0) {
+                        $("ul#reChkEmt").html("<li style='color:#C0C0C0;text-align: center'>Empty</li>");
+                    }
+                    if ($("ul#pubChkEmt li").length == 0) {
+                        $("ul#pubChkEmt").html("<li style='color:#C0C0C0;text-align: center'>Empty</li>");
+                    }
+                });
                 function who(num) {
                     $("#modelId").val(num);
                 }

@@ -76,10 +76,11 @@
                                 if (login.getType() == 1) {
                             %>
                             <div class="dropdown" style="float: right;">
-                                <a href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-plus-sign"></span></a>
+<!--                                <a href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-plus-sign"></span></a>
                                 <ul class="dropdown-menu" style="z-index: 20">
                                     <li><a href="CreateProject">Add</a></li>
-                                </ul>
+                                </ul>-->
+                                <a href="CreateProject"><button type="button" class="btn btn-success" style="border-radius: 0px"> Add </button></a>
                             </div>
                             <%
                                 }
@@ -92,7 +93,7 @@
                                 ArrayList<Project> listProjects = (ArrayList) request.getAttribute("listProjects");
                                 if (login.getType() == 1) {
                         %>
-                        <div class="panel panel-default">
+                        <div class="panel panel-default" style="border-radius: 0px">
                             <div class="panel-heading"><strong>Recent Project</strong></div>
                             <div class="panel-body">
                                 <ul class="nav nav-sidebar" id="reChkEmt">
@@ -117,7 +118,7 @@
                         <%
                             }
                         %>
-                        <div class="panel panel-default">
+                        <div class="panel panel-default" style="border-radius: 0px">
                             <div class="panel-heading"><strong>Request Answers</strong></div>
                             <div class="panel-body"><ul class="nav nav-sidebar" id="reqChkEmt">
                                     <%
@@ -137,7 +138,7 @@
                                     %>
                                 </ul></div>
                         </div>
-                        <div class="panel panel-default">
+                        <div class="panel panel-default" style="border-radius: 0px">
                             <div class="panel-heading"><strong>Finished Project</strong></div>
                             <div class="panel-body"><ul class="nav nav-sidebar" id="finChkEmt">
                                     <%
@@ -161,7 +162,7 @@
                         } else {
                             if (login.getType() == 1) {
                         %>
-                        <div class="panel panel-default">
+                        <div class="panel panel-default" style="border-radius: 0px">
                             <div class="panel-heading"><strong>Recent Project</strong></div>
                             <div class="panel-body">
                                 <ul class="nav nav-sidebar">
@@ -174,7 +175,7 @@
                         <%
                             }
                         %>
-                        <div class="panel panel-default">
+                        <div class="panel panel-default" style="border-radius: 0px">
                             <div class="panel-heading"><strong>Request Answers</strong></div>
                             <div class="panel-body">
                                 <ul class="nav nav-sidebar">
@@ -184,7 +185,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="panel panel-default">
+                        <div class="panel panel-default" style="border-radius: 0px">
                             <div class="panel-heading"><strong>Finished Project</strong></div>
                             <div class="panel-body">
                                 <ul class="nav nav-sidebar">
