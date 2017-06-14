@@ -150,7 +150,7 @@
                                                 } else if (num == '7') {
                                                     $('#text<%=z%>').text('Very Strongly More Important Than');
                                                 } else if (num == '5') {
-                                                    $('#text<%=z%>').text('Moderately More Important Than');
+                                                    $('#text<%=z%>').text('Strongly More Important Than');
                                                 } else if (num == '3') {
                                                     $('#text<%=z%>').text('Moderately More Important Than');
                                                 } else if (num == '1') {
@@ -158,7 +158,7 @@
                                                 } else if (num == '-3') {
                                                     $('#text<%=z%>').text('Moderately Less Important Than');
                                                 } else if (num == '-5') {
-                                                    $('#text<%=z%>').text('Moderately Less Important Than');
+                                                    $('#text<%=z%>').text('Strongly Less Important Than');
                                                 } else if (num == '-7') {
                                                     $('#text<%=z%>').text('Very Strongly Less Important Than');
                                                 } else if (num == '-9') {

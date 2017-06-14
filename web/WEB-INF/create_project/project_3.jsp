@@ -68,6 +68,20 @@
                 color: #fff;
             }
         </style>
+        <script>
+            $(document).ready(function (){
+               var msg = <%=request.getAttribute("msg")%>; 
+                if(msg!=null){
+                    if(msg=="1"){
+                        alert("Not have any candidate pass your requirement");
+                        alert("Please Answer Question Again");
+                    }else if(msg=="2"){
+                        alert("Only one candidate '<%=request.getAttribute("alterName")%>'");
+                        window.location = "http://localhost:8080/DCSMSPRO/ProjectMenu?pId="+<%=session.getAttribute("p_id")%>;
+                    }
+                }
+            });
+        </script>
     </head>
     <body>
         <jsp:include page="../header.jsp" flush="false"/>

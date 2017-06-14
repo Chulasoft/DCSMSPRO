@@ -82,45 +82,65 @@ public class CustomerAns extends HttpServlet {
                         i++;
                     }
 // for remove dont want
-//                    if (ii > 0) {
-//                        dontWant.add(new Integer(a_m_id));
-//                    }
+                    if (ii > 0) {
+                        dontWant.add(new Integer(a_m_id));
+                    }
                 }
 // for remove dont want
-//                for (int number : dontWant) {
-//                    array_al_id.remove(new Integer(number));
-//                }
+                for (int number : dontWant) {
+                    array_al_id.remove(new Integer(number));
+                }
 //                ArrayList<String> al_name_want = new ArrayList();
 //                for (int id : array_al_id) {
 //                    al_name_want.add(pj.getALNameByID(id));
 //                }
-                String chosenAL[] = new String[array_al_id.size()];
-                for(int l = 0; l < array_al_id.size();l++){
-                    chosenAL[l] =  array_al_id.get(l)+"";   
-                }
-                for(int l = 0; l < array_al_id.size();l++){
-                    System.out.println(chosenAL[l]);  
-                }
+                if (array_al_id.size() == 0) {
+                    msg = "1";
+                    ArrayList<Model> allQuest = new ArrayList();
+                    allQuest = m.getAllQuest(Integer.parseInt(ss.getAttribute("m_id")+""));
+                    request.setAttribute("allQuest", allQuest);
+                    request.setAttribute("msg", msg);
+                    m.delProjectForSetNew(Integer.parseInt(ss.getAttribute("p_id")+""));
+                    pj.updateRevert(Integer.parseInt(ss.getAttribute("p_id")+""));
+                    viewAgent = "/WEB-INF/create_project/project_3.jsp";
+                } else if (array_al_id.size() == 1) {
+                    msg = "2";
+                    pj.updateRevert(Integer.parseInt(ss.getAttribute("p_id")+""));
+                    ArrayList<Model> allQuest = new ArrayList();
+                    allQuest = m.getAllQuest(Integer.parseInt(ss.getAttribute("m_id")+""));
+                    request.setAttribute("allQuest", allQuest);
+                    String alterName = pj.getALNameByID(array_al_id.get(0));
+                    request.setAttribute("alterName", alterName);
+                    request.setAttribute("msg", msg);
+                    viewAgent = "/WEB-INF/create_project/project_3.jsp";
+                } else {
+                    String chosenAL[] = new String[array_al_id.size()];
+                    for (int l = 0; l < array_al_id.size(); l++) {
+                        chosenAL[l] = array_al_id.get(l) + "";
+                    }
+                    for (int l = 0; l < array_al_id.size(); l++) {
+                        System.out.println(chosenAL[l]);
+                    }
 // for remove dont want
 //                request.setAttribute("array_al_id", array_al_id);
 //                request.setAttribute("al_name_want", al_name_want);
 //                viewAgent = "/WEB-INF/create_project/project_4.jsp";
-                ss.setAttribute("chosenAL", chosenAL);
-                ArrayList<Model> allCriteria = m.getModelsCriteriaByID(Integer.parseInt(ss.getAttribute("m_id")+""));
-                request.setAttribute("allCriteria", allCriteria);
-                viewAgent = "/WEB-INF/create_project/project_5.jsp";
-            } 
-// for remove dont want            
-//            else if (page.equals("4")) {
-//                String chosenAL[] = request.getParameterValues("chosenAL");
-//                //--------------------
-//                ss.setAttribute("chosenAL", chosenAL);
-//                //--------------------
-//                String m_id = ss.getAttribute("m_id")+"";
-//                ArrayList<Model> allCriteria = m.getModelsCriteriaByID(Integer.parseInt(m_id));
-//                request.setAttribute("allCriteria", allCriteria);
-//                viewAgent = "/WEB-INF/create_project/project_5.jsp";
-//            } 
+                    ss.setAttribute("chosenAL", chosenAL);
+                    ArrayList<Model> allCriteria = m.getModelsCriteriaByID(Integer.parseInt(ss.getAttribute("m_id") + ""));
+                    request.setAttribute("allCriteria", allCriteria);
+                    viewAgent = "/WEB-INF/create_project/project_5.jsp";
+                }
+            } // for remove dont want            
+            //            else if (page.equals("4")) {
+            //                String chosenAL[] = request.getParameterValues("chosenAL");
+            //                //--------------------
+            //                ss.setAttribute("chosenAL", chosenAL);
+            //                //--------------------
+            //                String m_id = ss.getAttribute("m_id")+"";
+            //                ArrayList<Model> allCriteria = m.getModelsCriteriaByID(Integer.parseInt(m_id));
+            //                request.setAttribute("allCriteria", allCriteria);
+            //                viewAgent = "/WEB-INF/create_project/project_5.jsp";
+            //            } 
             else if (page.equals("5")) {
                 String listAnsCri[] = request.getParameterValues("ansCri");
                 String listCriId[] = request.getParameterValues("criId");
@@ -170,8 +190,8 @@ public class CustomerAns extends HttpServlet {
                 String s = null;
                 while ((s = stdInput.readLine()) != null) {
                     System.out.println(s);
-                    if(!s.equalsIgnoreCase("NaN")){
-                    cr = Double.parseDouble(s);
+                    if (!s.equalsIgnoreCase("NaN")) {
+                        cr = Double.parseDouble(s);
                     }
                 }
 
@@ -180,7 +200,7 @@ public class CustomerAns extends HttpServlet {
                 while ((s = stdError.readLine()) != null) {
                     System.out.println(s);
                 }
-                String m_id = ss.getAttribute("m_id")+"";
+                String m_id = ss.getAttribute("m_id") + "";
                 ArrayList<Model> allCriteria = m.getModelsCriteriaByID(Integer.parseInt(m_id));
                 int p_id = Integer.parseInt(ss.getAttribute("p_id") + "");
                 if (cr > 0.10) {
@@ -201,7 +221,7 @@ public class CustomerAns extends HttpServlet {
                     ArrayList<Double> crWeight = new ArrayList();
                     for (String cell : linea) {
                         double a = Double.parseDouble(cell);
-                        pj.setCriDetail(cr, allCriteria.get(loop_id).getCri_id(),allCriteria.get(loop_id).getCri_name(), 1, a,0.0, p_id,-1);
+                        pj.setCriDetail(cr, allCriteria.get(loop_id).getCri_id(), allCriteria.get(loop_id).getCri_name(), 1, a, 0.0, p_id, -1);
                         crWeight.add(a);
                         loop_id++;
                     }
@@ -212,7 +232,7 @@ public class CustomerAns extends HttpServlet {
                 request.setAttribute("allCriteria", allCriteria);
                 request.setAttribute("msg", msg);
 
-            } 
+            }
         } else {
             pj = pj.findProject(Integer.parseInt(request.getParameter("p_id")));
             m.delProjectForSetNew(pj.getProj_id());
