@@ -168,7 +168,7 @@ public class ProcessAlternativeResult extends HttpServlet {
         pj.updateStatus(p_id);
         ss.removeAttribute("chosenAL");
 //        response.sendRedirect("ShowResult");
-        response.sendRedirect("ProcessAns");
+        response.sendRedirect("ProjectMenu?pId="+p_id);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
