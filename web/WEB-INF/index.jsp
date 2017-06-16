@@ -92,7 +92,7 @@
                 <nav class="navbar navbar-inner" style="padding: 20px">
                     <div class="container-fluid">
                         <div class="navbar-header" >
-                            <a class="navbar-brand" href="#">AHP Project</a>
+                            <a class="navbar-brand" href="#">Decision Support Tool</a>
                         </div>
                         <!--<ul class="nav navbar-nav">
                             <li class="active"><a href="#">Home</a></li>
@@ -113,7 +113,7 @@
         <div class="container" style="margin-top: 10%">
             <div class="row">
                 <div class="col-sm-offset-4 col-sm-4 ">
-                    <h1 style="text-align: center;color: white">Login AHP</h1>
+                    <h1 style="text-align: center;color: white">Login</h1>
                     <form method="POST" action="Login" style="margin-top: 20px">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
