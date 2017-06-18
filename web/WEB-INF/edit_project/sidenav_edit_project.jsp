@@ -9,7 +9,7 @@
         </li>
         <li>
             <span>
-                <a href="EditProject?page=2">Select Alternative</a>
+                <a href="EditProject?page=2">Pick Candidate</a>
                 <a href="#" style="float: right;color: green" hidden><span class="glyphicon glyphicon-ok"></span></a>
             </span>
         </li>

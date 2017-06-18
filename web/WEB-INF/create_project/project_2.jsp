@@ -147,7 +147,7 @@
                 </span>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="top: 72px">
                     <div class="row">
-                        <h3>Add Competitor</h3>
+                        <h3>Pick Candidate</h3>
                         <hr>
                         
                         <div class="col-md-12 text-center"><h3>Pick List</h3></div>
@@ -175,7 +175,7 @@
                             <form action="CreateProject" method="POST">
                                 <input type="hidden" name="page" value="2"/>
                                 <div class="list-group" id="list2">
-                                    <a href="#" class="list-group-item active">Chosen Alternative<input title="toggle all" type="checkbox" class="all pull-right"></a>
+                                    <a href="#" class="list-group-item active">Picked Candidates<input title="toggle all" type="checkbox" class="all pull-right"></a>
                                 </div>
                             </form>
                         </div>

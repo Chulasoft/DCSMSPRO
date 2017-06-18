@@ -22,13 +22,6 @@
                     }
                 %>
                 <li><a href="ProjectMenu">Project</a></li>
-                <li class="dropdown">
-                    <a href="#" data-toggle="dropdown">More</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Help</a></li>
-                    </ul>
-                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">

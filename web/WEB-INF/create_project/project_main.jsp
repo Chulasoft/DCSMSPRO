@@ -159,7 +159,8 @@
                                 </ul></div>
                         </div>
                         <%
-                        } else if (login.getType() == 1) {
+                        } else {
+                            if (login.getType() == 1) {
                         %>
                         <div class="panel panel-default" style="border-radius: 0px">
                             <div class="panel-heading"><strong>Recent Project</strong></div>
@@ -195,6 +196,7 @@
                             </div>
                         </div>
                         <%
+                            }
                         %>
                     </div>
                 </span>
@@ -227,7 +229,7 @@
                             if (proj.getProj_state() == 0) {
                         %>
                         <div class="col-xs-offset-6 col-xs-3">
-                            <a href="RequestAns?p_id=<%=proj.getProj_id()%>"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-open-file"></span> Request Answer </button></a>
+                            <a href="RequestAns?p_id=<%=proj.getProj_id()%>"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-open-file"></span> Request Requirement </button></a>
                         </div>
                         <%
                         } else if (login.getType() == 2) {
@@ -241,7 +243,7 @@
                         } else if (!proj.getProj_status().equals("2")) {
                         %>
                         <div class="col-xs-offset-6 col-xs-3">
-                            <a href="CustomerAns?p_id=<%=proj.getProj_id()%>"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-log-out"></span> Set Answer </button></a>
+                            <a href="CustomerAns?p_id=<%=proj.getProj_id()%>"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-log-out"></span> Define Requirement</button></a>
                         </div>
                         <%
                                 }
@@ -256,8 +258,8 @@
                         <h3>Result</h3>
                         <hr>
                         <ul class="nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#Score">Score</a></li>
-                            <li><a data-toggle="tab" href="#Product">Product</a></li>
+                            <li class="active"><a data-toggle="tab" href="#Score">Criteria Priority</a></li>
+                            <li><a data-toggle="tab" href="#Product">Alternative Priority</a></li>
                             <li><a data-toggle="tab" href="#QuesAnswer">Question & Answer</a></li>
                             <li><a data-toggle="tab" href="#IntenAnswer">Criteria Intensity</a></li>
                         </ul>
@@ -277,7 +279,7 @@
                                             <th>Sub-Criteria Item</th>
                                             <th>CR</th>
                                             <th>Local-Weight</th>
-                                            <th>Global-Weight</th>
+                                            <th>Global-Weight (Priority)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -425,12 +427,13 @@
                                             for (var j = 0; j < product.length; j++) {
                                                 priority = (product[j] * global[j]) + priority;
                                             }
-//                                            var xx = 0;
-//                                            $('td[name^="pro' + i + '"]').each(function () {
+                                            var xx = 0;
+                                            $('td[name^="pro' + i + '"]').each(function () {
 //                                                $(this).text(Math.round((product[xx] * global[xx]) * 10000) / 10000);
-//                                                xx++;
-//                                            });
-//                                            var xx = 0;
+                                                $(this).text(product[xx]+" ("+(Math.round((product[xx] * global[xx]) * 10000) / 10000)+")");
+                                                xx++;
+                                            });
+                                            var xx = 0;
                                             allPriorityProduct.push(priority);
                                         }
                                         for (var i = 0; i < length; i++) {
@@ -478,7 +481,7 @@
                                 <%
                                 } else {
                                 %>
-                                <h1>Not Have Answer</h1>
+                                <h1>Don’t specific yet</h1>
                                 <%
                                     }
                                 %>
@@ -537,7 +540,7 @@
                                 <%
                                 } else {
                                 %>
-                                <h1>Not Have Answer</h1>
+                                <h1>Don’t specific yet</h1>
                                 <%
                                     }
                                 %>
@@ -550,7 +553,8 @@
                     %>
                 </div>
                 <%
-                } else if (!(proj.getProj_state() == 0 && login.getType() == 2)) {
+                } else {
+                    if (!(proj.getProj_state() == 0 && login.getType() == 2)) {
                 %>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="top: 72px;">
                     <div class="row">
@@ -577,13 +581,13 @@
                             if (proj.getProj_state() == 0) {
                         %>
                         <div class="col-xs-offset-6 col-xs-3">
-                            <a href="RequestAns?p_id=<%=proj.getProj_id()%>"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-open-file"></span> Request Answer </button></a>
+                            <a href="RequestAns?p_id=<%=proj.getProj_id()%>"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-open-file"></span> Request Requirement </button></a>
                         </div>
                         <%
                         } else if (login.getType() == 2) {
                         %>
                         <div class="col-xs-offset-6 col-xs-3">
-                            <a href="CustomerAns?p_id=<%=proj.getProj_id()%>"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-log-out"></span> Set Answer </button></a>
+                            <a href="CustomerAns?p_id=<%=proj.getProj_id()%>"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-log-out"></span> Define Requirement</button></a>
                         </div>
                         <%
                             }
@@ -640,7 +644,7 @@
                             <%
                             } else {
                             %>
-                            <h1>Not Have Answer</h1>
+                            <h1>Don’t specific yet</h1>
                             <%
                                 }
                             %>
@@ -696,7 +700,7 @@
                             <%
                             } else {
                             %>
-                            <h1>Not Have Answer</h1>
+                            <h1>Don’t specific yet</h1>
                             <%
                                 }
                             %>
@@ -716,6 +720,7 @@
                 <h1>Project are not available</h1>
             </div>
             <%
+                }
                 }
             } else {
             %>

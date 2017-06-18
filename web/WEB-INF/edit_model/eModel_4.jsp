@@ -98,7 +98,7 @@
                                         <!-- Modal content-->
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title">Define Question</h4>
+                                                <h4 class="modal-title">Add Question</h4>
                                             </div>
                                             <div class="modal-body">
                                                 <span id="questionOutput<%=allSubDB.get(j).getSc_id()%>">

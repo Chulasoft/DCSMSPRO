@@ -94,7 +94,7 @@
                 <form method="POST" action="CustomerAns">
                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="top: 72px">
                         <div class="row">
-                            <h3>Specification for ${whoName}</h3>
+                            <h3>Define Requirement</h3>
                             <hr>
 
                             <input type="hidden" name="page" value="3"/>

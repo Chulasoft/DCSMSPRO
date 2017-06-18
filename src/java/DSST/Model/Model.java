@@ -356,7 +356,7 @@ public class Model {
         }
         return done;
     }
-private boolean publish;
+    private boolean publish;
 
     public boolean isPublish() {
         return publish;
@@ -521,7 +521,63 @@ private boolean publish;
         }
         return am;
     }
+    
+private int specAns;
 
+    public int getSpecAns() {
+        return specAns;
+    }
+
+    public void setSpecAns(int specAns) {
+        this.specAns = specAns;
+    }
+
+    public ArrayList<Model> getSpecAns(int al_id) {
+        ArrayList<Model> listAns = new ArrayList();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT * FROM APP.ALTERNATIVE AA \n"
+                    + "JOIN ALTERNATIVE_SPECIFICATION ASP \n"
+                    + "ON AA.AL_ID = ASP.AL_ID \n"
+                    + "JOIN SURVEY SV ON\n"
+                    + "ASP.SU_ID = SV.SU_ID\n"
+                    + "WHERE ASP.AL_ID = ?";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, al_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Model m = new Model();
+                m.setSc_id(rs.getInt("SC_ID"));
+                m.setSc_name(m.getQuestName(rs.getInt("SC_ID")));
+                m.setQuest_name(rs.getString("SURVEY_QUESTION"));
+                m.setSpecAns(rs.getInt("SPECIFICATION_ANSWER"));
+                listAns.add(m);
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return listAns;
+    }
+
+        public String getQuestName(int su_id) {
+        String name = "";
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT SUB_CRITERIA_NAME FROM APP.SUB_CRITERIA WHERE SC_ID = ?";
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, su_id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                name = rs.getString("SUB_CRITERIA_NAME");
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return name;
+    }
+        
     public int getSpecAnsByID(int su_id, int al_id) {
         int ans = 0;
         try {
@@ -558,7 +614,7 @@ private boolean publish;
         }
         return ans;
     }
-    
+
     public int getCriFromSub(int su_id) {
         int cr_id = 0;
         try {
@@ -576,7 +632,7 @@ private boolean publish;
         }
         return cr_id;
     }
-        
+
     private int al_id;
     private String al_name;
     private String al_des;
@@ -766,7 +822,7 @@ private boolean publish;
         }
     }
 
-        public void updateLastUpdate(int m_id) {
+    public void updateLastUpdate(int m_id) {
         try {
             Connection con = ConnectionBuilder.getConnection();
             String sql = "UPDATE MODEL SET MODEL_LAST_UPDATE = ? WHERE M_ID = ? ";
@@ -783,6 +839,7 @@ private boolean publish;
             System.out.println(ex);
         }
     }
+
     public String delByModelId(int m_id) {
         ArrayList<Integer> listSu_id = new ArrayList();
         ArrayList<Integer> listSc_id = new ArrayList();
@@ -968,7 +1025,8 @@ private boolean publish;
         }
         return "success";
     }
-        public String delAlterSpecByID(int alter_id) {
+
+    public String delAlterSpecByID(int alter_id) {
         try {
             Connection con = ConnectionBuilder.getConnection();
             String sql = "";
@@ -1007,8 +1065,8 @@ private boolean publish;
         }
         return "success";
     }
-    
-        public String delProjectForSetNew(int p_id) {
+
+    public String delProjectForSetNew(int p_id) {
         try {
             Connection con = ConnectionBuilder.getConnection();
             Statement stmt = con.createStatement();

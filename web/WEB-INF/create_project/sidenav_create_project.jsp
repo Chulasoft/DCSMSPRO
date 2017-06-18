@@ -9,31 +9,25 @@
         </li>
         <li>
             <span>
-                <a href="#">Step 2 : Requirement Gathering</a>
+                <a href="#">Step 2 : Pick Candidate</a>
                 <a href="#" style="float: right;color: green" hidden><span class="glyphicon glyphicon-ok"></span></a>
             </span>
         </li>
         <li>
             <span>
-                <a href="#">Step 3 : Add Competitor</a>
+                <a href="#">Step 3 : Define Requirement</a>
                 <a href="#" style="float: right;color: green" hidden><span class="glyphicon glyphicon-ok"></span></a>
             </span>
         </li>
         <li>
             <span>
-                <a href="#">Step 4 : Criteria Comparison</a>
+                <a href="#">Step 4 : Compare Criteria</a>
                 <a href="#" style="float: right;color: green" hidden><span class="glyphicon glyphicon-ok"></span></a>
             </span>
         </li>
         <li>
             <span>
                 <a href="#">Step 5 : Result</a>
-                <a href="#" style="float: right;color: green" hidden><span class="glyphicon glyphicon-ok"></span></a>
-            </span>
-        </li>
-        <li>
-            <span>
-                <a href="#">Step 6 : Support</a>
                 <a href="#" style="float: right;color: green" hidden><span class="glyphicon glyphicon-ok"></span></a>
             </span>
         </li>

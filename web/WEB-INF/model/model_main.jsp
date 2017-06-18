@@ -229,8 +229,8 @@
                     <hr>
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#Hierarchy">Hierarchy</a></li>
-                        <li><a data-toggle="tab" href="#AllCriteria">All Criteria</a></li>
-                        <li><a data-toggle="tab" href="#AllAlternative">All Alternative</a></li>
+                        <li><a data-toggle="tab" href="#AllCriteria">Criteria</a></li>
+                        <li><a data-toggle="tab" href="#AllAlternative">Related Alternative</a></li>
                     </ul>
                     <div class="tab-content">
                         <div id="Hierarchy" class="tab-pane fade in active">
