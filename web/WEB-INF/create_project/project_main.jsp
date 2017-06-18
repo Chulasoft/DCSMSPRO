@@ -76,10 +76,10 @@
                                 if (login.getType() == 1) {
                             %>
                             <div class="dropdown" style="float: right;">
-<!--                                <a href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-plus-sign"></span></a>
-                                <ul class="dropdown-menu" style="z-index: 20">
-                                    <li><a href="CreateProject">Add</a></li>
-                                </ul>-->
+                                <!--                                <a href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-plus-sign"></span></a>
+                                                                <ul class="dropdown-menu" style="z-index: 20">
+                                                                    <li><a href="CreateProject">Add</a></li>
+                                                                </ul>-->
                                 <a href="CreateProject"><button type="button" class="btn btn-success" style="border-radius: 0px"> Add </button></a>
                             </div>
                             <%
@@ -159,8 +159,7 @@
                                 </ul></div>
                         </div>
                         <%
-                        } else {
-                            if (login.getType() == 1) {
+                        } else if (login.getType() == 1) {
                         %>
                         <div class="panel panel-default" style="border-radius: 0px">
                             <div class="panel-heading"><strong>Recent Project</strong></div>
@@ -196,7 +195,6 @@
                             </div>
                         </div>
                         <%
-                            }
                         %>
                     </div>
                 </span>
@@ -500,17 +498,41 @@
                                             <th>Intensity</th>
                                             <th>Criteria B</th>
                                         </tr>
-                                        <%                for (Project inten : listInten) {
+                                        <%                
+                                            for (Project inten : listInten) {
+                                            
                                         %>
                                         <tr>
                                             <td><%=inten.getCri_a()%></td>
-                                            <td><%=inten.getIntensity()%></td>
+                                            <td><%
+                                                int num = Integer.parseInt(inten.getIntensity());
+                                                if (num == 9) {
+                                                    out.print("Extremely More Important Than");
+                                                } else if (num == 7) {
+                                                    out.print("Very Strongly More Important Than");
+                                                } else if (num == 5) {
+                                                    out.print("Strongly More Important Than");
+                                                } else if (num == 3) {
+                                                    out.print("Moderately More Important Than");
+                                                } else if (num == 1) {
+                                                    out.print("Equally Important");
+                                                } else if (num == -3) {
+                                                    out.print("Moderately Less Important Than");
+                                                } else if (num == -5) {
+                                                    out.print("Strongly Less Important Than");
+                                                } else if (num == -7) {
+                                                    out.print("Very Strongly Less Important Than");
+                                                } else if (num == -9) {
+                                                    out.print("Extremely Less Important Than");
+                                                }
+                                                %></td>
                                             <td><%=inten.getCri_b()%></td>
                                         </tr>
                                         <%
                                             }
                                         %>
                                     </table>
+
                                 </div>
                                 <%
                                 } else {
@@ -528,8 +550,7 @@
                     %>
                 </div>
                 <%
-                } else {
-                    if (!(proj.getProj_state() == 0 && login.getType() == 2)) {
+                } else if (!(proj.getProj_state() == 0 && login.getType() == 2)) {
                 %>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="top: 72px;">
                     <div class="row">
@@ -643,7 +664,28 @@
                                     %>
                                     <tr>
                                         <td><%=inten.getCri_a()%></td>
-                                        <td><%=inten.getIntensity()%></td>
+                                        <td><%
+                                                int num = Integer.parseInt(inten.getIntensity());
+                                                if (num == 9) {
+                                                    out.print("Extremely More Important Than");
+                                                } else if (num == 7) {
+                                                    out.print("Very Strongly More Important Than");
+                                                } else if (num == 5) {
+                                                    out.print("Strongly More Important Than");
+                                                } else if (num == 3) {
+                                                    out.print("Moderately More Important Than");
+                                                } else if (num == 1) {
+                                                    out.print("Equally Important");
+                                                } else if (num == -3) {
+                                                    out.print("Moderately Less Important Than");
+                                                } else if (num == -5) {
+                                                    out.print("Strongly Less Important Than");
+                                                } else if (num == -7) {
+                                                    out.print("Very Strongly Less Important Than");
+                                                } else if (num == -9) {
+                                                    out.print("Extremely Less Important Than");
+                                                }
+                                                %></td>
                                         <td><%=inten.getCri_b()%></td>
                                     </tr>
                                     <%
@@ -674,7 +716,6 @@
                 <h1>Project are not available</h1>
             </div>
             <%
-                    }
                 }
             } else {
             %>

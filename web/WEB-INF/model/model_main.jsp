@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>AHP Main Menu</title>
+        <title>Main Menu</title>
         <script src="./js/jquery-3.2.0.min.js"></script>        
         <script src="./bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
         <link rel="stylesheet" type="text/css" href="./bootstrap-3.3.7-dist/css/bootstrap.min.css" >
@@ -134,11 +134,11 @@
                     <div class="col-sm-3 col-md-2 sidebar" style="overflow-y:auto">
                         <h3 style="margin-bottom: 30px">Model 
                             <div class="dropdown" style="float: right;">
-<!--                                <a href="#" data-toggle="dropdown" data-toggle="tooltip" data-placement="bottom" title="Add New Model"><span class="glyphicon glyphicon-plus-sign"></span></a>
-                                <ul class="dropdown-menu" style="z-index: 20">
-                                    <li><a href="CreateModel" >Add</a></li>
-                                </ul>-->
-                                    <a href="CreateModel" ><button type="button" class="btn btn-primary" style="border-radius: 0px"> Add </button></a>
+                                <!--                                <a href="#" data-toggle="dropdown" data-toggle="tooltip" data-placement="bottom" title="Add New Model"><span class="glyphicon glyphicon-plus-sign"></span></a>
+                                                                <ul class="dropdown-menu" style="z-index: 20">
+                                                                    <li><a href="CreateModel" >Add</a></li>
+                                                                </ul>-->
+                                <a href="CreateModel" ><button type="button" class="btn btn-primary" style="border-radius: 0px"> Add </button></a>
                             </div>
                         </h3>
 
@@ -257,9 +257,12 @@
                                     if (allSubDB.get(i).getSc_name() != null) {
                                 %>
                                 <span class="col-sm-offset-1 col-sm-11">
-                                    <div class="alert alert-success"> 
-                                        <h3><%=allSubDB.get(i).getSc_name()%></h3>
-                                    </div>
+                                    <a href="#" onclick='window.open("ShowModelQuestion.jsp?sc_id=<%=allSubDB.get(i).getSc_id()%>", "", "width=400,height=400")' style="text-decoration: none">
+                                        <div class="alert alert-success"> 
+                                            <h3><%=allSubDB.get(i).getSc_name()%></h3>
+                                            click
+                                        </div>
+                                    </a>
                                 </span>
                                 <%
                                         }
@@ -273,9 +276,12 @@
                                     ArrayList<Model> listAlter = (ArrayList) request.getAttribute("listAlter");
                                     for (Model m : listAlter) {
                                 %>
-                                <div class="alert alert-danger" id="<%=m.getAl_id()%>" style="border-color: #EBEDEF;background-color: white;color: black;"> 
-                                    <h3><%=m.getAl_name()%></h3>
-                                </div>
+                                <a href="#" onclick='window.open("ShowModelAlAns.jsp?al_id=<%=m.getAl_id()%>", "", "width=400,height=400")' style="text-decoration: none">
+                                    <div class="alert alert-danger" id="<%=m.getAl_id()%>" style="border-color: #EBEDEF;background-color: white;color: black;"> 
+                                        <h3><%=m.getAl_name()%></h3>
+                                        click
+                                    </div>
+                                </a>
                                 <%
                                     }
                                 %>
