@@ -1,7 +1,7 @@
 <%-- 
     Document   : logout
     Created on : Apr 20, 2017, 2:12:32 AM
-    Author     : Jab
+    Author     : Soft
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

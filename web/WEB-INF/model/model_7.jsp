@@ -1,7 +1,7 @@
 <%-- 
     Document   : model_7
     Created on : Apr 27, 2017, 4:28:56 PM
-    Author     : Jab
+    Author     : Soft
 --%>
 
 <%@page import="DSST.Model.Model"%>

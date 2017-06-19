@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Jab-PC
+ * @author Soft-PC
  */
 public class SetAnswer extends HttpServlet {
 

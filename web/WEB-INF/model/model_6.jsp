@@ -1,7 +1,7 @@
 <%-- 
     Document   : model_6
     Created on : Apr 26, 2017, 2:39:11 AM
-    Author     : Jab
+    Author     : Soft
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

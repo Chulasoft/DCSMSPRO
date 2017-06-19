@@ -1,7 +1,7 @@
 <%-- 
     Document   : project_3
     Created on : May 1, 2017, 9:15:50 PM
-    Author     : Jab-PC
+    Author     : Soft-PC
 --%>
 
 <%@page import="DSST.Model.Model"%>

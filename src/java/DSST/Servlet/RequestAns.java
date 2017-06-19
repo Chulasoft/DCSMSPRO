@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Jab-PC
+ * @author Soft-PC
  */
 public class RequestAns extends HttpServlet {
 

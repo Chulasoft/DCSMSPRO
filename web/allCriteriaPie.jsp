@@ -1,7 +1,7 @@
 <%-- 
     Document   : allCriteriaPie
     Created on : Jun 9, 2017, 3:13:26 AM
-    Author     : Jab-PC
+    Author     : Soft-PC
 --%>
 
 <%@page import="java.util.ArrayList"%>

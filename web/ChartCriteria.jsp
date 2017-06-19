@@ -1,7 +1,7 @@
 <%-- 
     Document   : Chart
     Created on : Jun 5, 2017, 11:54:12 AM
-    Author     : Jab-PC
+    Author     : Soft-PC
 --%>
 
 <%@page import="DSST.Model.Model"%>

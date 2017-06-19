@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Jab
+ * @author Soft
  */
 public class Model {
 
@@ -1088,6 +1088,60 @@ private int specAns;
         return "success";
     }
 
+    private int total_re;
+    private int total_Pub;
+    private int total;
+
+    public int getTotal_re() {
+        return total_re;
+    }
+
+    public void setTotal_re(int total_re) {
+        this.total_re = total_re;
+    }
+
+    public int getTotal_Pub() {
+        return total_Pub;
+    }
+
+    public void setTotal_Pub(int total_Pub) {
+        this.total_Pub = total_Pub;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+    
+    
+        public Model TotalModel() {
+        Model m = new Model();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT count(m_id) FROM APP.MODEL";
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            if (rs.next()) {
+                m.setTotal(rs.getInt(1));
+            }
+            sql = "SELECT count(m_id) FROM APP.MODEL where MODEL_PUBLISH = true";
+            rs = stm.executeQuery(sql);
+            if (rs.next()) {
+                m.setTotal_Pub(rs.getInt(1));
+                m.setTotal_re(m.getTotal()-rs.getInt(1));
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return m;
+    }
+    
+    
+    
     @Override
     public String toString() {
         return "Model{" + "model_id=" + model_id + ", model_name=" + model_name + ", model_goal=" + model_goal + ", create_by_id=" + create_by_id + ", model_status=" + model_status + ", model_lastUpdate=" + model_lastUpdate + ", cri_id=" + cri_id + ", cri_name=" + cri_name + ", cri_des=" + cri_des + ", sc_id=" + sc_id + ", sc_name=" + sc_name + ", sc_des=" + sc_des + ", quest_id=" + quest_id + ", quest_name=" + quest_name + '}';

@@ -1,7 +1,7 @@
 <%-- 
     Document   : newjsp
     Created on : May 17, 2017, 6:00:31 PM
-    Author     : Jab-PC
+    Author     : Soft-PC
 --%>
 
 <%@page import="DSST.Model.Model"%>

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Jab-PC
+ * @author Soft-PC
  */
 public class Project {
 
@@ -946,5 +946,70 @@ public class Project {
             System.out.println(ex);
         }
         return "success";
+    }
+    
+    private int total;
+    private int total_re;
+    private int total_req;
+    private int total_fin;
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getTotal_re() {
+        return total_re;
+    }
+
+    public void setTotal_re(int total_re) {
+        this.total_re = total_re;
+    }
+
+    public int getTotal_req() {
+        return total_req;
+    }
+
+    public void setTotal_req(int total_req) {
+        this.total_req = total_req;
+    }
+
+    public int getTotal_fin() {
+        return total_fin;
+    }
+
+    public void setTotal_fin(int total_fin) {
+        this.total_fin = total_fin;
+    }
+    
+    public Project TotalProject() {
+        Project pj = new Project();
+        try {
+            Connection con = ConnectionBuilder.getConnection();
+            String sql = "SELECT count(P_ID) FROM APP.PROJECT where PROJECT_STATE = 0";
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            if (rs.next()) {
+                pj.setTotal_re(rs.getInt(1));
+            }
+            sql = "SELECT count(P_ID) FROM APP.PROJECT where PROJECT_STATE = 1";
+            rs = stm.executeQuery(sql);
+            if (rs.next()) {
+                pj.setTotal_req(rs.getInt(1));
+            }
+            sql = "SELECT count(P_ID) FROM APP.PROJECT where PROJECT_STATE = 2";
+            rs = stm.executeQuery(sql);
+            if (rs.next()) {
+                pj.setTotal_fin(rs.getInt(1));
+            }
+            pj.setTotal(pj.getTotal_fin()+pj.getTotal_re()+pj.getTotal_req());
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return pj;
     }
 }

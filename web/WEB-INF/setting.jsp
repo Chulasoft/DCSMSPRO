@@ -1,7 +1,7 @@
 <%-- 
     Document   : setting
     Created on : May 23, 2017, 7:24:40 PM
-    Author     : Jab-PC
+    Author     : Soft-PC
 --%>
 
 <%@page import="DSST.Model.Model"%>

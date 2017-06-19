@@ -1,7 +1,7 @@
 <%-- 
     Document   : model_define_spec
     Created on : Apr 27, 2017, 9:38:21 AM
-    Author     : Jab
+    Author     : Soft
 --%>
 
 <%@page import="java.util.ArrayList"%>

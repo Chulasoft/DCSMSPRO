@@ -1,7 +1,7 @@
 <%-- 
     Document   : PieChart
     Created on : Jun 5, 2017, 7:01:00 PM
-    Author     : Jab-PC
+    Author     : Soft-PC
 --%>
 
 <%@page import="java.util.ArrayList"%>
