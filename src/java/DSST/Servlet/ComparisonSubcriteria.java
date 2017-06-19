@@ -60,7 +60,7 @@ public class ComparisonSubcriteria extends HttpServlet {
         if (listAnsSubCri != null) {
             String stSize = request.getParameter("size");
             int size = Integer.parseInt(stSize);
-            PrintWriter pw = new PrintWriter(new File("C:\\Users\\Admin-PC\\GlassFish_Server\\glassfish\\domains\\domain1\\config\\script\\VALINPUT.csv"));
+            PrintWriter pw = new PrintWriter(new File("D:\\Chula\\Server\\Glassfish\\glassfish\\config\\script\\VALINPUT.csv"));
             StringBuilder sb = new StringBuilder();
             int x = 0;
             for (int i = 0; i < size; i++) {
@@ -95,7 +95,7 @@ public class ComparisonSubcriteria extends HttpServlet {
             pw.close();
             System.out.println("done!");
             Runtime rt = Runtime.getRuntime();
-            Process pr = rt.exec("octave-cli M_CheckCR.m", null, new File("C:\\Users\\Admin-PC\\GlassFish_Server\\glassfish\\domains\\domain1\\config\\script"));
+            Process pr = rt.exec("octave-cli M_CheckCR.m", null, new File("D:\\Chula\\Server\\Glassfish\\glassfish\\config\\script"));
             BufferedReader stdInput = new BufferedReader(new InputStreamReader(pr.getInputStream()));
             BufferedReader stdError = new BufferedReader(new InputStreamReader(pr.getErrorStream()));
             double cr = 0;
@@ -121,14 +121,14 @@ public class ComparisonSubcriteria extends HttpServlet {
                     Model cri = allCri.get(0);
                     ArrayList<Model> subCri = cri.getSubCriteriaByID(cri.getCri_id());
                     int loop_id = 0;
-                    pr = rt.exec("octave-cli M_FAHP.m", null, new File("C:\\Users\\Admin-PC\\GlassFish_Server\\glassfish\\domains\\domain1\\config\\script"));
+                    pr = rt.exec("octave-cli M_FAHP.m", null, new File("D:\\Chula\\Server\\Glassfish\\glassfish\\config\\script"));
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ComparisonSubcriteria.class.getName()).log(Level.SEVERE, null, ex);
                 }
                     String splitBy = ",";
-                    BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Admin-PC\\GlassFish_Server\\glassfish\\domains\\domain1\\config\\script\\RESULT.csv"));
+                    BufferedReader br = new BufferedReader(new FileReader("D:\\Chula\\Server\\Glassfish\\glassfish\\config\\script\\RESULT.csv"));
                     String line = br.readLine();
                     String linea[] = line.split(splitBy);
                     loop_id = 0;
