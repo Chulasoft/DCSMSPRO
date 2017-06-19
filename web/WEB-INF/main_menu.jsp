@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>AHP Main Menu</title>
+        <title>Decision Support Tool</title>
         <script src="./js/jquery-3.2.0.min.js"></script>        
         <script src="./bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
         <script src="./js/Chart.js"></script>
